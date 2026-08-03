@@ -21,6 +21,7 @@ tool, and purpose before it can be logged accurately.
 | 2026-08-03 | Codex | Guided AWS EC2 GPU instance setup and SSH troubleshooting for the BuNN experiment environment. | Confirm the final active instance configuration, cost controls, and that credentials are kept private. | User confirmed SSH access to Ubuntu instance succeeded. |
 | 2026-08-03 | Codex | Built and tested the ABIDE-I PCP manifest tool; compared QC subsets, verified all selected derivative URLs, and recorded the frozen primary cohort and exclusions. | Review the primary QC/site-eligibility decision before beginning data download and model training. | `scripts/prepare_abide_manifest.py`; `docs/step5_abide_manifest.md`; `configs/abide_i_primary_manifest.json`. |
 | 2026-08-03 | Codex | Connected to the user-authorized AWS instance, checked storage and GPU-driver readiness, created a resumable public ABIDE-I ROI time-series downloader, and installed/validated the frozen cohort. | Confirm the retained AWS download summary before analysis; install and verify the NVIDIA driver before training. | `scripts/download_abide_timeseries.py`; 769 manifest-matched files, 0 malformed files. |
+| 2026-08-03 | Codex | Installed the Ubuntu AWS NVIDIA driver/kernel module, rebooted the authorized instance, created an isolated PyTorch environment, and verified CUDA computation on the A10G. | Re-run the documented health checks if the instance image, kernel, or driver changes. | `docs/aws_environment.md`; `nvidia-smi`; PyTorch CUDA matrix-multiplication test. |
 
 ## Required fields for future entries
 
