@@ -1,0 +1,29 @@
+# Data and generated research artifacts
+data/raw/
+data/processed/
+outputs/runs/
+outputs/figures/
+outputs/tables/
+checkpoints/
+mlruns/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Secrets and local configuration
+.env
+.env.*
+*.pem
+*.key
+aws-credentials*
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
