@@ -83,6 +83,16 @@ class BaselineRunnerTests(unittest.TestCase):
         self.assertEqual(selected["C"], 0.3)
         self.assertEqual(selected["l1_ratio"], 0.1)
 
+    def test_covariate_selection_accepts_blank_saved_l1_ratio(self) -> None:
+        selected = select_candidate(
+            [
+                {"C": 0.1, "l1_ratio": "", "inner_mean_site_balanced_accuracy": 0.75},
+                {"C": 1.0, "l1_ratio": "", "inner_mean_site_balanced_accuracy": 0.75},
+            ],
+            "covariates_l2_logistic",
+        )
+        self.assertEqual(selected["C"], 0.1)
+
     def test_numeric_columns_are_explicit_and_stable(self) -> None:
         self.assertEqual(
             COVARIATE_NUMERIC,
