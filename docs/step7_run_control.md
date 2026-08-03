@@ -23,9 +23,9 @@ folds, models, hyperparameter grids, metrics, or interpretation rules.
 - `scripts/launch_managed_baseline.sh` starts the runner detached from SSH,
   records a PID and log, and uses a lock to prevent duplicate managed launches.
 - `scripts/setup_sns_alerts.py` can create a standard SNS topic plus a pending
-  email subscription using an EC2 instance role. The runner can optionally
-  publish STARTED, COMPLETE, FAILED, and INTERRUPTED alerts using only a topic
-  ARN; it never stores access keys in the repository.
+  email subscription using an EC2 instance role. The runner can publish
+  STARTED, COMPLETE, FAILED, and INTERRUPTED alerts using only a topic ARN; it
+  never stores access keys in the repository.
 
 ## AWS live recovery test
 
@@ -48,23 +48,22 @@ results.
 
 ## Notification status
 
-The AWS instance has no usable role credentials available to boto3, so no SNS
-topic, email subscription, or test email has been created. The runner records
-this accurately as `notification.status = "not_configured"`; it never claims a
-message was sent.
+The `PublishBuNNRunAlert` EC2 instance role has now been attached with a policy
+that permits `sns:Publish` only to the private `bunn-abide-run-alerts` topic.
+A harmless test alert was accepted by AWS; receipt still needs to be confirmed
+in the subscribed inbox. The topic ARN is stored only in the ignored, owner-only file
+`.run-control/run-alerts.env` on the AWS machine. It is not an AWS credential
+and is not committed to Git.
 
-To enable alerts securely, attach an EC2 instance profile that permits the
-runner role to publish only to the chosen SNS topic. Create the topic and
-subscribe/confirm the private email endpoint through AWS, then expose only its
-topic ARN to the instance via `BUNN_SNS_TOPIC_ARN`. After that, run the setup
-and publish test (`scripts/test_sns_alert.py`) before any full baseline job.
+`scripts/launch_managed_baseline.sh` requires that file and adds both
+`--notification-topic-arn` and `--require-notification` automatically. It
+refuses to launch if the file or the topic ARN is missing. Direct use of
+`run_baselines.py` still requires those flags to be provided explicitly.
 
 ## Before the full run
 
-1. Repair or attach the least-privilege AWS instance role for SNS.
-2. Create and confirm the SNS email subscription; publish and receive one test
-   message.
-3. Start the full run without `--fast-smoke`, with an explicit run ID and
-   `--require-notification`.
-4. Treat `complete.json` files and the final all-site integrity audit as the
+1. Confirm that the SNS test email reached the subscribed inbox.
+2. Start the full run without `--fast-smoke`, with an explicit run ID, through
+   `scripts/launch_managed_baseline.sh`.
+3. Treat `complete.json` files and the final all-site integrity audit as the
    source of truth; use email only as an alert to inspect them.
