@@ -1,0 +1,34 @@
+{
+  "protocol": "configs/baseline_protocol.json",
+  "analysis_manifest_sha256": "bef94eb5d144a445f253f5828bedf452b1c8343c745417766d695fb206f05945",
+  "baseline_table": {
+    "rows": 754,
+    "sha256": "b9eac532ff7fb3a912d00f64d209931ca40d75fe0dcab981e9852ce4bc635235",
+    "connectome_feature_count": 6670,
+    "missing_counts": {
+      "age_at_scan": 0,
+      "sex_code": 0,
+      "mean_framewise_displacement": 1,
+      "scan_length_timepoints": 0
+    }
+  },
+  "splits": {
+    "outer_folds": 18,
+    "inner_folds_per_outer_fold": 4,
+    "seed": 20260803,
+    "outer_assignments": 754,
+    "outer_assignments_sha256": "cb3ecae86cd12d48802fcadece87a51e4e128144d35c180cd66a2abf468f6cef",
+    "inner_assignments": 12818,
+    "inner_assignments_sha256": "7fc2311792689d854850a81f8c6a78e5b8f646d7dba9d17788114be000a7c7f7",
+    "independent_integrity_audit": "passed",
+    "reproducibility_check": "passed; regenerated files had identical SHA-256 hashes"
+  },
+  "environment": {
+    "python": "3.14.4",
+    "numpy": "2.5.1",
+    "scikit_learn": "1.9.0",
+    "pandas": "3.0.5",
+    "scipy": "1.18.0"
+  },
+  "status": "Steps 7.0 through 7.2 complete; no baseline model has been fit."
+}

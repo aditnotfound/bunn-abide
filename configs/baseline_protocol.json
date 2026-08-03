@@ -1,0 +1,82 @@
+{
+  "protocol_version": 1,
+  "analysis_manifest_sha256": "bef94eb5d144a445f253f5828bedf452b1c8343c745417766d695fb206f05945",
+  "cohort": {
+    "participants": 754,
+    "sites": 18,
+    "class_counts": {
+      "asd": 371,
+      "control": 383
+    }
+  },
+  "evaluation": {
+    "outer_split": "leave-one-site-out",
+    "inner_split": "StratifiedGroupKFold",
+    "inner_folds": 4,
+    "shuffle_inner_groups": true,
+    "seed": 20260803,
+    "primary_metric": "unweighted mean held-out-site balanced accuracy",
+    "secondary_metrics": [
+      "per-site AUROC",
+      "pooled balanced accuracy",
+      "sensitivity",
+      "specificity"
+    ],
+    "decision_threshold": 0.5,
+    "bootstrap_resamples": 10000
+  },
+  "covariates": {
+    "numeric": [
+      "age_at_scan",
+      "mean_framewise_displacement",
+      "scan_length_timepoints"
+    ],
+    "categorical": [
+      "sex_code"
+    ],
+    "missing_data": {
+      "numeric": "training-fold median imputation",
+      "categorical": "training-fold most-frequent imputation"
+    },
+    "excluded": [
+      "site_id",
+      "FIQ",
+      "diagnosis-derived variables"
+    ]
+  },
+  "models": {
+    "covariates_l2_logistic": {
+      "class_weight": "balanced",
+      "solver": "lbfgs",
+      "C_grid": [0.01, 0.1, 1.0, 10.0]
+    },
+    "connectome_elastic_net_logistic": {
+      "class_weight": "balanced",
+      "solver": "saga",
+      "C_grid": [0.03, 0.3, 3.0],
+      "l1_ratio_grid": [0.1, 0.5, 0.9],
+      "max_iter": 10000,
+      "retry_max_iter": 50000
+    },
+    "combined_elastic_net_logistic": {
+      "class_weight": "balanced",
+      "solver": "saga",
+      "C_grid": [0.03, 0.3, 3.0],
+      "l1_ratio_grid": [0.1, 0.5, 0.9],
+      "max_iter": 10000,
+      "retry_max_iter": 50000
+    }
+  },
+  "selection": {
+    "inner_score": "mean of per-site balanced accuracies across inner validation sites",
+    "tie_break": [
+      "lower C",
+      "lower l1_ratio"
+    ]
+  },
+  "leakage_prohibitions": [
+    "No held-out-site rows may affect imputation, scaling, hyperparameter choice, calibration, or model fitting.",
+    "No site identifier may be used as a model feature.",
+    "No external feature selection, PCA, ComBat, or harmonization is used in this baseline phase."
+  ]
+}

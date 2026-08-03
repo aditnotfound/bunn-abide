@@ -28,5 +28,6 @@ derives a 754-participant technical analysis manifest; see
 
 ## Next milestone
 
-Perform Step 7: freeze leave-one-site-out folds and implement covariate and
-elastic-net baselines without held-out-site leakage.
+Step 7.0--7.2 are complete: the protocol, baseline table, and frozen grouped
+site-held-out splits are ready. Next: implement the train-only baseline
+pipelines and run a two-site smoke test.
