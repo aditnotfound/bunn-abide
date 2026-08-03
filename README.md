@@ -28,6 +28,8 @@ derives a 754-participant technical analysis manifest; see
 
 ## Next milestone
 
-Step 7.0--7.2 are complete: the protocol, baseline table, and frozen grouped
-site-held-out splits are ready. Next: implement the train-only baseline
-pipelines and run a two-site smoke test.
+Steps 7.0--7.4 are complete: the protocol, aligned baseline table, frozen
+grouped site-held-out splits, leakage-safe baseline runner, and an explicitly
+non-scientific two-site engineering smoke test are recorded. Next: run the
+three baselines across all 18 held-out sites using the untouched frozen tuning
+grids, then analyse the complete baseline results.
