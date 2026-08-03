@@ -1,6 +1,10 @@
 from __future__ import annotations
 
 import unittest
+import json
+from copy import deepcopy
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import numpy as np
 import pandas as pd
@@ -9,9 +13,13 @@ from scripts.run_baselines import (
     COVARIATE_NUMERIC,
     apply_fast_smoke_overrides,
     build_pipeline,
+    initialise_or_resume_run,
     mean_site_balanced_accuracy,
     select_candidate,
+    verify_completed_fold,
+    write_fold_artifacts,
 )
+from scripts.check_baseline_run import status_report
 
 
 class BaselineRunnerTests(unittest.TestCase):
@@ -108,6 +116,66 @@ class BaselineRunnerTests(unittest.TestCase):
         self.assertNotIn("retry_max_iter", effective["models"]["connectome_elastic_net_logistic"])
         self.assertEqual(self.protocol["models"]["connectome_elastic_net_logistic"]["max_iter"], 100)
         self.assertEqual(self.protocol["models"]["connectome_elastic_net_logistic"]["retry_max_iter"], 200)
+
+    def test_fold_checkpoint_is_verified_and_resume_refuses_changed_contract(self) -> None:
+        metadata = {
+            "run_id": "test-run",
+            "run_kind": "smoke",
+            "status": "running",
+            "started_utc": "2026-08-03T00:00:00+00:00",
+            "code_version": "test-commit",
+            "protocol_sha256": "protocol-hash",
+            "frozen_input_hashes": {"table": "hash"},
+            "sources": {"table": "table.csv"},
+            "models": ["covariates_l2_logistic"],
+            "smoke_override": None,
+            "held_out_sites": ["SITE_A"],
+            "site_to_outer_fold": {"0": "SITE_A"},
+            "participants_in_dataset": 2,
+            "edge_features": 1,
+        }
+        with TemporaryDirectory() as directory:
+            run_dir = Path(directory) / "test-run"
+            self.assertEqual(initialise_or_resume_run(run_dir, metadata, resume=False), [])
+            checkpoint = write_fold_artifacts(
+                run_dir, 0, "SITE_A", [], [], [], [], []
+            )
+            self.assertTrue(verify_completed_fold(checkpoint, 0, "SITE_A"))
+            self.assertEqual(initialise_or_resume_run(run_dir, metadata, resume=True), ["SITE_A"])
+            changed = deepcopy(metadata)
+            changed["code_version"] = "different-commit"
+            with self.assertRaises(ValueError):
+                initialise_or_resume_run(run_dir, changed, resume=True)
+
+    def test_status_report_reads_checkpoint_progress(self) -> None:
+        metadata = {
+            "run_id": "status-run",
+            "status": "running",
+        }
+        with TemporaryDirectory() as directory:
+            run_dir = Path(directory) / "status-run"
+            run_dir.mkdir()
+            (run_dir / "metadata.json").write_text(json.dumps(metadata))
+            (run_dir / "status.json").write_text(
+                json.dumps(
+                    {
+                        "state": "running",
+                        "last_updated_utc": "2026-08-03T00:00:00+00:00",
+                        "completed_site_count": 1,
+                        "total_sites": 2,
+                        "completed_sites": ["SITE_A"],
+                        "current_site": "SITE_B",
+                        "current_model": "connectome_elastic_net_logistic",
+                        "current_stage": "inner_tuning",
+                        "current_candidate": {"C": 0.03, "l1_ratio": 0.1},
+                        "pid": None,
+                    }
+                )
+            )
+            report = status_report(run_dir, stale_minutes=10_000_000)
+            self.assertEqual(report["state"], "running")
+            self.assertEqual(report["completed_sites"], ["SITE_A"])
+            self.assertEqual(report["current_site"], "SITE_B")
 
 
 if __name__ == "__main__":

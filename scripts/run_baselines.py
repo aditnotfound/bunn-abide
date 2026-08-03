@@ -12,6 +12,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import platform
 import signal
 import sys
@@ -19,7 +20,7 @@ import warnings
 from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import numpy as np
 import pandas as pd
@@ -44,6 +45,33 @@ MODEL_NAMES = (
     "connectome_elastic_net_logistic",
     "combined_elastic_net_logistic",
 )
+PREDICTION_FIELDS = [
+    "model", "outer_fold", "held_out_site", "subject_id", "site_id", "label_asd",
+    "probability_asd", "predicted_asd", "C", "l1_ratio",
+]
+METRIC_FIELDS = [
+    "model", "outer_fold", "held_out_site", "participants", "asd", "control",
+    "balanced_accuracy", "auroc", "sensitivity", "specificity", "C", "l1_ratio",
+]
+TUNING_FIELDS = [
+    "model", "outer_fold", "held_out_site", "C", "l1_ratio",
+    "inner_mean_site_balanced_accuracy", "inner_sites_scored", "selected",
+]
+INNER_SITE_FIELDS = [
+    "model", "outer_fold", "held_out_site", "inner_validation_fold", "site_id",
+    "participants", "balanced_accuracy", "C", "l1_ratio",
+]
+WARNING_FIELDS = [
+    "model", "outer_fold", "held_out_site", "inner_validation_fold", "fit_scope",
+    "fit_phase", "C", "l1_ratio", "warning_category", "warning_message",
+]
+FOLD_ARTIFACT_FIELDS = {
+    "predictions.csv": PREDICTION_FIELDS,
+    "test_metrics.csv": METRIC_FIELDS,
+    "tuning_scores.csv": TUNING_FIELDS,
+    "inner_site_scores.csv": INNER_SITE_FIELDS,
+    "fit_warnings.csv": WARNING_FIELDS,
+}
 
 
 def parse_args() -> argparse.Namespace:
@@ -100,6 +128,21 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume a named run after verifying its immutable inputs and completed folds.",
+    )
+    parser.add_argument(
+        "--notification-topic-arn",
+        default=os.environ.get("BUNN_SNS_TOPIC_ARN"),
+        help="Optional SNS topic ARN. Defaults to BUNN_SNS_TOPIC_ARN when set.",
+    )
+    parser.add_argument(
+        "--require-notification",
+        action="store_true",
+        help="Fail before fitting unless an SNS topic ARN is configured and publishable.",
+    )
+    parser.add_argument(
         "--code-version",
         default="unknown",
         help="Immutable Git commit or other code identifier recorded in run metadata.",
@@ -122,10 +165,23 @@ def read_csv(path: Path) -> list[dict[str, str]]:
 
 def write_csv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", newline="", encoding="utf-8") as handle:
+    temporary = path.parent / f".{path.name}.{os.getpid()}.tmp"
+    with temporary.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
+    os.replace(temporary, path)
+
+
+def write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.parent / f".{path.name}.{os.getpid()}.tmp"
+    temporary.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    os.replace(temporary, path)
+
+
+def utc_now() -> str:
+    return datetime.now(UTC).isoformat()
 
 
 def parse_table(table_path: Path, connectome_path: Path) -> tuple[pd.DataFrame, np.ndarray]:
@@ -451,12 +507,22 @@ def tune_model(
     edge_columns: list[str],
     protocol: dict[str, Any],
     outer_fold: int,
+    progress_callback: Callable[[dict[str, Any]], None] | None = None,
 ) -> tuple[dict[str, float], list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     candidate_rows: list[dict[str, Any]] = []
     site_rows: list[dict[str, Any]] = []
     warning_rows: list[dict[str, Any]] = []
     retry_max_iter = protocol["models"][model_name].get("retry_max_iter")
     for candidate in candidate_parameters(model_name, protocol):
+        if progress_callback is not None:
+            progress_callback(
+                {
+                    "stage": "inner_tuning",
+                    "model": model_name,
+                    "candidate": candidate,
+                    "outer_fold": outer_fold,
+                }
+            )
         print(
             f"tuning outer_fold={outer_fold} model={model_name} "
             f"C={candidate['C']} l1_ratio={candidate.get('l1_ratio', 'n/a')}",
@@ -554,11 +620,217 @@ def test_metric_row(
     }
 
 
+def fold_label(outer_fold: int, held_out_site: str) -> str:
+    return f"{outer_fold:02d}_{held_out_site}"
+
+
+def update_status(run_dir: Path, **changes: Any) -> dict[str, Any]:
+    path = run_dir / "status.json"
+    status = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    status.update(changes)
+    status["last_updated_utc"] = utc_now()
+    write_json_atomic(path, status)
+    return status
+
+
+def write_fold_artifacts(
+    run_dir: Path,
+    outer_fold: int,
+    held_out_site: str,
+    prediction_rows: list[dict[str, Any]],
+    metric_rows: list[dict[str, Any]],
+    tuning_rows: list[dict[str, Any]],
+    inner_site_rows: list[dict[str, Any]],
+    warning_rows: list[dict[str, Any]],
+) -> Path:
+    """Atomically seal a site only after every one of its artifacts is written."""
+    label = fold_label(outer_fold, held_out_site)
+    folds_dir = run_dir / "folds"
+    completed = folds_dir / label
+    if completed.exists():
+        raise FileExistsError(f"Completed fold directory already exists: {completed}")
+    temporary = folds_dir / f".{label}.tmp-{os.getpid()}"
+    temporary.mkdir(parents=True, exist_ok=False)
+    rows_by_name = {
+        "predictions.csv": prediction_rows,
+        "test_metrics.csv": metric_rows,
+        "tuning_scores.csv": tuning_rows,
+        "inner_site_scores.csv": inner_site_rows,
+        "fit_warnings.csv": warning_rows,
+    }
+    for filename, fields in FOLD_ARTIFACT_FIELDS.items():
+        write_csv(temporary / filename, rows_by_name[filename], fields)
+    completion = {
+        "state": "complete",
+        "outer_fold": outer_fold,
+        "held_out_site": held_out_site,
+        "completed_utc": utc_now(),
+        "row_counts": {filename: len(rows_by_name[filename]) for filename in FOLD_ARTIFACT_FIELDS},
+        "artifact_hashes": {
+            filename: sha256_file(temporary / filename) for filename in FOLD_ARTIFACT_FIELDS
+        },
+    }
+    write_json_atomic(temporary / "complete.json", completion)
+    os.replace(temporary, completed)
+    return completed
+
+
+def verify_completed_fold(path: Path, outer_fold: int, held_out_site: str) -> bool:
+    completion_path = path / "complete.json"
+    if not completion_path.exists():
+        return False
+    try:
+        completion = json.loads(completion_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return False
+    if (
+        completion.get("state") != "complete"
+        or completion.get("outer_fold") != outer_fold
+        or completion.get("held_out_site") != held_out_site
+    ):
+        return False
+    hashes = completion.get("artifact_hashes", {})
+    for filename in FOLD_ARTIFACT_FIELDS:
+        artifact = path / filename
+        if not artifact.exists() or hashes.get(filename) != sha256_file(artifact):
+            return False
+    return True
+
+
+def read_completed_fold_rows(
+    run_dir: Path, outer_fold: int, held_out_site: str
+) -> dict[str, list[dict[str, str]]]:
+    path = run_dir / "folds" / fold_label(outer_fold, held_out_site)
+    if not verify_completed_fold(path, outer_fold, held_out_site):
+        raise ValueError(f"Completed fold failed validation: {path}")
+    return {filename: read_csv(path / filename) for filename in FOLD_ARTIFACT_FIELDS}
+
+
+def immutable_run_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: metadata[key]
+        for key in (
+            "run_id",
+            "run_kind",
+            "code_version",
+            "protocol_sha256",
+            "frozen_input_hashes",
+            "sources",
+            "models",
+            "smoke_override",
+            "held_out_sites",
+            "site_to_outer_fold",
+            "participants_in_dataset",
+            "edge_features",
+        )
+    }
+
+
+def initialise_or_resume_run(
+    run_dir: Path, metadata: dict[str, Any], resume: bool
+) -> list[str]:
+    """Create a new run, or validate its immutable contract before resuming."""
+    metadata_path = run_dir / "metadata.json"
+    if resume:
+        if not metadata_path.exists():
+            raise FileNotFoundError(f"Cannot resume: missing {metadata_path}")
+        existing = json.loads(metadata_path.read_text(encoding="utf-8"))
+        if immutable_run_metadata(existing) != immutable_run_metadata(metadata):
+            raise ValueError("Cannot resume: immutable run metadata differ from this invocation")
+        existing["status"] = "running"
+        existing["resumed_utc"] = utc_now()
+        write_json_atomic(metadata_path, existing)
+        completed: list[str] = []
+        for site in metadata["held_out_sites"]:
+            outer_fold = next(
+                fold for fold, candidate_site in metadata["site_to_outer_fold"].items()
+                if candidate_site == site
+            )
+            fold_path = run_dir / "folds" / fold_label(int(outer_fold), site)
+            if verify_completed_fold(fold_path, int(outer_fold), site):
+                completed.append(site)
+        update_status(
+            run_dir,
+            state="running",
+            resumed_utc=utc_now(),
+            completed_sites=completed,
+            completed_site_count=len(completed),
+            total_sites=len(metadata["held_out_sites"]),
+        )
+        return completed
+    if run_dir.exists():
+        raise FileExistsError(f"Run directory already exists: {run_dir}")
+    run_dir.mkdir(parents=True)
+    write_json_atomic(run_dir / "metadata.json", metadata)
+    write_json_atomic(
+        run_dir / "status.json",
+        {
+            "state": "running",
+            "run_id": metadata["run_id"],
+            "pid": os.getpid(),
+            "started_utc": metadata["started_utc"],
+            "last_updated_utc": utc_now(),
+            "completed_sites": [],
+            "completed_site_count": 0,
+            "total_sites": len(metadata["held_out_sites"]),
+            "current_site": None,
+            "current_model": None,
+            "current_stage": "initialised",
+        },
+    )
+    return []
+
+
+def publish_sns_notification(
+    run_dir: Path,
+    topic_arn: str | None,
+    subject: str,
+    message: str,
+) -> dict[str, Any]:
+    """Publish a concise alert without embedding AWS credentials in the project."""
+    outcome: dict[str, Any] = {
+        "attempted_utc": utc_now(),
+        "topic_configured": bool(topic_arn),
+        "subject": subject,
+    }
+    if not topic_arn:
+        outcome["status"] = "not_configured"
+        write_json_atomic(run_dir / "notification.json", outcome)
+        return outcome
+    try:
+        import boto3
+
+        response = boto3.client("sns").publish(
+            TopicArn=topic_arn,
+            Subject=subject,
+            Message=message,
+        )
+        outcome.update({"status": "published", "message_id": response.get("MessageId")})
+    except Exception as error:  # Notification failure must not erase valid results.
+        outcome.update({"status": "failed", "error_type": type(error).__name__, "error": str(error)})
+    write_json_atomic(run_dir / "notification.json", outcome)
+    return outcome
+
+
+def notify_terminal_state(args: argparse.Namespace, run_dir: Path, state: str) -> dict[str, Any]:
+    if state == "complete":
+        subject = f"BuNN baseline COMPLETE: {args.run_id}"
+        message = f"Run {args.run_id} completed all requested held-out sites. Check its completion manifest before interpretation."
+    else:
+        subject = f"BuNN baseline {state.upper()}: {args.run_id}"
+        message = f"Run {args.run_id} ended with state {state}. Check status.json and metadata.json before resuming."
+    return publish_sns_notification(run_dir, args.notification_topic_arn, subject, message)
+
+
 def run(args: argparse.Namespace) -> Path:
     if args.run_kind == "smoke" and not args.held_out_sites:
         raise ValueError("Smoke runs require explicit --held-out-sites")
     if args.fast_smoke and args.run_kind != "smoke":
         raise ValueError("--fast-smoke is permitted only with --run-kind smoke")
+    if args.resume and not args.run_id:
+        raise ValueError("--resume requires an explicit --run-id")
+    if args.require_notification and not args.notification_topic_arn:
+        raise ValueError("--require-notification requires --notification-topic-arn or BUNN_SNS_TOPIC_ARN")
     protocol_path = Path(args.protocol)
     inputs_path = Path(args.inputs)
     table_path = Path(args.table)
@@ -587,18 +859,18 @@ def run(args: argparse.Namespace) -> Path:
         raise ValueError(f"Unknown held-out sites: {unknown_sites}")
     if args.run_kind == "full" and set(selected_sites) != set(available_sites):
         raise ValueError("A full run must include every frozen held-out site")
+    site_to_outer_fold = {
+        str(int(next(row["outer_fold"] for row in outer_rows if row["held_out_site"] == site))): site
+        for site in selected_sites
+    }
     timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     run_id = args.run_id or f"baseline_{args.run_kind}_{timestamp}"
     run_dir = Path(args.output_root) / run_id
-    if run_dir.exists():
-        raise FileExistsError(f"Run directory already exists: {run_dir}")
-    run_dir.mkdir(parents=True)
-
     metadata = {
         "run_id": run_id,
         "run_kind": args.run_kind,
         "status": "running",
-        "started_utc": datetime.now(UTC).isoformat(),
+        "started_utc": utc_now(),
         "code_version": args.code_version,
         "protocol_sha256": sha256_file(protocol_path),
         "frozen_input_hashes": hashes,
@@ -613,6 +885,7 @@ def run(args: argparse.Namespace) -> Path:
         "models": args.models,
         "smoke_override": smoke_override,
         "held_out_sites": selected_sites,
+        "site_to_outer_fold": site_to_outer_fold,
         "participants_in_dataset": len(table),
         "edge_features": len(edge_columns),
         "environment": {
@@ -629,23 +902,65 @@ def run(args: argparse.Namespace) -> Path:
             else "Pre-specified full baseline evaluation."
         ),
     }
-    (run_dir / "metadata.json").write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n")
+    completed_sites = initialise_or_resume_run(run_dir, metadata, args.resume)
+    if args.require_notification:
+        start_alert = publish_sns_notification(
+            run_dir,
+            args.notification_topic_arn,
+            f"BuNN baseline STARTED: {run_id}",
+            f"Run {run_id} started with {len(selected_sites)} held-out sites.",
+        )
+        if start_alert["status"] != "published":
+            raise RuntimeError("Required SNS start notification could not be published")
 
-    prediction_rows: list[dict[str, Any]] = []
-    metric_rows: list[dict[str, Any]] = []
-    tuning_rows: list[dict[str, Any]] = []
-    inner_site_rows: list[dict[str, Any]] = []
-    warning_rows: list[dict[str, Any]] = []
     for held_out_site in selected_sites:
         outer_fold, train_indices, test_indices, inner_validation_indices = validate_split_contract(
             table, outer_rows, inner_rows, held_out_site
+        )
+        if held_out_site in completed_sites:
+            print(f"verified completed held_out_site={held_out_site}; skipping on resume", flush=True)
+            continue
+        update_status(
+            run_dir,
+            state="running",
+            current_site=held_out_site,
+            current_outer_fold=outer_fold,
+            current_model=None,
+            current_stage="starting_site",
+            current_candidate=None,
         )
         print(
             f"starting held_out_site={held_out_site} outer_fold={outer_fold} "
             f"train={len(train_indices)} test={len(test_indices)}",
             flush=True,
         )
+        site_prediction_rows: list[dict[str, Any]] = []
+        site_metric_rows: list[dict[str, Any]] = []
+        site_tuning_rows: list[dict[str, Any]] = []
+        site_inner_site_rows: list[dict[str, Any]] = []
+        site_warning_rows: list[dict[str, Any]] = []
+
+        def record_tuning_progress(progress: dict[str, Any]) -> None:
+            update_status(
+                run_dir,
+                state="running",
+                current_site=held_out_site,
+                current_outer_fold=outer_fold,
+                current_model=progress["model"],
+                current_stage=progress["stage"],
+                current_candidate=progress["candidate"],
+            )
+
         for model_name in args.models:
+            update_status(
+                run_dir,
+                state="running",
+                current_site=held_out_site,
+                current_outer_fold=outer_fold,
+                current_model=model_name,
+                current_stage="tuning",
+                current_candidate=None,
+            )
             print(f"starting final model={model_name} held_out_site={held_out_site}", flush=True)
             parameters, model_tuning, model_inner_sites, model_warnings = tune_model(
                 model_name,
@@ -657,6 +972,7 @@ def run(args: argparse.Namespace) -> Path:
                 edge_columns,
                 protocol,
                 outer_fold,
+                progress_callback=record_tuning_progress,
             )
             for row in model_tuning:
                 row["held_out_site"] = held_out_site
@@ -664,10 +980,19 @@ def run(args: argparse.Namespace) -> Path:
                 row["held_out_site"] = held_out_site
             for row in model_warnings:
                 row["held_out_site"] = held_out_site
-            tuning_rows.extend(model_tuning)
-            inner_site_rows.extend(model_inner_sites)
-            warning_rows.extend(model_warnings)
+            site_tuning_rows.extend(model_tuning)
+            site_inner_site_rows.extend(model_inner_sites)
+            site_warning_rows.extend(model_warnings)
 
+            update_status(
+                run_dir,
+                state="running",
+                current_site=held_out_site,
+                current_outer_fold=outer_fold,
+                current_model=model_name,
+                current_stage="outer_final_fit",
+                current_candidate=parameters,
+            )
             estimator = build_pipeline(
                 model_name,
                 parameters,
@@ -693,9 +1018,9 @@ def run(args: argparse.Namespace) -> Path:
                         "l1_ratio": parameters.get("l1_ratio", ""),
                     }
                 )
-            warning_rows.extend(fit_warnings)
+            site_warning_rows.extend(fit_warnings)
             probabilities = estimator.predict_proba(X.iloc[test_indices])[:, 1]
-            metric_rows.append(
+            site_metric_rows.append(
                 test_metric_row(
                     model_name,
                     outer_fold,
@@ -708,7 +1033,7 @@ def run(args: argparse.Namespace) -> Path:
             )
             predictions = (probabilities >= protocol["evaluation"]["decision_threshold"]).astype(int)
             for row_index, probability, prediction in zip(test_indices, probabilities, predictions, strict=True):
-                prediction_rows.append(
+                site_prediction_rows.append(
                     {
                         "model": model_name,
                         "outer_fold": outer_fold,
@@ -722,47 +1047,49 @@ def run(args: argparse.Namespace) -> Path:
                         "l1_ratio": parameters.get("l1_ratio", ""),
                     }
                 )
+        write_fold_artifacts(
+            run_dir,
+            outer_fold,
+            held_out_site,
+            site_prediction_rows,
+            site_metric_rows,
+            site_tuning_rows,
+            site_inner_site_rows,
+            site_warning_rows,
+        )
+        completed_sites.append(held_out_site)
+        update_status(
+            run_dir,
+            state="running",
+            completed_sites=completed_sites,
+            completed_site_count=len(completed_sites),
+            total_sites=len(selected_sites),
+            current_site=None,
+            current_outer_fold=None,
+            current_model=None,
+            current_stage="site_checkpointed",
+            current_candidate=None,
+        )
 
-    write_csv(
-        run_dir / "predictions.csv",
-        prediction_rows,
-        [
-            "model", "outer_fold", "held_out_site", "subject_id", "site_id", "label_asd",
-            "probability_asd", "predicted_asd", "C", "l1_ratio",
-        ],
-    )
-    write_csv(
-        run_dir / "test_metrics.csv",
-        metric_rows,
-        [
-            "model", "outer_fold", "held_out_site", "participants", "asd", "control",
-            "balanced_accuracy", "auroc", "sensitivity", "specificity", "C", "l1_ratio",
-        ],
-    )
-    write_csv(
-        run_dir / "tuning_scores.csv",
-        tuning_rows,
-        [
-            "model", "outer_fold", "held_out_site", "C", "l1_ratio",
-            "inner_mean_site_balanced_accuracy", "inner_sites_scored", "selected",
-        ],
-    )
-    write_csv(
-        run_dir / "inner_site_scores.csv",
-        inner_site_rows,
-        [
-            "model", "outer_fold", "held_out_site", "inner_validation_fold", "site_id",
-            "participants", "balanced_accuracy", "C", "l1_ratio",
-        ],
-    )
-    write_csv(
-        run_dir / "fit_warnings.csv",
-        warning_rows,
-        [
-            "model", "outer_fold", "held_out_site", "inner_validation_fold", "fit_scope",
-            "fit_phase", "C", "l1_ratio", "warning_category", "warning_message",
-        ],
-    )
+    prediction_rows: list[dict[str, Any]] = []
+    metric_rows: list[dict[str, Any]] = []
+    tuning_rows: list[dict[str, Any]] = []
+    inner_site_rows: list[dict[str, Any]] = []
+    warning_rows: list[dict[str, Any]] = []
+    for held_out_site in selected_sites:
+        outer_fold = int(next(fold for fold, site in site_to_outer_fold.items() if site == held_out_site))
+        rows = read_completed_fold_rows(run_dir, outer_fold, held_out_site)
+        prediction_rows.extend(rows["predictions.csv"])
+        metric_rows.extend(rows["test_metrics.csv"])
+        tuning_rows.extend(rows["tuning_scores.csv"])
+        inner_site_rows.extend(rows["inner_site_scores.csv"])
+        warning_rows.extend(rows["fit_warnings.csv"])
+
+    write_csv(run_dir / "predictions.csv", prediction_rows, PREDICTION_FIELDS)
+    write_csv(run_dir / "test_metrics.csv", metric_rows, METRIC_FIELDS)
+    write_csv(run_dir / "tuning_scores.csv", tuning_rows, TUNING_FIELDS)
+    write_csv(run_dir / "inner_site_scores.csv", inner_site_rows, INNER_SITE_FIELDS)
+    write_csv(run_dir / "fit_warnings.csv", warning_rows, WARNING_FIELDS)
     summary = {
         "run_id": run_id,
         "run_kind": args.run_kind,
@@ -789,13 +1116,28 @@ def run(args: argparse.Namespace) -> Path:
             else "Full frozen protocol completed."
         ),
     }
-    (run_dir / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    write_json_atomic(run_dir / "summary.json", summary)
     metadata["status"] = "complete"
-    metadata["completed_utc"] = datetime.now(UTC).isoformat()
+    metadata["completed_utc"] = utc_now()
     metadata["artifact_hashes"] = {
         path.name: sha256_file(path) for path in sorted(run_dir.glob("*.csv"))
     }
-    (run_dir / "metadata.json").write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n")
+    write_json_atomic(run_dir / "metadata.json", metadata)
+    update_status(
+        run_dir,
+        state="complete",
+        completed_sites=completed_sites,
+        completed_site_count=len(completed_sites),
+        total_sites=len(selected_sites),
+        current_site=None,
+        current_outer_fold=None,
+        current_model=None,
+        current_stage="completion_audited",
+        current_candidate=None,
+    )
+    notification = notify_terminal_state(args, run_dir, "complete")
+    metadata["notification_status"] = notification["status"]
+    write_json_atomic(run_dir / "metadata.json", metadata)
     print(json.dumps(summary, indent=2, sort_keys=True))
     return run_dir
 
@@ -812,7 +1154,18 @@ def mark_explicit_run_failed(args: argparse.Namespace, error: Exception) -> None
     metadata["failed_utc"] = datetime.now(UTC).isoformat()
     metadata["failure_type"] = type(error).__name__
     metadata["failure_message"] = str(error)
-    metadata_path.write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n")
+    write_json_atomic(metadata_path, metadata)
+    state = metadata["status"]
+    update_status(
+        metadata_path.parent,
+        state=state,
+        current_stage="terminal_error",
+        failure_type=type(error).__name__,
+        failure_message=str(error),
+    )
+    notification = notify_terminal_state(args, metadata_path.parent, state)
+    metadata["notification_status"] = notification["status"]
+    write_json_atomic(metadata_path, metadata)
 
 
 def handle_sigterm(_signal: int, _frame: Any) -> None:
