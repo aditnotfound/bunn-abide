@@ -28,8 +28,9 @@ derives a 754-participant technical analysis manifest; see
 
 ## Next milestone
 
-Steps 7.0--7.4 are complete: the protocol, aligned baseline table, frozen
-grouped site-held-out splits, leakage-safe baseline runner, and an explicitly
-non-scientific two-site engineering smoke test are recorded. Next: run the
+Steps 7.0--7.4.1 are complete: the protocol, aligned baseline table, frozen
+grouped site-held-out splits, leakage-safe baseline runner, engineering smoke
+test, and a tested checkpoint/resume/status layer are recorded. Next: configure
+the least-privilege SNS alert role, verify one real notification, then run the
 three baselines across all 18 held-out sites using the untouched frozen tuning
-grids, then analyse the complete baseline results.
+grids.

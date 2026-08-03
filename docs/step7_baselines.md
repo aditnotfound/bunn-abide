@@ -102,3 +102,5 @@ Step 7.5 must use `--run-kind full` without `--fast-smoke`, include all 18
 frozen held-out sites, and retain the unmodified grids and retry rules in
 `configs/baseline_protocol.json`. The smoke runtime should be used for cloud
 scheduling only; it does not justify changing the frozen scientific protocol.
+The tested checkpoint/resume, status, managed-launch, and notification design
+is documented in `docs/step7_run_control.md` and must be used before Step 7.5.

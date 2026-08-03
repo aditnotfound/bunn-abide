@@ -23,7 +23,6 @@ fi
 (
   exec 9>"$CONTROL_DIR/lock"
   flock -n 9 || { echo "Run lock is already held for $RUN_ID." >&2; exit 1; }
-  echo "$$" > "$PID_FILE"
   printf 'started_utc=%s\n' "$(date --utc --iso-8601=seconds)"
   exec "$PROJECT_DIR/.venv/bin/python" "$PROJECT_DIR/scripts/run_baselines.py" \
     --run-id "$RUN_ID" "$@"

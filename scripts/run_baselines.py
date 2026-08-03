@@ -753,6 +753,7 @@ def initialise_or_resume_run(
             run_dir,
             state="running",
             resumed_utc=utc_now(),
+            pid=os.getpid(),
             completed_sites=completed,
             completed_site_count=len(completed),
             total_sites=len(metadata["held_out_sites"]),

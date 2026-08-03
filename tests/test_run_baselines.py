@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import unittest
 import json
+import os
 from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -142,6 +143,8 @@ class BaselineRunnerTests(unittest.TestCase):
             )
             self.assertTrue(verify_completed_fold(checkpoint, 0, "SITE_A"))
             self.assertEqual(initialise_or_resume_run(run_dir, metadata, resume=True), ["SITE_A"])
+            resumed_status = json.loads((run_dir / "status.json").read_text())
+            self.assertEqual(resumed_status["pid"], os.getpid())
             changed = deepcopy(metadata)
             changed["code_version"] = "different-commit"
             with self.assertRaises(ValueError):
