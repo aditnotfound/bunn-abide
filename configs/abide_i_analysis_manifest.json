@@ -1,0 +1,23 @@
+{
+  "parent_manifest_sha256": "ce3bdbfa02589629a687c341cb5c69fe176a7be5d2ad913d7d510665c093f39b",
+  "analysis_manifest_sha256": "bef94eb5d144a445f253f5828bedf452b1c8343c745417766d695fb206f05945",
+  "technical_exclusions_sha256": "ebc4e56bcbd028a1152d480fce6fda22e1ca54c760100db7b9c98d5d6112fc09",
+  "eligibility_rule": "A downloaded AAL-116 time series must have a valid header, finite numeric values, non-zero variance at every ROI, and yield a finite Pearson/Fisher-z connectome.",
+  "parent_rows": 769,
+  "technical_exclusions": 15,
+  "retained_rows": 754,
+  "site_count": 18,
+  "class_counts": {
+    "asd": 371,
+    "control": 383
+  },
+  "connectome_artifact": {
+    "format": "npz",
+    "sha256": "34b6092c94bcadbb8fca8edae331bc527d7f13e2356f5ebc227d5697b727d431",
+    "array_shape": [754, 116, 116],
+    "edge_feature_shape": [754, 6670],
+    "transform": "Pearson ROI time-series correlation; Fisher-z off-diagonal entries; zero diagonal"
+  },
+  "build_commit": "efb07fd249dc20a72af5d673e4d0499185cbaddb",
+  "completed_on": "2026-08-03"
+}
