@@ -7,6 +7,7 @@ import pandas as pd
 
 from scripts.run_baselines import (
     COVARIATE_NUMERIC,
+    apply_fast_smoke_overrides,
     build_pipeline,
     mean_site_balanced_accuracy,
     select_candidate,
@@ -98,6 +99,15 @@ class BaselineRunnerTests(unittest.TestCase):
             COVARIATE_NUMERIC,
             ["age_at_scan", "mean_framewise_displacement", "scan_length_timepoints"],
         )
+
+    def test_fast_smoke_override_does_not_mutate_frozen_protocol(self) -> None:
+        effective, override = apply_fast_smoke_overrides(self.protocol)
+        self.assertIsNotNone(override)
+        self.assertEqual(effective["models"]["connectome_elastic_net_logistic"]["C_grid"], [0.3])
+        self.assertEqual(effective["models"]["connectome_elastic_net_logistic"]["max_iter"], 100)
+        self.assertNotIn("retry_max_iter", effective["models"]["connectome_elastic_net_logistic"])
+        self.assertEqual(self.protocol["models"]["connectome_elastic_net_logistic"]["max_iter"], 100)
+        self.assertEqual(self.protocol["models"]["connectome_elastic_net_logistic"]["retry_max_iter"], 200)
 
 
 if __name__ == "__main__":

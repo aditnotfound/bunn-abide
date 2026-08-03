@@ -13,6 +13,7 @@ import csv
 import hashlib
 import json
 import platform
+import signal
 import sys
 import warnings
 from collections import Counter
@@ -88,6 +89,15 @@ def parse_args() -> argparse.Namespace:
         nargs="+",
         choices=MODEL_NAMES,
         default=list(MODEL_NAMES),
+    )
+    parser.add_argument(
+        "--fast-smoke",
+        action="store_true",
+        help=(
+            "Engineering-only override: retain the frozen split mechanics but use "
+            "one lowest-regularization candidate per model and 100 saga iterations "
+            "without a retry. Never allowed for a full run."
+        ),
     )
     parser.add_argument(
         "--code-version",
@@ -280,6 +290,23 @@ def candidate_parameters(model_name: str, protocol: dict[str, Any]) -> list[dict
             for l1_value in specification["l1_ratio_grid"]
         ]
     return sorted(candidates, key=lambda item: (item["C"], item.get("l1_ratio", -1.0)))
+
+
+def apply_fast_smoke_overrides(protocol: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any] | None]:
+    """Return a clearly recorded lightweight configuration for an engineering smoke test."""
+    effective = json.loads(json.dumps(protocol))
+    override: dict[str, Any] = {
+        "candidate_grid": "lowest C and, where applicable, lowest l1_ratio only",
+        "elastic_net_max_iter": 100,
+        "elastic_net_retry": "disabled",
+    }
+    for model_name, specification in effective["models"].items():
+        specification["C_grid"] = [min(specification["C_grid"])]
+        if "l1_ratio_grid" in specification:
+            specification["l1_ratio_grid"] = [min(specification["l1_ratio_grid"])]
+            specification["max_iter"] = 100
+            specification.pop("retry_max_iter", None)
+    return effective, override
 
 
 def fit_with_retry(
@@ -530,6 +557,8 @@ def test_metric_row(
 def run(args: argparse.Namespace) -> Path:
     if args.run_kind == "smoke" and not args.held_out_sites:
         raise ValueError("Smoke runs require explicit --held-out-sites")
+    if args.fast_smoke and args.run_kind != "smoke":
+        raise ValueError("--fast-smoke is permitted only with --run-kind smoke")
     protocol_path = Path(args.protocol)
     inputs_path = Path(args.inputs)
     table_path = Path(args.table)
@@ -539,6 +568,9 @@ def run(args: argparse.Namespace) -> Path:
     protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
     if protocol.get("protocol_version") != 1:
         raise ValueError("Unsupported baseline protocol version")
+    smoke_override: dict[str, Any] | None = None
+    if args.fast_smoke:
+        protocol, smoke_override = apply_fast_smoke_overrides(protocol)
     hashes = verify_frozen_hashes(inputs_path, table_path, outer_path, inner_path)
     table, edge_features = parse_table(table_path, connectome_path)
     X, edge_columns = make_feature_frame(table, edge_features)
@@ -579,6 +611,7 @@ def run(args: argparse.Namespace) -> Path:
             "inner_splits": str(inner_path),
         },
         "models": args.models,
+        "smoke_override": smoke_override,
         "held_out_sites": selected_sites,
         "participants_in_dataset": len(table),
         "edge_features": len(edge_columns),
@@ -775,15 +808,20 @@ def mark_explicit_run_failed(args: argparse.Namespace, error: Exception) -> None
     if not metadata_path.exists():
         return
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-    metadata["status"] = "failed"
+    metadata["status"] = "interrupted" if isinstance(error, InterruptedError) else "failed"
     metadata["failed_utc"] = datetime.now(UTC).isoformat()
     metadata["failure_type"] = type(error).__name__
     metadata["failure_message"] = str(error)
     metadata_path.write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n")
 
 
+def handle_sigterm(_signal: int, _frame: Any) -> None:
+    raise InterruptedError("received SIGTERM")
+
+
 def main() -> int:
     args = parse_args()
+    signal.signal(signal.SIGTERM, handle_sigterm)
     try:
         run(args)
     except Exception as error:
