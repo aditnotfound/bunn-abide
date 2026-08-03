@@ -108,3 +108,28 @@ Step 5 is complete only when:
 - The site count and ASD/control counts are reviewed.
 - The QC rule is frozen in `docs/decision_log.md`.
 - At least one ROI time-series file has been downloaded and parsed in Step 6.
+
+## AWS dataset installation
+
+The manifest and downloader are committed, while the downloaded participant
+files remain ignored by Git. On the AWS instance, copy these two scripts and
+the primary manifest, then run:
+
+```bash
+python3 scripts/download_abide_timeseries.py --workers 8
+```
+
+The downloader is resumable: re-running the same command skips non-empty
+files and writes `data/processed/abide_i_timeseries_download_summary.json`.
+Do a small `--limit 5` smoke test first, then run the full 769-file download.
+
+### Installation record
+
+On 2026-08-03, the full primary manifest was installed on the designated AWS
+instance at `~/bunn-abide/data/` using the committed downloader. The summary
+was 769 requested files, 764 newly downloaded, 5 resumed from the smoke test,
+and 0 failures (about 169 MiB on disk). A subsequent validation found 769
+files matching the manifest, no missing or extra files, and no malformed time
+series. Each numeric row has 116 AAL values; usable scan lengths range from 78
+to 296 time points. The instance did not yet have an NVIDIA driver installed,
+which is a separate prerequisite for GPU training.
