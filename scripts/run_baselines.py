@@ -344,7 +344,7 @@ def select_candidate(
         key=lambda row: (
             -round(float(row["inner_mean_site_balanced_accuracy"]), 12),
             float(row["C"]),
-            float(row.get("l1_ratio", -1.0)),
+            float(row.get("l1_ratio") or -1.0),
         ),
     )
     return ranked[0]
@@ -767,9 +767,28 @@ def run(args: argparse.Namespace) -> Path:
     return run_dir
 
 
+def mark_explicit_run_failed(args: argparse.Namespace, error: Exception) -> None:
+    """Avoid leaving an explicitly named interrupted run labelled ``running``."""
+    if not args.run_id:
+        return
+    metadata_path = Path(args.output_root) / args.run_id / "metadata.json"
+    if not metadata_path.exists():
+        return
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    metadata["status"] = "failed"
+    metadata["failed_utc"] = datetime.now(UTC).isoformat()
+    metadata["failure_type"] = type(error).__name__
+    metadata["failure_message"] = str(error)
+    metadata_path.write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n")
+
+
 def main() -> int:
     args = parse_args()
-    run(args)
+    try:
+        run(args)
+    except Exception as error:
+        mark_explicit_run_failed(args, error)
+        raise
     return 0
 
 
