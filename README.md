@@ -4,7 +4,8 @@ Reproducible evaluation of identity propagation, GCN, and Bundle Neural Networks
 
 ## Status
 
-Project setup plus ABIDE-I manifest tooling. No models, experiments, or results are included yet.
+ABIDE-I manifest, technical QC, and Fisher-z connectome construction are complete.
+No predictive model, experiment result, or scientific conclusion is included yet.
 
 ## Layout
 
@@ -21,9 +22,11 @@ Project setup plus ABIDE-I manifest tooling. No models, experiments, or results 
 Step 5 is complete locally: the primary ABIDE-I manifest uses the PCP
 `cpac/filt_noglobal/rois_aal` derivative, `rater1_and_func2_ok` QC, and a
 minimum of one participant from each diagnosis per held-out site. The fully
-checked manifest contains 769 participants across 18 evaluable sites. See
-`docs/step5_abide_manifest.md` for the exact command and decision rationale.
+checked manifest contains 769 participants across 18 evaluable sites. Step 6
+derives a 754-participant technical analysis manifest; see
+`docs/step6_connectomes.md` for the exact transformation and exclusions.
 
 ## Next milestone
 
-Perform the Step 6 ROI time-series download and parsing smoke test.
+Perform Step 7: freeze leave-one-site-out folds and implement covariate and
+elastic-net baselines without held-out-site leakage.

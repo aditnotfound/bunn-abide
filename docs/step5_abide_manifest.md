@@ -131,5 +131,5 @@ was 769 requested files, 764 newly downloaded, 5 resumed from the smoke test,
 and 0 failures (about 169 MiB on disk). A subsequent validation found 769
 files matching the manifest, no missing or extra files, and no malformed time
 series. Each numeric row has 116 AAL values; usable scan lengths range from 78
-to 296 time points. The instance did not yet have an NVIDIA driver installed,
-which is a separate prerequisite for GPU training.
+to 296 time points. The GPU driver was provisioned separately and is now
+verified; see `docs/aws_environment.md`.
