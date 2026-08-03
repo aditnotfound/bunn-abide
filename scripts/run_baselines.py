@@ -430,6 +430,11 @@ def tune_model(
     warning_rows: list[dict[str, Any]] = []
     retry_max_iter = protocol["models"][model_name].get("retry_max_iter")
     for candidate in candidate_parameters(model_name, protocol):
+        print(
+            f"tuning outer_fold={outer_fold} model={model_name} "
+            f"C={candidate['C']} l1_ratio={candidate.get('l1_ratio', 'n/a')}",
+            flush=True,
+        )
         all_site_scores: list[float] = []
         for inner_fold, validation_indices in sorted(inner_validation_indices.items()):
             fitting_indices = np.setdiff1d(train_indices, validation_indices)
@@ -602,7 +607,13 @@ def run(args: argparse.Namespace) -> Path:
         outer_fold, train_indices, test_indices, inner_validation_indices = validate_split_contract(
             table, outer_rows, inner_rows, held_out_site
         )
+        print(
+            f"starting held_out_site={held_out_site} outer_fold={outer_fold} "
+            f"train={len(train_indices)} test={len(test_indices)}",
+            flush=True,
+        )
         for model_name in args.models:
+            print(f"starting final model={model_name} held_out_site={held_out_site}", flush=True)
             parameters, model_tuning, model_inner_sites, model_warnings = tune_model(
                 model_name,
                 X,
