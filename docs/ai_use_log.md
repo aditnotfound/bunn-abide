@@ -18,6 +18,8 @@ tool, and purpose before it can be logged accurately.
 | --- | --- | --- | --- | --- |
 | 2026-07-31 | Codex | Audited and narrowed the submitted BuNN/connectome proposal into an ABIDE-I operator-comparison study; identified claim and evaluation risks. | Verify all literature, protocol choices, and final scientific wording. | Prior Codex research-planning chats retained by the researcher. |
 | 2026-08-03 | Codex | Produced an implementation plan; created the private repository and initial reproducibility scaffold. | Review the proposed project structure and decide the final protocol before experiments begin. | Git commit `6479bad`. |
+| 2026-08-03 | Codex | Guided AWS EC2 GPU instance setup and SSH troubleshooting for the BuNN experiment environment. | Confirm the final active instance configuration, cost controls, and that credentials are kept private. | User confirmed SSH access to Ubuntu instance succeeded. |
+| 2026-08-03 | Codex | Built and tested the ABIDE-I PCP manifest tool; compared QC subsets, verified all selected derivative URLs, and recorded the frozen primary cohort and exclusions. | Review the primary QC/site-eligibility decision before beginning data download and model training. | `scripts/prepare_abide_manifest.py`; `docs/step5_abide_manifest.md`; `configs/abide_i_primary_manifest.json`. |
 
 ## Required fields for future entries
 
