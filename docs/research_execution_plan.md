@@ -33,7 +33,9 @@ flow, anatomical connectivity, or node-label heterophily.
 
 Follow `docs/step7_5_full_baseline_plan.md` exactly. This step runs 1,638
 initial fits across 18 held-out sites with resumable site checkpoints and SNS
-alerts. No final metric is interpreted before the completion audit.
+alerts. No final metric is interpreted before the completion audit. The
+pre-fit `v1` notification-region failure is retained as an engineering incident;
+the scientific run is the separately identified corrected `v2` execution.
 
 ## Step 7.6 - baseline analysis
 
