@@ -3,9 +3,12 @@ from __future__ import annotations
 import unittest
 import json
 import os
+import sys
+import types
 from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -16,7 +19,9 @@ from scripts.run_baselines import (
     build_pipeline,
     initialise_or_resume_run,
     mean_site_balanced_accuracy,
+    publish_sns_notification,
     select_candidate,
+    sns_region_from_topic_arn,
     verify_completed_fold,
     write_fold_artifacts,
 )
@@ -179,6 +184,26 @@ class BaselineRunnerTests(unittest.TestCase):
             self.assertEqual(report["state"], "running")
             self.assertEqual(report["completed_sites"], ["SITE_A"])
             self.assertEqual(report["current_site"], "SITE_B")
+
+    def test_sns_notification_uses_region_encoded_in_topic_arn(self) -> None:
+        calls: list[tuple[str, str | None]] = []
+
+        class FakeSNS:
+            def publish(self, **_: object) -> dict[str, str]:
+                return {"MessageId": "test-message"}
+
+        def fake_client(service_name: str, region_name: str | None = None) -> FakeSNS:
+            calls.append((service_name, region_name))
+            return FakeSNS()
+
+        fake_boto3 = types.SimpleNamespace(client=fake_client)
+        topic_arn = "arn:aws:sns:us-east-1:020529562621:bunn-abide-run-alerts"
+        with TemporaryDirectory() as directory, patch.dict(sys.modules, {"boto3": fake_boto3}):
+            outcome = publish_sns_notification(Path(directory), topic_arn, "subject", "message")
+
+        self.assertEqual(outcome["status"], "published")
+        self.assertEqual(calls, [("sns", "us-east-1")])
+        self.assertEqual(sns_region_from_topic_arn(topic_arn), "us-east-1")
 
 
 if __name__ == "__main__":
