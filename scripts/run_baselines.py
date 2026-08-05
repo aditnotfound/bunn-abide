@@ -801,7 +801,7 @@ def publish_sns_notification(
     try:
         import boto3
 
-        response = boto3.client("sns").publish(
+        response = boto3.client("sns", region_name=sns_region_from_topic_arn(topic_arn)).publish(
             TopicArn=topic_arn,
             Subject=subject,
             Message=message,
@@ -811,6 +811,18 @@ def publish_sns_notification(
         outcome.update({"status": "failed", "error_type": type(error).__name__, "error": str(error)})
     write_json_atomic(run_dir / "notification.json", outcome)
     return outcome
+
+
+def sns_region_from_topic_arn(topic_arn: str) -> str:
+    """Return the SNS region encoded in a standard topic ARN.
+
+    The managed runner should not depend on a shell-level AWS region variable:
+    the notification topic already identifies the correct regional endpoint.
+    """
+    parts = topic_arn.split(":", maxsplit=5)
+    if len(parts) != 6 or parts[0] != "arn" or parts[2] != "sns" or not parts[3]:
+        raise ValueError("notification topic must be a standard SNS topic ARN")
+    return parts[3]
 
 
 def notify_terminal_state(args: argparse.Namespace, run_dir: Path, state: str) -> dict[str, Any]:
