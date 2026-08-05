@@ -50,8 +50,8 @@ results.
 
 The `PublishBuNNRunAlert` EC2 instance role has now been attached with a policy
 that permits `sns:Publish` only to the private `bunn-abide-run-alerts` topic.
-A harmless test alert was accepted by AWS; receipt still needs to be confirmed
-in the subscribed inbox. The topic ARN is stored only in the ignored, owner-only file
+A harmless test alert was accepted by AWS and receipt was confirmed in the
+subscribed inbox. The topic ARN is stored only in the ignored, owner-only file
 `.run-control/run-alerts.env` on the AWS machine. It is not an AWS credential
 and is not committed to Git.
 
