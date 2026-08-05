@@ -1,6 +1,6 @@
 # Step 7.5: Full Baseline Execution Contract
 
-Status: **authorized; corrected execution pending launch**
+Status: **running** (`step7_5_full_baselines_v2`, started 2026-08-05T08:01:22Z)
 
 This document defines the complete baseline run before any final held-out-site
 result is inspected. Step 7.5 establishes the non-graph reference that the
@@ -202,3 +202,7 @@ was corrected to derive the SNS region from the topic ARN and was covered by a
 new unit test. The corrected code passed the full intended 13-test suite on
 AWS. The failed `v1` directory remains as an audit trail and will not be
 resumed; `v2` is a new immutable run with the corrected code identifier.
+
+The `v2` STARTED notification was successfully published before model fitting;
+the runner then began the full CALTECH outer fold. This confirms only launch
+integrity, not model performance.
