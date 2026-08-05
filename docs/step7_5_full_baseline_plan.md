@@ -1,6 +1,6 @@
 # Step 7.5: Full Baseline Execution Contract
 
-Status: **planned, not yet authorized or launched**
+Status: **authorized; corrected execution pending launch**
 
 This document defines the complete baseline run before any final held-out-site
 result is inspected. Step 7.5 establishes the non-graph reference that the
@@ -79,9 +79,9 @@ during this step is expected and is not evidence of a broken run.
 
 ## 4. Planned identity and launch command
 
-- Run ID: `step7_5_full_baselines_v1`
+- Run ID: `step7_5_full_baselines_v2`
 - Run kind: `full`
-- Execution code identifier: `7fdcf04`
+- Execution code identifier: `7ad7246`
 - Models: all three frozen baselines
 - Held-out sites: all 18 frozen sites
 - Fast-smoke override: forbidden
@@ -90,10 +90,10 @@ Planned command, to be executed only after explicit authorization:
 
 ```bash
 cd ~/bunn-abide
-scripts/launch_managed_baseline.sh step7_5_full_baselines_v1 \
+scripts/launch_managed_baseline.sh step7_5_full_baselines_v2 \
   --run-kind full \
   --models covariates_l2_logistic connectome_elastic_net_logistic combined_elastic_net_logistic \
-  --code-version 7fdcf04
+  --code-version 7ad7246
 ```
 
 No `--held-out-sites` or `--fast-smoke` argument is permitted. The managed
@@ -156,10 +156,10 @@ Planned resume command for a transient interruption:
 
 ```bash
 cd ~/bunn-abide
-scripts/launch_managed_baseline.sh step7_5_full_baselines_v1 \
+scripts/launch_managed_baseline.sh step7_5_full_baselines_v2 \
   --run-kind full \
   --models covariates_l2_logistic connectome_elastic_net_logistic combined_elastic_net_logistic \
-  --code-version 7fdcf04 \
+  --code-version 7ad7246 \
   --resume
 ```
 
@@ -191,3 +191,14 @@ Step 7.5 alone can estimate how the three pre-specified non-graph baselines
 generalize to held-out ABIDE-I sites under this pipeline. It cannot establish
 a BuNN advantage, biological bundle geometry, clinical diagnostic value,
 causal effects, or generalization beyond this cohort and preprocessing path.
+
+## 9. Pre-fit execution incident
+
+The original planned run, `step7_5_full_baselines_v1`, launched successfully
+but stopped before its first fit because Boto3 could not infer an AWS region
+when publishing the required STARTED notification. It produced zero completed
+sites, zero predictions, and zero test metrics. The notification implementation
+was corrected to derive the SNS region from the topic ARN and was covered by a
+new unit test. The corrected code passed the full intended 13-test suite on
+AWS. The failed `v1` directory remains as an audit trail and will not be
+resumed; `v2` is a new immutable run with the corrected code identifier.
