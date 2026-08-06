@@ -127,7 +127,7 @@ Suggested check:
 ```bash
 cd ~/bunn-abide
 python scripts/check_baseline_run.py \
-  --run-id step7_5_full_baselines_v1 \
+  --run-id step7_5_full_baselines_v2 \
   --stale-minutes 180
 ```
 
