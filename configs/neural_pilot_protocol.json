@@ -1,0 +1,17 @@
+{
+  "pilot_version": 1,
+  "purpose": "Engineering-only: validate training, GPU memory/runtime, loss stability, and checkpoint/resume. No held-out-site predictive metric is calculated.",
+  "held_out_site_excluded_from_tensors": "CALTECH",
+  "inner_validation_fold": 0,
+  "operators": ["identity", "gcn", "trivial_bundle", "learned_bunn"],
+  "densities": [0.0, 0.01, 0.05, 0.1, 0.2],
+  "seed": 20260803,
+  "batch_size": 8,
+  "max_epochs": 3,
+  "optimizer": "AdamW",
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "selection_metric": "none; loss is logged only for numerical-stability and recovery checks",
+  "outer_test_evaluation": false,
+  "automatic_result_analysis": false
+}

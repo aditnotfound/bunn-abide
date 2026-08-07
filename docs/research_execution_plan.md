@@ -147,6 +147,29 @@ which nodes/subjects each diagnostic is computed.
 The pilot is for correctness and runtime measurement, not scientific model
 selection.
 
+### Frozen pilot execution
+
+The first pilot uses the existing outer split with `CALTECH` held out and
+excluded from all model tensors, and grouped inner-validation fold 0. It runs
+the four already specified operators over every already specified density for
+three epochs each, with the shared 116-to-32 two-layer backbone, batch size 8,
+AdamW (`1e-3` learning rate, `1e-4` weight decay), and seed `20260803`.
+These are engineering settings, not a result-driven tuning decision. The pilot
+records only fitting/validation BCE loss, runtime, GPU peak allocation,
+checkpoint integrity, and failure state. It does not compute probabilities,
+balanced accuracy, AUROC, thresholds, or any held-out-site prediction.
+
+`scripts/run_neural_pilot.py` and
+`scripts/launch_managed_neural_pilot.sh` implement the pilot. They require
+frozen input hashes, validate an immutable resume contract, save one atomic
+checkpoint after each epoch, maintain a live `status.json`, and require SNS
+start/terminal notifications in managed execution. A completed checkpoint must
+contain exactly the planned epochs before a cell is counted as complete.
+Before the pilot is accepted, one managed invocation intentionally stops after
+its first durable epoch checkpoint; the same named run must then resume under
+the unchanged contract and finish. This tests recovery on the actual GPU
+workflow rather than assuming the unit test alone is enough.
+
 1. Use only outer-training data and its grouped inner partitions.
 2. Exercise all four operators, all densities, batching, checkpointing,
    representation logging, and recovery on a deliberately labelled pilot.
