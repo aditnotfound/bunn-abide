@@ -65,7 +65,8 @@ committed and its source hashes recorded in the decision log.
 
 ## 5. Deferred unblinding command
 
-Run this only after the implementation commit is recorded:
+The implementation was frozen in commit `7795e1b2fa5fedcc94e5a169daeef6c26e37a300`.
+Run this only as the documented unblinding action:
 
 ```bash
 cd ~/bunn-abide
