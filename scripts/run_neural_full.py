@@ -112,6 +112,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--run-kind", choices=("smoke", "full"), default="full")
     parser.add_argument("--held-out-sites", nargs="+", default=None)
+    parser.add_argument(
+        "--execution-shard",
+        action="store_true",
+        help="Internal parallel-worker mode permitting a full-protocol site subset.",
+    )
     parser.add_argument("--fast-smoke", action="store_true")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--stop-after-epoch-checkpoints", type=int, default=None)
@@ -150,9 +155,12 @@ def immutable_metadata(metadata: dict[str, Any]) -> dict[str, Any]:
     fields = (
         "run_id", "run_kind", "code_version", "source_hashes", "frozen_input_hashes",
         "configurations", "held_out_sites", "site_to_outer_fold", "protocol",
-        "operator_contract", "analysis_protocol", "smoke_override",
+        "operator_contract", "analysis_protocol", "smoke_override", "execution_shard",
     )
-    return {field: metadata[field] for field in fields}
+    return {
+        field: metadata.get(field, False) if field == "execution_shard" else metadata[field]
+        for field in fields
+    }
 
 
 def verified_site(path: Path, outer_fold: int, held_out_site: str) -> bool:
@@ -503,8 +511,12 @@ def run(args: argparse.Namespace) -> Path:
         raise ValueError("Smoke run requires explicit held-out sites")
     if args.fast_smoke and args.run_kind != "smoke":
         raise ValueError("--fast-smoke is allowed only for smoke runs")
-    if args.run_kind == "full" and args.held_out_sites:
+    if args.run_kind == "full" and args.held_out_sites and not args.execution_shard:
         raise ValueError("Full run always uses every frozen held-out site")
+    if args.execution_shard and not args.held_out_sites:
+        raise ValueError("Execution shard requires an explicit held-out-site subset")
+    if args.execution_shard and args.require_notification:
+        raise ValueError("Execution-shard workers cannot publish run-level notifications")
     if args.resume and not args.run_id:
         raise ValueError("Resume requires a run ID")
     if args.require_notification and not args.notification_topic_arn:
@@ -554,7 +566,7 @@ def run(args: argparse.Namespace) -> Path:
         "configurations": [{"operator": operator, "density": density} for operator, density in configuration_grid],
         "held_out_sites": selected_sites, "site_to_outer_fold": site_to_outer_fold,
         "protocol": protocol, "operator_contract": operator_contract, "analysis_protocol": analysis_protocol,
-        "smoke_override": smoke_override,
+        "smoke_override": smoke_override, "execution_shard": bool(args.execution_shard),
         "environment": {"python": sys.version, "platform": platform.platform(), "torch": torch.__version__, "cuda": torch.version.cuda},
         "results_embargoed": True,
     }

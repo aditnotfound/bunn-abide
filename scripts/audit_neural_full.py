@@ -62,6 +62,95 @@ def validate_configuration_grid(
     return metadata_grid
 
 
+def validate_parallel_provenance(
+    run_dir: Path,
+    metadata: dict[str, Any],
+    selected_sites: list[str],
+) -> dict[str, Any] | None:
+    """Validate worker ownership and canonical-copy provenance without reading values."""
+    execution_mode = metadata.get("execution_mode")
+    if execution_mode is None:
+        return None
+    if execution_mode != "site_parallel":
+        raise FullAuditError("Unknown neural execution mode")
+    contract = metadata.get("parallel_execution")
+    if not isinstance(contract, dict) or contract.get("contract_version") != 1:
+        raise FullAuditError("Invalid parallel execution contract")
+    worker_count = contract.get("worker_count")
+    assignments = contract.get("assignments")
+    if not isinstance(worker_count, int) or worker_count < 2 or not isinstance(assignments, dict):
+        raise FullAuditError("Invalid parallel worker declaration")
+    expected_workers = [f"worker_{index:02d}" for index in range(worker_count)]
+    if sorted(assignments) != expected_workers:
+        raise FullAuditError("Parallel worker IDs are incomplete")
+    assigned_sites = [site for worker in expected_workers for site in assignments[worker]]
+    if len(assigned_sites) != len(set(assigned_sites)) or set(assigned_sites) != set(selected_sites):
+        raise FullAuditError("Parallel site ownership is missing or duplicated")
+    manifest_path = run_dir / "parallel_manifest.json"
+    expected_hash = metadata.get("artifact_hashes", {}).get("parallel_manifest.json")
+    if not isinstance(expected_hash, str) or sha256_file(manifest_path) != expected_hash:
+        raise FullAuditError("Parallel manifest hash mismatch")
+    manifest = load_json(manifest_path)
+    if (
+        manifest.get("contract_version") != 1
+        or manifest.get("run_id") != metadata.get("run_id")
+        or manifest.get("worker_count") != worker_count
+        or manifest.get("results_embargoed") is not True
+    ):
+        raise FullAuditError("Parallel manifest contract mismatch")
+    entries = manifest.get("sites")
+    if not isinstance(entries, list) or len(entries) != len(selected_sites):
+        raise FullAuditError("Parallel manifest site count mismatch")
+    entry_sites = [entry.get("held_out_site") for entry in entries]
+    if len(entry_sites) != len(set(entry_sites)) or set(entry_sites) != set(selected_sites):
+        raise FullAuditError("Parallel manifest site coverage mismatch")
+    shared_fields = (
+        "run_kind", "code_version", "source_hashes", "frozen_input_hashes",
+        "configurations", "protocol", "operator_contract", "analysis_protocol", "smoke_override",
+    )
+    site_to_fold = {site: int(fold) for fold, site in metadata["site_to_outer_fold"].items()}
+    for worker_id in expected_workers:
+        worker_dir = run_dir / "workers" / worker_id
+        worker_metadata = load_json(worker_dir / "metadata.json")
+        if (
+            worker_metadata.get("run_id") != worker_id
+            or worker_metadata.get("status") != "complete"
+            or worker_metadata.get("execution_shard") is not True
+            or worker_metadata.get("held_out_sites") != assignments[worker_id]
+        ):
+            raise FullAuditError(f"Parallel worker metadata mismatch: {worker_id}")
+        for field in shared_fields:
+            if worker_metadata.get(field) != metadata.get(field):
+                raise FullAuditError(f"Parallel worker immutable mismatch: {worker_id}/{field}")
+        for name in [*SITE_ARTIFACT_FIELDS, "summary.json"]:
+            worker_hash = worker_metadata.get("artifact_hashes", {}).get(name)
+            if not isinstance(worker_hash, str) or sha256_file(worker_dir / name) != worker_hash:
+                raise FullAuditError(f"Parallel worker root hash mismatch: {worker_id}/{name}")
+    for entry in entries:
+        site = entry["held_out_site"]
+        worker_id = entry.get("worker_id")
+        if worker_id not in assignments or site not in assignments[worker_id]:
+            raise FullAuditError(f"Parallel manifest ownership mismatch: {site}")
+        outer_fold = site_to_fold[site]
+        if entry.get("outer_fold") != outer_fold:
+            raise FullAuditError(f"Parallel manifest fold mismatch: {site}")
+        label = label_for_site(outer_fold, site)
+        source = run_dir / "workers" / worker_id / "folds" / label
+        canonical = run_dir / "folds" / label
+        source_completion = source / "complete.json"
+        if sha256_file(source_completion) != entry.get("source_completion_sha256"):
+            raise FullAuditError(f"Parallel source completion hash mismatch: {site}")
+        source_marker = load_json(source_completion)
+        canonical_marker = load_json(canonical / "complete.json")
+        if source_marker != canonical_marker or source_marker.get("artifact_hashes") != entry.get("artifact_hashes"):
+            raise FullAuditError(f"Parallel canonical marker mismatch: {site}")
+        for name in SITE_ARTIFACT_FIELDS:
+            expected = entry["artifact_hashes"].get(name)
+            if sha256_file(source / name) != expected or sha256_file(canonical / name) != expected:
+                raise FullAuditError(f"Parallel site copy mismatch: {site}/{name}")
+    return {"worker_count": worker_count, "site_count": len(entries)}
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -147,6 +236,7 @@ def audit_full_run(
         raise FullAuditError("Held-out site list is empty or repeated")
     if run_kind == "full" and len(selected_sites) != 18:
         raise FullAuditError("Full run does not cover all 18 sites")
+    parallel_provenance = validate_parallel_provenance(run_dir, metadata, selected_sites)
     table = pd.read_csv(table_path, dtype={"subject_id": str, "site_id": str})
     outer_rows = read_csv(outer_splits_path)
     inner_rows = read_csv(inner_splits_path)
@@ -322,6 +412,9 @@ def audit_full_run(
         "warning_rows": warning_count, "results_remain_embargoed": True,
         "notice": "Score-blind integrity certificate; no predictive or representation value is reported.",
     }
+    if parallel_provenance is not None:
+        report["parallel_workers_checked"] = parallel_provenance["worker_count"]
+        report["parallel_site_copies_checked"] = parallel_provenance["site_count"]
     return report
 
 
