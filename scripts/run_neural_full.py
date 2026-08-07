@@ -178,13 +178,19 @@ def initialise_run(run_dir: Path, metadata: dict[str, Any], resume: bool) -> lis
         if immutable_metadata(existing) != immutable_metadata(metadata):
             raise FullTrainingError("Full-run immutable metadata mismatch")
         existing.update({"status": "running", "resumed_utc": utc_now()})
+        for stale_field in ("failed_utc", "failure_type", "failure_message"):
+            existing.pop(stale_field, None)
         write_json_atomic(metadata_path, existing)
         completed = []
         for site in metadata["held_out_sites"]:
             fold = int(next(key for key, value in metadata["site_to_outer_fold"].items() if value == site))
             if verified_site(run_dir / "folds" / label_for_site(fold, site), fold, site):
                 completed.append(site)
-        update_status(run_dir, state="running", pid=os.getpid(), resumed_utc=utc_now(), completed_sites=completed, completed_site_count=len(completed))
+        update_status(
+            run_dir, state="running", pid=os.getpid(), resumed_utc=utc_now(),
+            completed_sites=completed, completed_site_count=len(completed),
+            failure_type=None, failure_message=None,
+        )
         return completed
     if run_dir.exists():
         raise FileExistsError(f"Run directory already exists: {run_dir}")
@@ -626,7 +632,9 @@ def run(args: argparse.Namespace) -> Path:
     write_json_atomic(metadata_path, final_metadata)
     update_status(
         run_dir, state="complete", current_stage="completion_sealed_results_embargoed",
-        current_site=None, current_configuration=None, completed_sites=completed_sites,
+        current_site=None, current_outer_fold=None, current_configuration=None,
+        current_epoch=None, candidate_index=None, inner_fold=None, seed=None,
+        failure_type=None, failure_message=None, completed_sites=completed_sites,
         completed_site_count=len(completed_sites), held_out_results_embargoed=True,
     )
     alert = notify(args, run_dir, "complete", "completed and remains results-embargoed")
