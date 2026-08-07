@@ -1,0 +1,71 @@
+{
+  "protocol_version": 1,
+  "status": "Frozen before any full neural held-out-site prediction.",
+  "analysis_manifest_sha256": "bef94eb5d144a445f253f5828bedf452b1c8343c745417766d695fb206f05945",
+  "operator_contract": "configs/neural_operator_contract_v2.json",
+  "evaluation": {
+    "outer_split": "18 frozen leave-one-site-out folds",
+    "inner_split": "4 frozen StratifiedGroupKFold assignments",
+    "primary_predictive_metric": "unweighted mean held-out-site balanced accuracy",
+    "secondary_predictive_metrics": ["per-site AUROC", "pooled balanced accuracy", "sensitivity", "specificity"],
+    "decision_threshold": 0.5,
+    "held_out_site_evaluations_per_configuration": 5
+  },
+  "training": {
+    "loss": "binary cross entropy with fitting-partition negative/positive class ratio as pos_weight",
+    "optimizer": "AdamW",
+    "batch_size": 8,
+    "maximum_epochs": 150,
+    "minimum_epochs": 10,
+    "early_stopping_patience": 20,
+    "early_stopping_minimum_delta": 0.0001,
+    "early_stopping_metric": "unweighted mean validation-site BCE",
+    "gradient_clip_global_norm": 5.0,
+    "learning_rate_scheduler": null,
+    "mixed_precision": false,
+    "deterministic_algorithms": true
+  },
+  "tuning": {
+    "candidates": [
+      {"learning_rate": 0.0003, "weight_decay": 0.00001},
+      {"learning_rate": 0.0003, "weight_decay": 0.0001},
+      {"learning_rate": 0.001, "weight_decay": 0.00001},
+      {"learning_rate": 0.001, "weight_decay": 0.0001}
+    ],
+    "seeds": [20260803, 20260804],
+    "candidate_score": "unweighted mean per-site balanced accuracy across all inner validation sites and both tuning seeds",
+    "checkpoint_metric": "unweighted mean validation-site BCE",
+    "tie_break": ["higher weight_decay", "lower learning_rate"],
+    "selected_final_epoch": "ceiling of the median one-based best epoch across the 4 inner folds and 2 tuning seeds"
+  },
+  "final_fit": {
+    "seeds": [20260803, 20260804, 20260805, 20260806, 20260807],
+    "fit_scope": "all outer-training sites",
+    "epoch_rule": "selected_final_epoch",
+    "held_out_site_use": "one probability-generating evaluation per final seed after fitting"
+  },
+  "preprocessing": {
+    "graph_topology_source": "unscaled Fisher-z connectomes",
+    "feature_scaling": "mean and standard deviation fitted only on the active fitting partition over participant and node dimensions",
+    "site_id_as_feature": false,
+    "labels_used_for_transforms": false,
+    "harmonization": false,
+    "pca": false,
+    "external_feature_selection": false
+  },
+  "run_control": {
+    "atomic_epoch_checkpoints": true,
+    "atomic_outer_site_sealing": true,
+    "immutable_resume_contract": true,
+    "required_sns_start_and_terminal_alerts": true,
+    "retry_policy": "Retry only infrastructure interruption from the latest verified checkpoint. Non-finite loss, invalid gradient, or contract mismatch fails the cell and the site; no silent hyperparameter substitution.",
+    "results_embargo": "No neural held-out prediction or metric may be read before the complete score-blind artifact audit passes."
+  },
+  "expected_counts": {
+    "unique_configurations_per_outer_site": 14,
+    "inner_fits": 8064,
+    "final_fits": 1260,
+    "held_out_prediction_rows": 52780,
+    "held_out_metric_rows": 1260
+  }
+}

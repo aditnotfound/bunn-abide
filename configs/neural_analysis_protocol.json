@@ -1,0 +1,51 @@
+{
+  "protocol_version": 1,
+  "status": "Frozen before full neural held-out-site predictions.",
+  "primary_predictive_estimand": {
+    "name": "normalized area under the held-out-site balanced-accuracy density curve",
+    "site_weighting": "equal",
+    "seed_handling": "average the five final seeds within each site and configuration before site-level inference",
+    "curve_anchors": {"gcn": "identity", "trivial_bundle": "identity", "learned_bunn": "learned_local"},
+    "primary_contrast": "learned_bunn minus gcn",
+    "uncertainty": "10000 paired site-cluster bootstrap resamples"
+  },
+  "required_predictive_contrasts": [
+    "learned_bunn curve versus gcn curve",
+    "learned_bunn nonzero-density configurations versus learned_local",
+    "learned_bunn nonzero-density configurations versus identity",
+    "learned_bunn curve versus trivial_bundle curve",
+    "learned_bunn versus connectome elastic-net baseline"
+  ],
+  "secondary_density_contrasts": {
+    "densities": [0.01, 0.05, 0.1, 0.2],
+    "multiplicity": "Holm correction within each named model contrast"
+  },
+  "representation": {
+    "primary_endpoint": "common-frame normalized effective rank at layer 2",
+    "primary_contrast": "density-dependent change for learned_bunn versus gcn",
+    "secondary_endpoints": [
+      "encoder-to-layer-2 normalized effective-rank change",
+      "normalized dispersion",
+      "mean pairwise cosine similarity",
+      "invariant edge transport distance"
+    ],
+    "causal_language": "Representation and prediction may only be described as co-occurring."
+  },
+  "practical_margin_balanced_accuracy": 0.03,
+  "positive_architectural_conclusion_requires": [
+    "learned_bunn primary performance-density contrast has a paired interval excluding zero in the favorable direction",
+    "learned_bunn improves beyond both identity and learned_local",
+    "learned_bunn improves beyond the connectome elastic-net baseline",
+    "learned_bunn preserves the primary gauge-aware representation endpoint more favorably than gcn"
+  ],
+  "null_language": {
+    "ordinary": "no advantage detected",
+    "practical_absence": "allowed only when the upper paired confidence bound excludes a 0.03 balanced-accuracy advantage"
+  },
+  "prohibitions": [
+    "Do not select a favorable density as the primary result.",
+    "Do not replace balanced accuracy with AUROC after results are seen.",
+    "Do not call functional-connectivity signs excitation, inhibition, heterophily, or causal flow.",
+    "Do not claim representation preservation caused prediction improvement."
+  ]
+}

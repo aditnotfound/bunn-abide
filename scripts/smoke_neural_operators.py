@@ -22,7 +22,7 @@ from src.neural_models import NeuralArchitecture, SharedGraphClassifier
 from src.neural_operators import orthogonality_error
 
 
-OPERATORS = ("identity", "gcn", "trivial_bundle", "learned_bunn")
+OPERATORS = ("identity", "learned_local", "gcn", "trivial_bundle", "learned_bunn")
 
 
 def parse_args() -> argparse.Namespace:
@@ -63,7 +63,7 @@ def main() -> None:
                 for layer in diagnostics
             )
             max_transport_error = 0.0
-            if operator == "learned_bunn":
+            if operator in {"learned_local", "learned_bunn"}:
                 for layer in model.propagation:
                     maps = layer.maps_for(model.encoder(graph.features))
                     max_transport_error = max(max_transport_error, float(orthogonality_error(maps).detach().cpu()))
