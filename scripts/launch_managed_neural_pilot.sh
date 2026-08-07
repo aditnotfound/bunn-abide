@@ -31,10 +31,25 @@ if [[ -f "$PID_FILE" ]] && kill -0 "$(cat "$PID_FILE")" 2>/dev/null; then
   exit 1
 fi
 
+for REQUIRED_PATH in \
+  "$PROJECT_DIR/configs/neural_pilot_protocol.json" \
+  "$PROJECT_DIR/configs/neural_operator_contract.json" \
+  "$PROJECT_DIR/configs/baseline_inputs_and_splits.json" \
+  "$PROJECT_DIR/data/processed/abide_i_baseline_table.csv" \
+  "$PROJECT_DIR/data/processed/abide_i_connectomes_fisher_z.npz" \
+  "$PROJECT_DIR/data/processed/splits/outer_loso_assignments.csv" \
+  "$PROJECT_DIR/data/processed/splits/inner_grouped_assignments.csv"; do
+  if [[ ! -r "$REQUIRED_PATH" ]]; then
+    echo "Missing required pilot input: $REQUIRED_PATH" >&2
+    exit 78
+  fi
+done
+
 (
   exec 9>"$CONTROL_DIR/lock"
   flock -n 9 || { echo "Run lock is already held for $RUN_ID." >&2; exit 1; }
   printf 'started_utc=%s\n' "$(date --utc --iso-8601=seconds)"
+  cd "$PROJECT_DIR"
   exec "$PROJECT_DIR/.venv/bin/python" "$PROJECT_DIR/scripts/run_neural_pilot.py" \
     --run-id "$RUN_ID" --require-notification \
     --notification-topic-arn "$BUNN_SNS_TOPIC_ARN" "$@"
