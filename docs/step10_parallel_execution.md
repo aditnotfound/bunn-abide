@@ -1,8 +1,9 @@
 # Step 10: Site-Parallel Execution Extension
 
-Status: **implemented in an isolated development workspace; unit suite passed.
-Real-data recovery, equivalence, audit, and speed gates remain required before
-this execution mode can replace the active single-worker run.**
+Status: **implemented and validated in an isolated AWS development workspace.
+Unit, real-data, recovery, merge, score-blind audit, exact equivalence, and
+speed gates passed. A break-even/restart decision remains; the active
+single-worker run has not been stopped or modified.**
 
 ## Scope
 
@@ -50,3 +51,23 @@ held-out value.
 
 Failure of any gate keeps `step10_neural_full_v1` as the primary execution.
 Its artifacts will never be mixed with a parallel run.
+
+## Validation evidence
+
+The clean three-worker smoke `step10_parallel_clean_smoke_v1` evaluated
+CALTECH, CMU, and KKI across all 14 configurations. The extended score-blind
+audit checked 714 prediction rows, 42 hidden metric rows, 2,142 diagnostic
+rows, 84 runtime rows, three worker roots, and three canonical site copies
+with zero warnings.
+
+In `step10_parallel_recovery_smoke_v1`, worker 0 was intentionally interrupted
+after its first durable checkpoint. Workers 1 and 2 continued and sealed their
+sites; the coordinator correctly refused to merge. Explicit resume retained
+those sites, resumed worker 0, completed the merge, and passed the same audit.
+
+The sequential control `step10_sequential_equivalence_smoke_v1` used identical
+sites, configurations, inputs, and seeds. The score-blind comparison found
+exact equality (`0.0` maximum absolute difference) for predictions, metrics,
+diagnostics, tuning, inner-site scores, and training curves. Runtime-only
+resource fields were excluded as intended. Parallel wall time was about 131
+seconds versus 213 seconds sequentially, a measured speedup of about `1.63x`.
