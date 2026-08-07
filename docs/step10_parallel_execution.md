@@ -1,9 +1,9 @@
 # Step 10: Site-Parallel Execution Extension
 
-Status: **implemented and validated in an isolated AWS development workspace.
-Unit, real-data, recovery, merge, score-blind audit, exact equivalence, and
-speed gates passed. A break-even/restart decision remains; the active
-single-worker run has not been stopped or modified.**
+Status: **implemented, validated, and launched as the primary full execution.
+Unit, real-data, recovery, merge, score-blind audit, exact equivalence, speed,
+and break-even gates passed. The original single-worker run was gracefully
+interrupted and preserved; the fresh parallel run reuses none of its outputs.**
 
 ## Scope
 
