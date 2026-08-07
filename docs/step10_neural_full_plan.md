@@ -1,7 +1,8 @@
 # Step 10: Frozen Full Neural Evaluation
 
 Status: **protocol and analysis contract frozen before any accepted neural
-held-out result. Runner and auditor require score-blind smoke validation.**
+held-out result. Runner, recovery, and score-blind smoke validation passed;
+the 18-site full run is the next execution gate.**
 
 ## Primary configuration matrix
 
@@ -63,6 +64,13 @@ edge transport distance are secondary.
    smoke metric without reporting values.
 5. Any executable-code correction retires that smoke attempt and requires a
    new run ID under the corrected commit.
+
+All five gates passed on AWS under commit `81230ca`. The accepted engineering
+artifact is `step10_neural_full_smoke_v2`: it deliberately stopped after one
+durable epoch checkpoint, resumed, sealed all 14 configurations for CALTECH,
+and passed score-blind validation of 42 prediction rows, 14 recomputed hidden
+metric rows, 126 diagnostic rows, tuning selection, runtime coverage, and
+artifact hashes with zero warnings. It is not a scientific result.
 
 ## Results embargo
 
