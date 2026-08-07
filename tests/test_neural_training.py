@@ -118,6 +118,26 @@ class NeuralTrainingTests(unittest.TestCase):
                     weight_decay=0.0, batch_size=2, max_epochs=2, seed=11, resume=True, device=torch.device("cpu"),
                 )
 
+    def test_global_resume_can_start_an_untouched_cell_only_when_explicitly_allowed(self) -> None:
+        cohort = synthetic_cohort()
+        partitions = PilotPartitions(
+            outer_fold=0,
+            held_out_site="SITE_0",
+            fitting_indices=np.asarray([2, 3, 4, 5]),
+            validation_indices=np.asarray([6, 7]),
+            test_indices=np.asarray([0, 1]),
+        )
+        tensors = build_pilot_tensors(cohort, partitions, 0.0, torch.device("cpu"))
+        architecture = NeuralArchitecture(input_dim=REGION_COUNT, hidden_dim=8, layers=1, bundles=2, channels=2, dropout=0.0)
+        with TemporaryDirectory() as temporary:
+            history = run_pilot_cell(
+                run_dir=Path(temporary), operator="gcn", density=0.0, tensors=tensors,
+                immutable_contract={"run_id": "test", "operator": "gcn", "density": 0.0},
+                architecture=architecture, learning_rate=1e-3, weight_decay=0.0, batch_size=2,
+                max_epochs=1, seed=19, resume=True, resume_missing_ok=True, device=torch.device("cpu"),
+            )
+        self.assertEqual([row["epoch"] for row in history], [0])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -114,6 +114,10 @@ def configure_or_resume(run_dir: Path, metadata: dict[str, Any], resume: bool) -
             raise PilotTrainingError("Cannot resume: immutable pilot metadata differ")
         existing.update({"status": "running", "resumed_utc": utc_now()})
         write_json_atomic(metadata_path, existing)
+        update_status(
+            run_dir, state="running", pid=os.getpid(), resumed_utc=utc_now(),
+            current_stage="resume_contract_validated",
+        )
         return
     if run_dir.exists():
         raise FileExistsError(f"Pilot directory already exists: {run_dir}")
@@ -301,6 +305,7 @@ def run(args: argparse.Namespace) -> Path:
                 immutable_contract=contract, architecture=architecture, learning_rate=float(protocol["learning_rate"]),
                 weight_decay=float(protocol["weight_decay"]), batch_size=int(protocol["batch_size"]),
                 max_epochs=max_epochs, seed=int(protocol["seed"]), resume=args.resume, device=device,
+                resume_missing_ok=True,
                 epoch_callback=record_epoch,
             )
             cell_runtimes[label] = time.perf_counter() - started
