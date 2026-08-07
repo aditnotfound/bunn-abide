@@ -6,8 +6,14 @@ import argparse
 import csv
 import json
 import math
+import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from scripts.run_baselines import write_json_atomic
 from scripts.run_neural_full import SITE_ARTIFACT_FIELDS
@@ -96,6 +102,22 @@ def compare_runs(
     for field in scientific_fields:
         if sequential_metadata.get(field) != parallel_metadata.get(field):
             raise EquivalenceError(f"Scientific metadata mismatch: {field}")
+    sequential_seconds = (
+        datetime.fromisoformat(sequential_metadata["completed_utc"])
+        - datetime.fromisoformat(sequential_metadata["started_utc"])
+    ).total_seconds()
+    parallel_seconds = (
+        datetime.fromisoformat(parallel_metadata["completed_utc"])
+        - datetime.fromisoformat(parallel_metadata["started_utc"])
+    ).total_seconds()
+    if sequential_seconds <= 0 or parallel_seconds <= 0:
+        raise EquivalenceError("Invalid execution timing interval")
+    speedup = sequential_seconds / parallel_seconds
+    minimum_speedup = float(
+        parallel_metadata["parallel_execution"]["acceptance_gates"]["minimum_wall_clock_speedup"]
+    )
+    if speedup < minimum_speedup:
+        raise EquivalenceError("Parallel wall-clock speedup is below the frozen threshold")
 
     artifact_report: dict[str, Any] = {}
     for name, fields in SITE_ARTIFACT_FIELDS.items():
@@ -128,6 +150,10 @@ def compare_runs(
         "state": "passed", "tolerance": tolerance,
         "sequential_run_id": sequential_metadata["run_id"],
         "parallel_run_id": parallel_metadata["run_id"],
+        "sequential_wall_seconds": sequential_seconds,
+        "parallel_wall_seconds": parallel_seconds,
+        "wall_clock_speedup": speedup,
+        "minimum_required_speedup": minimum_speedup,
         "artifacts": artifact_report, "results_remain_embargoed": True,
         "notice": "Execution-equivalence certificate; no predictive or representation value is reported.",
     }
