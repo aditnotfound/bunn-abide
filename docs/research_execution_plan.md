@@ -23,7 +23,7 @@ flow, anatomical connectivity, or node-label heterophily.
 | 7.0-7.4 | Frozen baseline protocol, aligned table/splits, tested runner, smoke and recovery tests | Completed; smoke is engineering-only |
 | 7.5 | Full 18-site non-graph baseline execution | Completed; independent integrity audit passed before metrics were viewed |
 | 7.6 | Pre-specified baseline analysis | Completed; audited results analysed with frozen code and archived |
-| 8 | Shared neural architecture and operator implementation | Mathematical/unit tests pass |
+| 8 | Shared neural architecture and operator implementation | Core data/operators pass synthetic and real-data GPU checks; fold-aware runner remains Step 9 |
 | 9 | Training-only engineering pilot and configuration freeze | No outer test metric used for tuning |
 | 10 | Full identity/GCN/trivial-bundle/BuNN evaluation | All folds/seeds sealed and audited |
 | 11 | Confirmatory statistics and mechanism analysis | Claims follow pre-specified decision rules |
@@ -78,6 +78,13 @@ the relevant upper confidence bound excludes the pre-specified three-
 percentage-point balanced-accuracy margin.
 
 ## Step 8 - neural operator implementation
+
+**Core implementation complete.** The graph representation, four matched
+operators, common-frame diagnostics, synthetic tests, real-input validation,
+and GPU forward/backward smoke are documented in
+`docs/step8_neural_implementation.md`. No neural predictive metric exists.
+The fold-aware runner, checkpoint/resume, and training policy deliberately
+remain the next engineering gate.
 
 ### 8.1 Shared data representation
 
