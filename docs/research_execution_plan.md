@@ -22,7 +22,7 @@ flow, anatomical connectivity, or node-label heterophily.
 | 1-6 | Repository, ABIDE manifest/download, technical QC, and connectomes | Completed and hash-checked |
 | 7.0-7.4 | Frozen baseline protocol, aligned table/splits, tested runner, smoke and recovery tests | Completed; smoke is engineering-only |
 | 7.5 | Full 18-site non-graph baseline execution | Completed; independent integrity audit passed before metrics were viewed |
-| 7.6 | Pre-specified baseline analysis | Code/tests/templates frozen; explicit unblinding and interpretation pending |
+| 7.6 | Pre-specified baseline analysis | Completed; audited results analysed with frozen code and archived |
 | 8 | Shared neural architecture and operator implementation | Mathematical/unit tests pass |
 | 9 | Training-only engineering pilot and configuration freeze | No outer test metric used for tuning |
 | 10 | Full identity/GCN/trivial-bundle/BuNN evaluation | All folds/seeds sealed and audited |
@@ -48,6 +48,13 @@ notification-region failure remains retained as an engineering incident.
 3. Freeze the estimands and table/figure templates.
 4. Record the analysis-code commit and input run hash in the decision log.
 5. Only then unblind the full baseline result files.
+
+**Completed.** The frozen implementation passed 17 AWS tests and recomputed
+all participant-level metrics consistently with the sealed runner artifacts.
+The analysis result and limits are recorded in
+`docs/step7_6_baseline_results.md`. Phase 8 must compare neural models against
+all three baselines; the connectome-only model is the empirically strongest
+reference in this run, not a reason to drop the other controls.
 
 ### Required baseline analyses
 
