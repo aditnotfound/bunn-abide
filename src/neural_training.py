@@ -272,6 +272,7 @@ def run_pilot_cell(
     max_epochs: int,
     seed: int,
     resume: bool,
+    resume_missing_ok: bool = False,
     device: torch.device,
     epoch_callback: Callable[[dict[str, Any]], None] | None = None,
 ) -> list[dict[str, Any]]:
@@ -291,7 +292,7 @@ def run_pilot_cell(
         move_optimizer_state(optimizer, device)
         start_epoch = payload["completed_epoch"] + 1
         history = payload["history"]
-    elif resume:
+    elif resume and not resume_missing_ok:
         raise PilotTrainingError(f"Cannot resume missing checkpoint: {checkpoint}")
 
     for epoch in range(start_epoch, max_epochs):
