@@ -5,10 +5,11 @@ Reproducible evaluation of identity propagation, GCN, and Bundle Neural Networks
 ## Status
 
 ABIDE-I manifest, technical QC, and Fisher-z connectome construction are complete.
-The full 18-site non-graph baseline run is complete and passed an independent,
-score-blind integrity audit. No predictive-performance value or scientific
-conclusion has been inspected yet; Step 7.6 analysis code must be built and
-tested on synthetic data before unblinding.
+The full 18-site non-graph baseline run is complete, independently audited, and
+analysed with pre-specified code. Connectome-only elastic net achieved the
+strongest site-weighted baseline result; the paired 95% bootstrap interval for
+its advantage over covariates excluded zero. See
+`docs/step7_6_baseline_results.md` for the exact result and its limits.
 
 ## Layout
 
@@ -31,9 +32,9 @@ derives a 754-participant technical analysis manifest; see
 
 ## Next milestone
 
-Steps 7.0--7.5 are complete: the protocol, aligned baseline table, frozen
+Steps 7.0--7.6 are complete: the protocol, aligned baseline table, frozen
 grouped site-held-out splits, leakage-safe baseline runner, engineering smoke
-test, checkpoint/resume/status layer, full 18-site execution, and independent
-integrity audit are recorded. Next: implement and test the pre-specified Step
-7.6 baseline-analysis module on synthetic predictions, freeze its estimands and
-figure/table templates, then unblind the audited baseline artifacts.
+test, checkpoint/resume/status layer, full 18-site execution, audit, and
+pre-specified baseline analysis are recorded. Next: implement the shared
+neural backbone and its identity, GCN, trivial-bundle, and learned-BuNN
+propagation operators before launching any neural experiment.

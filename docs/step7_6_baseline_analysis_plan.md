@@ -1,6 +1,7 @@
 # Step 7.6: Baseline Analysis Contract
 
-Status: **implemented and synthetic-data tested; results remain embargoed.**
+Status: **complete.** The audited run was analysed with the frozen code and
+the output package was archived; see `docs/step7_6_baseline_results.md`.
 
 This contract fixes the calculations, uncertainty summaries, tables, and
 figures for the completed `step7_5_full_baselines_v2` archive before any
@@ -59,7 +60,7 @@ line acknowledgement: `--confirm-unblind-run-id` must match `metadata.json`.
 This prevents accidental reading of a completed result archive.
 
 It was tested only against a synthetic three-site dataset and deliberately
-corrupted saved metrics. The AWS suite passed 16 tests on 2026-08-07. The
+corrupted saved metrics. The AWS suite passed 17 tests on 2026-08-07. The
 real result files must be read only after the analysis implementation is
 committed and its source hashes recorded in the decision log.
 
