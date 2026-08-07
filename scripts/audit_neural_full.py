@@ -41,6 +41,27 @@ class FullAuditError(ValueError):
     """Raised when a neural run is incomplete, inconsistent, or un-auditable."""
 
 
+def validate_configuration_grid(
+    metadata_configurations: list[dict[str, Any]],
+    operator_contract: dict[str, Any],
+    summary_count: Any,
+) -> list[tuple[str, float]]:
+    """Validate configuration membership without relying on JSON object-key order."""
+    contract_grid = configurations(operator_contract)
+    metadata_grid = [
+        (str(row["operator"]), float(row["density"]))
+        for row in metadata_configurations
+    ]
+    if (
+        len(metadata_grid) != len(contract_grid)
+        or len(set(metadata_grid)) != len(metadata_grid)
+        or set(metadata_grid) != set(contract_grid)
+        or summary_count != len(contract_grid)
+    ):
+        raise FullAuditError("Configuration grid mismatch")
+    return metadata_grid
+
+
 def sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -118,10 +139,9 @@ def audit_full_run(
         raise FullAuditError("Results embargo is not active")
     protocol = metadata["protocol"]
     operator_contract = metadata["operator_contract"]
-    config_grid = configurations(operator_contract)
-    metadata_grid = [(row["operator"], float(row["density"])) for row in metadata["configurations"]]
-    if metadata_grid != config_grid or summary.get("configuration_count") != len(config_grid):
-        raise FullAuditError("Configuration grid mismatch")
+    config_grid = validate_configuration_grid(
+        metadata["configurations"], operator_contract, summary.get("configuration_count")
+    )
     selected_sites = list(metadata["held_out_sites"])
     if not selected_sites or len(selected_sites) != len(set(selected_sites)):
         raise FullAuditError("Held-out site list is empty or repeated")
