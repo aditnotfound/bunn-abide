@@ -249,6 +249,19 @@ class LearnedOrthogonalBundleDiffusion(_BundleDiffusionBase):
         return maps
 
 
+class LearnedLocalOrthogonalUpdate(LearnedOrthogonalBundleDiffusion):
+    """Same-capacity learned-map control with no inter-node diffusion."""
+
+    def forward(self, features: torch.Tensor, adjacency: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+        validate_operator_inputs(features, adjacency)
+        maps = self.maps_for(features)
+        fields = fields_from_flat(features, self.bundles, self.channels)
+        common_fields = to_global(fields, maps)
+        updated = self.update(flat_from_fields(common_fields))
+        updated_fields = fields_from_flat(updated, self.bundles, self.channels)
+        return flat_from_fields(to_local(updated_fields, maps)), maps
+
+
 @dataclass(frozen=True)
 class OperatorOutput:
     features: torch.Tensor

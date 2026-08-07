@@ -81,6 +81,46 @@ class NeuralOperatorTests(unittest.TestCase):
         self.assertTrue(all(parameter.grad is not None for parameter in layer.parameters()))
         self.assertTrue(torch.isfinite(output).all())
 
+    def test_learned_local_matches_zero_diffusion_bunn_and_has_identical_capacity(self) -> None:
+        architecture = NeuralArchitecture(
+            input_dim=HIDDEN, hidden_dim=HIDDEN, layers=1,
+            bundles=BUNDLES, channels=CHANNELS, dropout=0.0,
+        )
+        torch.manual_seed(41)
+        local = SharedGraphClassifier("learned_local", architecture).eval()
+        bunn = SharedGraphClassifier(
+            "learned_bunn",
+            NeuralArchitecture(
+                input_dim=HIDDEN, hidden_dim=HIDDEN, layers=1,
+                bundles=BUNDLES, channels=CHANNELS, dropout=0.0,
+                diffusion_time=0.0,
+            ),
+        ).eval()
+        bunn.load_state_dict(local.state_dict())
+        self.assertEqual(local.parameter_count(), bunn.parameter_count())
+        self.assertTrue(
+            torch.allclose(
+                local(self.features, self.adjacency),
+                bunn(self.features, self.adjacency),
+                atol=1e-6,
+                rtol=1e-6,
+            )
+        )
+
+    def test_learned_local_never_exchanges_information_between_nodes(self) -> None:
+        architecture = NeuralArchitecture(
+            input_dim=HIDDEN, hidden_dim=HIDDEN, layers=1,
+            bundles=BUNDLES, channels=CHANNELS, dropout=0.0,
+        )
+        model = SharedGraphClassifier("learned_local", architecture).eval()
+        encoded = model.encoder(self.features[:1])
+        baseline, _ = model.propagation[0](encoded, self.adjacency[:1])
+        perturbed = encoded.clone()
+        perturbed[:, 1] += 100.0
+        changed, _ = model.propagation[0](perturbed, self.adjacency[:1])
+        self.assertTrue(torch.allclose(baseline[:, 0], changed[:, 0], atol=1e-6, rtol=1e-6))
+        self.assertFalse(torch.allclose(baseline[:, 1], changed[:, 1]))
+
     def test_invariant_transport_distance_and_common_frame_metrics_are_gauge_invariant(self) -> None:
         layer = LearnedOrthogonalBundleDiffusion(HIDDEN, BUNDLES, CHANNELS, diffusion_time=0.5)
         fields = fields_from_flat(self.features, BUNDLES, CHANNELS)
@@ -123,6 +163,14 @@ class NeuralOperatorTests(unittest.TestCase):
         self.assertTrue(torch.allclose(logits[:1], single_logits, atol=1e-6, rtol=0.0))
         logits.sum().backward()
         self.assertTrue(any(parameter.grad is not None for parameter in first.parameters()))
+
+        _, with_encoder = first(
+            self.features,
+            self.adjacency,
+            return_diagnostics=True,
+            include_encoder_diagnostics=True,
+        )
+        self.assertEqual(len(with_encoder), 3)
 
 
 if __name__ == "__main__":

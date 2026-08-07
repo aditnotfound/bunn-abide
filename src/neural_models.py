@@ -1,4 +1,4 @@
-"""One shared graph-classification backbone for all four propagation operators."""
+"""One shared graph-classification backbone for all propagation controls."""
 
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ from torch import nn
 from src.neural_operators import (
     GCNPropagation,
     IdentityPropagation,
+    LearnedLocalOrthogonalUpdate,
     LearnedOrthogonalBundleDiffusion,
     OperatorError,
     TrivialBundleDiffusion,
@@ -19,7 +20,7 @@ from src.neural_operators import (
 )
 
 
-OperatorName = Literal["identity", "gcn", "trivial_bundle", "learned_bunn"]
+OperatorName = Literal["identity", "learned_local", "gcn", "trivial_bundle", "learned_bunn"]
 
 
 @dataclass(frozen=True)
@@ -45,7 +46,7 @@ class SharedGraphClassifier(nn.Module):
     def __init__(self, operator: OperatorName, architecture: NeuralArchitecture = NeuralArchitecture()) -> None:
         super().__init__()
         architecture.validate()
-        if operator not in {"identity", "gcn", "trivial_bundle", "learned_bunn"}:
+        if operator not in {"identity", "learned_local", "gcn", "trivial_bundle", "learned_bunn"}:
             raise OperatorError(f"Unknown propagation operator: {operator!r}")
         self.operator = operator
         self.architecture = architecture
@@ -65,16 +66,29 @@ class SharedGraphClassifier(nn.Module):
             return GCNPropagation(*common)
         if self.operator == "trivial_bundle":
             return TrivialBundleDiffusion(*common, self.architecture.diffusion_time)
+        if self.operator == "learned_local":
+            return LearnedLocalOrthogonalUpdate(*common, self.architecture.diffusion_time)
         return LearnedOrthogonalBundleDiffusion(*common, self.architecture.diffusion_time)
 
     def parameter_count(self) -> int:
         return sum(parameter.numel() for parameter in self.parameters())
 
     def forward(
-        self, features: torch.Tensor, adjacency: torch.Tensor, *, return_diagnostics: bool = False
+        self,
+        features: torch.Tensor,
+        adjacency: torch.Tensor,
+        *,
+        return_diagnostics: bool = False,
+        include_encoder_diagnostics: bool = False,
     ) -> torch.Tensor | tuple[torch.Tensor, list[dict[str, torch.Tensor]]]:
         hidden = self.encoder(features)
         diagnostics: list[dict[str, torch.Tensor]] = []
+        if return_diagnostics and include_encoder_diagnostics:
+            encoder_fields = fields_from_flat(hidden, self.architecture.bundles, self.architecture.channels)
+            encoder_maps = torch.eye(2, device=hidden.device, dtype=hidden.dtype).view(1, 1, 1, 2, 2).expand(
+                hidden.shape[0], hidden.shape[1], self.architecture.bundles, 2, 2
+            )
+            diagnostics.append(gauge_aware_metrics(encoder_fields, encoder_maps, adjacency))
         for layer in self.propagation:
             hidden, maps = layer(hidden, adjacency)
             hidden = self.dropout(self.activation(hidden))

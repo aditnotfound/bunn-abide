@@ -1,0 +1,72 @@
+{
+  "contract_version": 2,
+  "status": "Pre-result full-evaluation operator contract.",
+  "supersedes_for_future_runs": "configs/neural_operator_contract.json",
+  "analysis_manifest_sha256": "bef94eb5d144a445f253f5828bedf452b1c8343c745417766d695fb206f05945",
+  "cohort": {
+    "participants": 754,
+    "sites": 18,
+    "nodes_per_graph": 116,
+    "node_feature_dimension": 116,
+    "labels": {"asd": 371, "control": 383}
+  },
+  "graph_construction": {
+    "node_features": "Full 116-value Fisher-z connectivity row at each AAL node.",
+    "edges": "Binary undirected strongest-positive off-diagonal associations.",
+    "nonzero_densities": [0.01, 0.05, 0.1, 0.2],
+    "density_denominator": 6670,
+    "edge_count_rule": "ceil(density * 6670)",
+    "tie_break": "Stable descending score sort in canonical strict-upper-triangle order."
+  },
+  "shared_backbone": {
+    "input_dimension": 116,
+    "hidden_dimension": 32,
+    "layers": 2,
+    "bundles": 8,
+    "vector_field_channels": 2,
+    "bundle_dimension": 2,
+    "dropout": 0.2,
+    "activation": "GELU",
+    "pooling": "node mean",
+    "classifier": "single graph-level logit"
+  },
+  "operators": {
+    "identity": {
+      "densities": [0.0],
+      "role": "No-inter-node-exchange common-capacity anchor."
+    },
+    "learned_local": {
+      "densities": [0.0],
+      "role": "Same learned O(2) map generators and parameter count as BuNN, with identity diffusion and no inter-node exchange."
+    },
+    "gcn": {
+      "densities": [0.01, 0.05, 0.1, 0.2],
+      "role": "Symmetric normalized adjacency aggregation comparator."
+    },
+    "trivial_bundle": {
+      "densities": [0.01, 0.05, 0.1, 0.2],
+      "role": "Exact heat diffusion with fixed identity transports."
+    },
+    "learned_bunn": {
+      "densities": [0.01, 0.05, 0.1, 0.2],
+      "role": "Exact heat diffusion after feature-conditioned direct O(2) transport.",
+      "diffusion_time": 1.0
+    }
+  },
+  "zero_density_curve_anchors": {
+    "gcn": "identity",
+    "trivial_bundle": "identity",
+    "learned_bunn": "learned_local"
+  },
+  "diagnostics": {
+    "encoder_reference": true,
+    "post_layer_indices": [1, 2],
+    "primary": "common-frame normalized effective rank",
+    "secondary": [
+      "normalized dispersion",
+      "mean pairwise cosine similarity",
+      "invariant edge transport distance"
+    ],
+    "raw_local_embedding_comparison": false
+  }
+}
