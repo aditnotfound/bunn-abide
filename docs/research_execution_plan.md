@@ -1,7 +1,8 @@
 # Complete Research Execution Plan
 
-Status: **planned**. Step 7.5 and all later scientific runs require explicit
-authorization before launch.
+Status: **active**. Steps 1--7.5 are complete. The completed Step 7.5 archive
+passed its score-blind integrity audit; Step 7.6 analysis remains blinded until
+its code, estimands, and output templates are frozen.
 
 ## Research question
 
@@ -20,8 +21,8 @@ flow, anatomical connectivity, or node-label heterophily.
 | --- | --- | --- |
 | 1-6 | Repository, ABIDE manifest/download, technical QC, and connectomes | Completed and hash-checked |
 | 7.0-7.4 | Frozen baseline protocol, aligned table/splits, tested runner, smoke and recovery tests | Completed; smoke is engineering-only |
-| 7.5 | Full 18-site non-graph baseline execution | Integrity audit passes before metrics are viewed |
-| 7.6 | Pre-specified baseline analysis | Analysis code/tests and output tables are frozen |
+| 7.5 | Full 18-site non-graph baseline execution | Completed; independent integrity audit passed before metrics were viewed |
+| 7.6 | Pre-specified baseline analysis | Code/tests/templates frozen; explicit unblinding and interpretation pending |
 | 8 | Shared neural architecture and operator implementation | Mathematical/unit tests pass |
 | 9 | Training-only engineering pilot and configuration freeze | No outer test metric used for tuning |
 | 10 | Full identity/GCN/trivial-bundle/BuNN evaluation | All folds/seeds sealed and audited |
@@ -31,11 +32,10 @@ flow, anatomical connectivity, or node-label heterophily.
 
 ## Step 7.5 - full baselines
 
-Follow `docs/step7_5_full_baseline_plan.md` exactly. This step runs 1,638
-initial fits across 18 held-out sites with resumable site checkpoints and SNS
-alerts. No final metric is interpreted before the completion audit. The
-pre-fit `v1` notification-region failure is retained as an engineering incident;
-the scientific run is the separately identified corrected `v2` execution.
+The corrected `v2` execution completed 1,638 initial fits across 18 held-out
+sites with resumable site checkpoints and SNS alerts. It passed its independent
+completion audit before any final metric was interpreted. The pre-fit `v1`
+notification-region failure remains retained as an engineering incident.
 
 ## Step 7.6 - baseline analysis
 
@@ -43,7 +43,7 @@ the scientific run is the separately identified corrected `v2` execution.
 
 1. Create a read-only integrity auditor that checks hashes, schemas, exact row
    counts, participant uniqueness, finite probabilities, and full site/model
-   coverage without printing metric values.
+   coverage without printing metric values. **Completed for Step 7.5.**
 2. Create and test an analysis module on synthetic predictions.
 3. Freeze the estimands and table/figure templates.
 4. Record the analysis-code commit and input run hash in the decision log.

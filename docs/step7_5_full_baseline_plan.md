@@ -1,6 +1,7 @@
 # Step 7.5: Full Baseline Execution Contract
 
-Status: **running** (`step7_5_full_baselines_v2`, started 2026-08-05T08:01:22Z)
+Status: **complete and independently audited** (`step7_5_full_baselines_v2`,
+started 2026-08-05T08:01:22Z; audit passed 2026-08-07)
 
 This document defines the complete baseline run before any final held-out-site
 result is inspected. Step 7.5 establishes the non-graph reference that the
@@ -184,6 +185,24 @@ Before looking at model performance, verify:
 The integrity audit should operate on row counts, identifiers, schemas,
 finiteness, ranges, and hashes without printing performance values. Only after
 it passes should Step 7.6 analysis code be run.
+
+### Completed audit record
+
+`scripts/audit_baseline_run.py` was tested against synthetic valid and
+deliberately corrupted runs, then run against `v2` on AWS. It passed all 18
+fold manifests, the five root artifacts, participant-model coverage, frozen
+input hashes, schema and numerical checks, tuning-selection consistency, and
+the expected aggregate counts. It reported no integrity failures and no fit
+warnings, without emitting prediction or performance values. The full run was
+copied to the ignored local artifact area as
+`outputs/runs/baselines/step7_5_full_baselines_v2.tar.gz`; its AWS and local
+SHA-256 both equal
+`bc8fd50426a564c91184803445de3c983a76851d8e0bb4d5b742ea25705e4476`.
+The separate score-blind audit certificate was also copied locally and its
+AWS/local SHA-256 is
+`9d7687588d76bce9079390062b75a2dc3df1e1d8795207a4845a8f3e598fe16b`.
+Performance results remain embargoed until the Step 7.6 analysis module and
+its synthetic-data tests are frozen.
 
 ## 8. Permitted conclusions
 

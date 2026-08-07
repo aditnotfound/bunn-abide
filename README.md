@@ -5,7 +5,10 @@ Reproducible evaluation of identity propagation, GCN, and Bundle Neural Networks
 ## Status
 
 ABIDE-I manifest, technical QC, and Fisher-z connectome construction are complete.
-No predictive model, experiment result, or scientific conclusion is included yet.
+The full 18-site non-graph baseline run is complete and passed an independent,
+score-blind integrity audit. No predictive-performance value or scientific
+conclusion has been inspected yet; Step 7.6 analysis code must be built and
+tested on synthetic data before unblinding.
 
 ## Layout
 
@@ -28,9 +31,9 @@ derives a 754-participant technical analysis manifest; see
 
 ## Next milestone
 
-Steps 7.0--7.4.1 are complete: the protocol, aligned baseline table, frozen
+Steps 7.0--7.5 are complete: the protocol, aligned baseline table, frozen
 grouped site-held-out splits, leakage-safe baseline runner, engineering smoke
-test, checkpoint/resume/status layer, and least-privilege SNS email alert path
-are recorded. Next: reconnect to the AWS instance, confirm the deployed source
-matches the recorded commit, then run the three baselines across all 18
-held-out sites using the untouched frozen tuning grids.
+test, checkpoint/resume/status layer, full 18-site execution, and independent
+integrity audit are recorded. Next: implement and test the pre-specified Step
+7.6 baseline-analysis module on synthetic predictions, freeze its estimands and
+figure/table templates, then unblind the audited baseline artifacts.
