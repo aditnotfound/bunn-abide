@@ -103,8 +103,8 @@ class BaselineAnalysisTests(unittest.TestCase):
             for site in SITES:
                 tuning.extend(
                     [
-                        {"model": model, "outer_fold": site, "held_out_site": site, "C": 0.1, "l1_ratio": "", "inner_mean_site_balanced_accuracy": 0.5, "inner_sites_scored": 2, "selected": "false"},
-                        {"model": model, "outer_fold": site, "held_out_site": site, "C": 1.0, "l1_ratio": "", "inner_mean_site_balanced_accuracy": 0.6, "inner_sites_scored": 2, "selected": "true"},
+                        {"model": model, "outer_fold": site, "held_out_site": site, "C": 0.1, "l1_ratio": "", "inner_mean_site_balanced_accuracy": 0.5, "inner_sites_scored": 2, "selected": "0"},
+                        {"model": model, "outer_fold": site, "held_out_site": site, "C": 1.0, "l1_ratio": "", "inner_mean_site_balanced_accuracy": 0.6, "inner_sites_scored": 2, "selected": "1"},
                     ]
                 )
         write_csv(run_dir / "tuning_scores.csv", TUNING_FIELDS, tuning)

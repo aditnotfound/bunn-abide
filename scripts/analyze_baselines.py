@@ -308,7 +308,15 @@ def paired_bootstrap(
 
 
 def selected_tuning_rows(rows: list[dict[str, str]], expected_sites: set[str]) -> list[dict[str, Any]]:
-    selected = [row for row in rows if row["selected"].strip().lower() == "true"]
+    allowed_flags = {"0", "1", "false", "true"}
+    invalid_flags = sorted({row["selected"].strip().lower() for row in rows} - allowed_flags)
+    if invalid_flags:
+        raise AnalysisError(f"Unexpected tuning selected flag values: {invalid_flags!r}")
+    # The runner writes integer CSV flags (0/1); true/false remains accepted
+    # for explicitly documented external/synthetic fixtures.
+    selected = [
+        row for row in rows if row["selected"].strip().lower() in {"1", "true"}
+    ]
     keys = {(row["model"], row["held_out_site"]) for row in selected}
     expected = {(model, site) for model in MODEL_NAMES for site in expected_sites}
     if keys != expected or len(selected) != len(expected):
