@@ -63,6 +63,13 @@ corrupted saved metrics. The AWS suite passed 16 tests on 2026-08-07. The
 real result files must be read only after the analysis implementation is
 committed and its source hashes recorded in the decision log.
 
+The first acknowledged real invocation did not produce an analysis directory:
+it stopped at selected-candidate parsing because the runner stores that CSV
+flag as `0`/`1`, while the initial analysis reader accepted only `true`/`false`.
+No performance value was printed. The parser was corrected from the runner's
+existing source contract and the unchanged 17-test AWS suite passed before the
+same analysis is rerun.
+
 ## 5. Deferred unblinding command
 
 The implementation was frozen in commit `7795e1b2fa5fedcc94e5a169daeef6c26e37a300`.
