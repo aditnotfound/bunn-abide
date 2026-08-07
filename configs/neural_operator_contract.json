@@ -1,0 +1,63 @@
+{
+  "contract_version": 1,
+  "status": "Phase 8 implementation contract; training hyperparameter grid is deferred to the engineering pilot.",
+  "analysis_manifest_sha256": "bef94eb5d144a445f253f5828bedf452b1c8343c745417766d695fb206f05945",
+  "cohort": {
+    "participants": 754,
+    "sites": 18,
+    "nodes_per_graph": 116,
+    "node_feature_dimension": 116,
+    "labels": {
+      "asd": 371,
+      "control": 383
+    }
+  },
+  "graph_construction": {
+    "connectivity": "Fisher-z transformed Pearson ROI time-series association",
+    "node_features": "Each node receives its full 116-value Fisher-z connectivity row.",
+    "edges": "Binary, undirected strongest positive off-diagonal associations only.",
+    "densities": [0.0, 0.01, 0.05, 0.1, 0.2],
+    "density_denominator": "All 6670 possible undirected AAL-116 edges.",
+    "edge_count_rule": "ceil(density * 6670)",
+    "tie_break": "Canonical strict-upper-triangle order after stable descending score sort.",
+    "zero_density": "No propagation edges; all inter-node aggregation/diffusion is absent."
+  },
+  "preprocessing": {
+    "feature_scaling": "Feature-wise mean/std fitted only on graphs in the relevant training partition, over participant and node dimensions.",
+    "site_id_as_feature": false,
+    "held_out_site_fit": false
+  },
+  "shared_backbone": {
+    "pilot_hidden_dimension": 32,
+    "pilot_layers": 2,
+    "pilot_dropout": 0.2,
+    "activation": "GELU",
+    "pooling": "mean over the 116 nodes",
+    "classifier": "shared linear graph-level logit head",
+    "note": "Optimizer, learning-rate grid, batch size, epochs, patience, seeds, and retry policy are frozen only after the Phase 9 engineering pilot."
+  },
+  "operators": {
+    "identity": "Pointwise shared update only; no inter-node propagation.",
+    "gcn": "Kipf-Welling symmetric normalized adjacency with one self-loop.",
+    "trivial_bundle": "Exact dense graph heat diffusion with fixed identity O(2) transports.",
+    "learned_bunn": {
+      "bundle_dimension": 2,
+      "bundle_count": 8,
+      "vector_field_channels": 2,
+      "map_source": "Feature-conditioned direct O(2) parameterization: half rotations and half reflections.",
+      "diffusion": "Exact dense exp(-tL) graph heat kernel with pilot t=1.0.",
+      "implementation_note": "The flat-bundle heat-diffusion/update ordering follows Bamberger et al. (ICLR 2025); capacity from learned transport is reported rather than hidden."
+    }
+  },
+  "diagnostics": {
+    "common_frame": "Apply the learned local-to-global O_v before comparing node representations.",
+    "metrics": [
+      "normalized effective rank",
+      "normalized dispersion",
+      "mean pairwise cosine similarity",
+      "mean invariant edge transport distance ||x_u - O_u^T O_v x_v||^2"
+    ],
+    "raw_bunn_embedding_comparison": false
+  },
+  "results_embargo": "No neural held-out-site metric may be used before the Phase 9 pilot and final-run contract are frozen."
+}
