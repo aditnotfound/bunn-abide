@@ -1,8 +1,9 @@
 # Complete Research Execution Plan
 
-Status: **active**. Steps 1--7.5 are complete. The completed Step 7.5 archive
-passed its score-blind integrity audit; Step 7.6 analysis remains blinded until
-its code, estimands, and output templates are frozen.
+Status: **active**. Steps 1--11 are complete. The full neural run passed its
+score-blind integrity audit, the confirmatory analysis was frozen and tested
+before unblinding, and the negative/null core result is archived. Step 12 is
+optional robustness; Step 13 is the remaining paper and reproducibility work.
 
 ## Research question
 
@@ -23,10 +24,10 @@ flow, anatomical connectivity, or node-label heterophily.
 | 7.0-7.4 | Frozen baseline protocol, aligned table/splits, tested runner, smoke and recovery tests | Completed; smoke is engineering-only |
 | 7.5 | Full 18-site non-graph baseline execution | Completed; independent integrity audit passed before metrics were viewed |
 | 7.6 | Pre-specified baseline analysis | Completed; audited results analysed with frozen code and archived |
-| 8 | Shared neural architecture and operator implementation | Core data/operators pass synthetic and real-data GPU checks; fold-aware runner remains Step 9 |
+| 8 | Shared neural architecture and operator implementation | Completed; shared backbone and five operator/control variants passed synthetic and real-data GPU checks |
 | 9 | Training-only engineering pilot and configuration freeze | Completed; pilot audited and full training/analysis contracts frozen before accepted neural results |
-| 10 | Full identity/learned-local/GCN/trivial-bundle/BuNN evaluation | Runner/auditor implementation must pass score-blind recovery smoke, then all folds/seeds are sealed and audited |
-| 11 | Confirmatory statistics and mechanism analysis | Claims follow pre-specified decision rules |
+| 10 | Full identity/learned-local/GCN/trivial-bundle/BuNN evaluation | Completed; 18/18 sites and 9,324 fit/runtime units; score-blind audit passed with zero warnings |
+| 11 | Confirmatory statistics and mechanism analysis | Completed under pre-unblinding commit `6e1716e`; no complete BuNN anti-collapse advantage detected |
 | 12 | Optional robustness/external evaluation | Core result is complete first |
 | 13 | Paper and reproducibility package | Every claim traces to an audited artifact |
 
