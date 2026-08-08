@@ -3,6 +3,7 @@ data/raw/
 data/processed/
 outputs/runs/
 outputs/analysis/
+outputs/archives/
 outputs/figures/
 outputs/tables/
 checkpoints/
