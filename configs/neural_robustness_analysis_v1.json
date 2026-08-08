@@ -1,0 +1,57 @@
+{
+  "analysis_version": "step12_neural_robustness_analysis_v1",
+  "status": "Frozen after Step 11 unblinding and before executing robustness calculations.",
+  "input_run_id": "step10_neural_full_parallel_v1",
+  "input_step11_manifest_sha256": "7cce054222eea2e31ab0cb8deb546436d79f3a6aaf475414c9363e47cef37379",
+  "input_baseline_per_site_sha256": "cad0c185b62f141627cf58454541c4cc01a53c7ba66daec96aac17043d52cf96",
+  "input_step11_archive_sha256": "d03235fd99d08c6eff639070731c822d0fc9bf57d8382a2a697f2678b2ee5405",
+  "densities": [0.0, 0.01, 0.05, 0.1, 0.2],
+  "curve_anchors": {
+    "gcn": "identity",
+    "trivial_bundle": "identity",
+    "learned_bunn": "learned_local"
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20260809,
+    "interval": "percentile_95",
+    "unit": "held_out_site"
+  },
+  "leave_one_site_out_contrasts": [
+    "learned_bunn_curve_minus_gcn_curve",
+    "learned_bunn_curve_minus_connectome_elastic_net",
+    "learned_bunn_minus_gcn_matched_anchor_effective_rank_change"
+  ],
+  "seed_specific_contrasts": [
+    "learned_bunn_curve_minus_gcn_curve",
+    "learned_bunn_curve_minus_connectome_elastic_net"
+  ],
+  "alternative_descriptive_summaries": [
+    "equal_site_mean",
+    "participant_weighted_mean",
+    "median_site_difference"
+  ],
+  "exhaustive_curve_contrasts": [
+    "gcn_curve_minus_identity",
+    "trivial_bundle_curve_minus_identity",
+    "learned_bunn_curve_minus_learned_local",
+    "learned_bunn_curve_minus_identity",
+    "learned_bunn_curve_minus_gcn_curve",
+    "learned_bunn_curve_minus_trivial_bundle_curve",
+    "gcn_curve_minus_connectome_elastic_net",
+    "trivial_bundle_curve_minus_connectome_elastic_net",
+    "learned_bunn_curve_minus_connectome_elastic_net"
+  ],
+  "classification_rules": {
+    "site_sensitive": "leave-one-site-out point estimates for the primary BuNN-minus-GCN contrast occur on both sides of zero",
+    "seed_sensitive": "seed-specific point estimates for the primary BuNN-minus-GCN contrast occur on both sides of zero",
+    "positive_override_allowed": false,
+    "confirmatory_step11_result_is_immutable": true
+  },
+  "prohibitions": [
+    "No excluded-site estimate may replace the Step 11 confirmatory result.",
+    "No individual seed may replace the five-seed Step 11 result.",
+    "No robustness result may be promoted to a confirmatory positive result.",
+    "No new dataset, graph rule, model, density, or endpoint may be introduced in this analysis."
+  ]
+}
