@@ -1,9 +1,9 @@
 # Complete Research Execution Plan
 
-Status: **active**. Steps 1--11 are complete. The full neural run passed its
+Status: **active**. Steps 1--12A are complete. The full neural run passed its
 score-blind integrity audit, the confirmatory analysis was frozen and tested
-before unblinding, and the negative/null core result is archived. Step 12 is
-optional robustness; Step 13 is the remaining paper and reproducibility work.
+before unblinding, and the negative/null core result plus its influence audit
+are archived. Step 13 is the remaining paper and reproducibility work.
 
 ## Research question
 
@@ -28,7 +28,7 @@ flow, anatomical connectivity, or node-label heterophily.
 | 9 | Training-only engineering pilot and configuration freeze | Completed; pilot audited and full training/analysis contracts frozen before accepted neural results |
 | 10 | Full identity/learned-local/GCN/trivial-bundle/BuNN evaluation | Completed; 18/18 sites and 9,324 fit/runtime units; score-blind audit passed with zero warnings |
 | 11 | Confirmatory statistics and mechanism analysis | Completed under pre-unblinding commit `6e1716e`; no complete BuNN anti-collapse advantage detected |
-| 12 | Optional robustness/external evaluation | Core result is complete first |
+| 12 | Optional robustness/external evaluation | Step 12A influence/seed/efficiency audit completed; external datasets and preprocessing variants remain optional future work |
 | 13 | Paper and reproducibility package | Every claim traces to an audited artifact |
 
 ## Step 7.5 - full baselines
