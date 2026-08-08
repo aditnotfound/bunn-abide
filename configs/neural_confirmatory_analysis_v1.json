@@ -1,0 +1,47 @@
+{
+  "analysis_version": "step11_neural_confirmatory_analysis_v1",
+  "status": "Frozen after score-blind full-run integrity audit and before neural results were unsealed.",
+  "input_run_id": "step10_neural_full_parallel_v1",
+  "integrity_certificate_required": true,
+  "decision_threshold": 0.5,
+  "site_weighting": "equal",
+  "seed_handling": "average the five final seeds within site and configuration before site-level inference",
+  "densities": [0.0, 0.01, 0.05, 0.1, 0.2],
+  "curve_anchors": {
+    "gcn": "identity",
+    "trivial_bundle": "identity",
+    "learned_bunn": "learned_local"
+  },
+  "primary_predictive_estimand": "normalized trapezoidal area under the held-out-site balanced-accuracy density curve",
+  "primary_predictive_contrast": "learned_bunn minus gcn",
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20260808,
+    "interval": "percentile_95",
+    "unit": "held_out_site"
+  },
+  "density_specific_tests": {
+    "test": "exact_two_sided_paired_sign_flip",
+    "multiplicity": "Holm correction across the four densities within each named model contrast"
+  },
+  "baseline_reference": "connectome_elastic_net_logistic",
+  "representation": {
+    "primary_layer": "layer_2",
+    "primary_endpoint": "normalized_effective_rank",
+    "primary_estimand": "learned_bunn minus gcn difference in normalized density-curve change from the corresponding zero-density anchor",
+    "secondary_endpoints": [
+      "encoder_to_layer_2_normalized_effective_rank_change",
+      "normalized_dispersion",
+      "mean_pairwise_cosine",
+      "invariant_edge_transport_distance"
+    ],
+    "aggregation": "average participants within site/configuration/seed, then average seeds within site/configuration"
+  },
+  "practical_margin_balanced_accuracy": 0.03,
+  "prohibitions": [
+    "Do not select a favorable density as the primary result.",
+    "Do not replace balanced accuracy with AUROC as the primary endpoint.",
+    "Do not claim representation preservation caused prediction improvement.",
+    "Do not claim biological bundle geometry, excitation, inhibition, heterophily, causal flow, or clinical utility."
+  ]
+}
