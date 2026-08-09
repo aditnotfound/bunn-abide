@@ -3,22 +3,13 @@
 % Claims C01, C02, C03, C04, C05, C06, C09, C10
 \subsection{Study design}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\textwidth]{study_design.png}
-  \caption{Study design. Preprocessing, model selection, and hyperparameter
-  selection used training sites only. Each outer site remained untouched until
-  its final evaluation.}
-  \label{fig:study-design}
-\end{figure}
-
 The experiment isolates the propagation operator while holding the surrounding
-pipeline fixed (\cref{fig:study-design}). We completed and audited the
-classical baselines before fitting the neural models. Five propagation or
-capacity-control variants then shared one neural backbone. They used identical
-outer sites, grouped inner folds, candidate budgets, stopping rules, and final
-seeds. Before examining performance, we verified the complete neural artifact
-and froze the confirmatory analysis code and decision rules.
+pipeline fixed. We completed and audited the classical baselines before fitting
+the neural models. Five propagation or capacity-control variants then shared
+one neural backbone. They used identical outer sites, grouped inner folds,
+candidate budgets, stopping rules, and final seeds. Before examining
+performance, we verified the complete neural artifact and froze the
+confirmatory analysis code and decision rules.
 
 \subsection{Dataset and technical quality control}
 

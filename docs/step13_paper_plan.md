@@ -134,3 +134,8 @@ empirical plots. They now use a pure white background, conventional panel
 labels, and the same blue, orange, and green operator colors used throughout
 the Results figures. The separate infographic heading, tinted canvas, accent
 palette, and panel dividers were removed.
+
+The general study-design diagram was subsequently removed from the manuscript
+because it duplicated the Methods and cohort table. The generated image remains
+available for presentation use. The operator schematic is now Figure 1, and the
+predictive and representation plots were renumbered automatically.
