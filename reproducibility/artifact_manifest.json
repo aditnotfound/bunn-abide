@@ -1,0 +1,201 @@
+{
+  "contract_version": "step13_paper_assets_v1",
+  "evidence_commit": "a4def2a1f14f1bbff71356d0689eeeee4f405f4a",
+  "frozen_inputs": [
+    {
+      "bytes": 1046,
+      "path": "configs/abide_i_analysis_manifest.json",
+      "sha256": "73651f835aee2f7d9b1bb7dc902e769fb5242df343d675478283e18f5ff4b669"
+    },
+    {
+      "bytes": 2122,
+      "path": "configs/neural_confirmatory_analysis_v1.json",
+      "sha256": "aa031cac896681dcdc79e3cbb46170587121c1fef6497a84a6c39476e988d859"
+    },
+    {
+      "bytes": 447568,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1.tar.gz",
+      "sha256": "d03235fd99d08c6eff639070731c822d0fc9bf57d8382a2a697f2678b2ee5405"
+    },
+    {
+      "bytes": 4087,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/analysis_manifest.json",
+      "sha256": "7cce054222eea2e31ab0cb8deb546436d79f3a6aaf475414c9363e47cef37379"
+    },
+    {
+      "bytes": 1300,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/confirmatory_predictive_contrasts.csv",
+      "sha256": "d1d8f291c2ecabe64d1752156c2d7c5ff3575855d3c557ddb12eb9c22e70ed3a"
+    },
+    {
+      "bytes": 3173,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/density_specific_contrasts.csv",
+      "sha256": "8e8284f6e004a27315ddc4728a0a1c1da2907401df2dd3583aa688fd7fefa2c2"
+    },
+    {
+      "bytes": 96081,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/predictive_density_curves.png",
+      "sha256": "0991254e1f09b5329b62704dd227fda836517e283be3068c93018222ab13839e"
+    },
+    {
+      "bytes": 1239,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/representation_contrasts.csv",
+      "sha256": "6733bbc69b1d6ae2a42025e5c48d0cea7d567e74d44b915a4479c1ee0ac3fa4f"
+    },
+    {
+      "bytes": 269807,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/representation_density_curves.png",
+      "sha256": "4d2d9a3ccaeb1ecff8764cf988bad93643cd21df9f72902e9114ff8897e9e514"
+    },
+    {
+      "bytes": 28816,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/site_configuration_metrics.csv",
+      "sha256": "4037dca2e55cf92d724fbf774e542f9c9256a0e2db2ec36dd780b8d171ef660d"
+    },
+    {
+      "bytes": 82693,
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/site_representation_metrics.csv",
+      "sha256": "007c08896e7a2ec0e8350aeb807924712f2b06d00d9608ba0d6992ca88468b3e"
+    },
+    {
+      "bytes": 155647,
+      "path": "outputs/analysis/step12_neural_robustness_v1.tar.gz",
+      "sha256": "c29ea30fa65fa4acd04bb80889c6cd30aad0caa4be79c4e86a6322574811be0c"
+    },
+    {
+      "bytes": 938,
+      "path": "outputs/analysis/step12_neural_robustness_v1/alternative_summaries.csv",
+      "sha256": "dfe78f988eb05e16f1efaca537db43037b6346c1397931a2af41d91cba8da8a7"
+    },
+    {
+      "bytes": 1867,
+      "path": "outputs/analysis/step12_neural_robustness_v1/analysis_manifest.json",
+      "sha256": "8325e3316321b65b530ae0d8199a6528bba021f4225bbb900c24975d82bb53c9"
+    },
+    {
+      "bytes": 1407,
+      "path": "outputs/analysis/step12_neural_robustness_v1/exhaustive_curve_contrasts.csv",
+      "sha256": "e4d1fa3b54cfa81845d8e14f069f376cf60fbd5a142d21847d801c607f1ef359"
+    },
+    {
+      "bytes": 10978,
+      "path": "outputs/analysis/step12_neural_robustness_v1/leave_one_site_out.csv",
+      "sha256": "c20a396cd5178f2827d1be850da4e5bf8db321b8ad955ccf4b79bfc96be0e1f5"
+    },
+    {
+      "bytes": 548,
+      "path": "outputs/analysis/step12_neural_robustness_v1/operator_efficiency.csv",
+      "sha256": "e9c827b3bd95670e9dbfe44d8dac558c5022d426ada29d1bbca57ab460ec8b0e"
+    },
+    {
+      "bytes": 456,
+      "path": "outputs/analysis/step12_neural_robustness_v1/robustness_decision.json",
+      "sha256": "dbccc5983f6587e0df0e9d97e35ecf54cac0ad8dab16dc09bb84211739e15f55"
+    },
+    {
+      "bytes": 1753,
+      "path": "outputs/analysis/step12_neural_robustness_v1/seed_specific_curves.csv",
+      "sha256": "5c619a55fcb05a83c8589403798c8baffd2b5629e86b5a7b184ce4cfcc17681a"
+    },
+    {
+      "bytes": 57178,
+      "path": "outputs/analysis/step12_neural_robustness_v1/seed_stability.png",
+      "sha256": "c97237d29c1663e68ce0ca86b27db07dbe814bf2cd12538b2ed54dfa14de0155"
+    },
+    {
+      "bytes": 112016,
+      "path": "outputs/analysis/step12_neural_robustness_v1/site_influence.png",
+      "sha256": "b8cdebc72aae22979dab4e01fc188cbc6715648a134ba09d0bb854447d6e047a"
+    },
+    {
+      "bytes": 127464,
+      "path": "outputs/analysis/step7_6_full_baselines_v2.tar.gz",
+      "sha256": "c60d4f4918a1acfeab0bd2d8fdb1a4b2f171b1fd951fcad12c7b38b2e163267a"
+    },
+    {
+      "bytes": 1511,
+      "path": "outputs/analysis/step7_6_full_baselines_v2/analysis_manifest.json",
+      "sha256": "9fde7803904ee33e633f597f6971ec5e760121e3d8ca21acd09963b1d0514a89"
+    },
+    {
+      "bytes": 542,
+      "path": "outputs/analysis/step7_6_full_baselines_v2/model_summary.csv",
+      "sha256": "29f3873ffa6bca7654908d7aac5e320ad786b48222a10a4e6ccdba4e1897db5b"
+    },
+    {
+      "bytes": 760,
+      "path": "outputs/analysis/step7_6_full_baselines_v2/paired_balanced_accuracy_differences.csv",
+      "sha256": "240d4caccbd39e843c611b3159dddd877ecbf96947c83a46b0f2270964ec88c8"
+    },
+    {
+      "bytes": 5715,
+      "path": "outputs/analysis/step7_6_full_baselines_v2/per_site_metrics.csv",
+      "sha256": "cad0c185b62f141627cf58454541c4cc01a53c7ba66daec96aac17043d52cf96"
+    },
+    {
+      "bytes": 608,
+      "path": "outputs/archives/step10_neural_full_parallel_v1.integrity.json",
+      "sha256": "19b61c643348498669426b93d5f7b4fc8d0b449a7c635177a9075b991df70960"
+    },
+    {
+      "bytes": 1048461070,
+      "path": "outputs/archives/step10_neural_full_parallel_v1.sealed.tar.gz",
+      "sha256": "91ffbd55da98064149d90ff3273e80bcd6c4d5d6195d0ac64344747ecdd5082f"
+    }
+  ],
+  "generated_paper_assets": [
+    {
+      "bytes": 122566,
+      "path": "paper/generated/figures/predictive_density_curves.png",
+      "sha256": "bfb2338fe1e86eb20dff0cea41e225d9e0dc59fe3c8aa788cc287ee24702c671"
+    },
+    {
+      "bytes": 336961,
+      "path": "paper/generated/figures/representation_density_curves.png",
+      "sha256": "56991c18d7cf28c099ef44a9f1db1bc8de4d7f59bcfb4c07adb084d7ff077987"
+    },
+    {
+      "bytes": 80556,
+      "path": "paper/generated/figures/seed_stability.png",
+      "sha256": "313f6328f46454488a688f04219193f9bad69818f1c7e5ea5cd8bd88570dc1b4"
+    },
+    {
+      "bytes": 158964,
+      "path": "paper/generated/figures/site_influence.png",
+      "sha256": "1d46ce93915058965735ecab42e61323b0689ed1ea5a5a22ed9868881358a6dd"
+    },
+    {
+      "bytes": 479,
+      "path": "paper/generated/tables/baseline_models.csv",
+      "sha256": "ef8efa108e62082ad56cf9e0ab4d35d938b8591162358da3afdb99d02eb72fd1"
+    },
+    {
+      "bytes": 1112,
+      "path": "paper/generated/tables/confirmatory_predictive_contrasts.csv",
+      "sha256": "94cdf0151d0d2ff681806327cba30def6b90dfae4a2e12881f8e1c8e1399a7f2"
+    },
+    {
+      "bytes": 556,
+      "path": "paper/generated/tables/operator_efficiency.csv",
+      "sha256": "79013f087e7cd3d8d0052bd0d23505430d0f152fa21549604ddab9e1f7fbdea6"
+    },
+    {
+      "bytes": 1093,
+      "path": "paper/generated/tables/representation_contrasts.csv",
+      "sha256": "001613df9bc40da05a3aa183c4e7c1dfddc04313b0b9cf6c9303c24a735d5dcf"
+    },
+    {
+      "bytes": 928,
+      "path": "paper/generated/tables/robustness_summaries.csv",
+      "sha256": "f0326474afa564edd69be15ffa1000f4f5e4ca2a551e3bfd2813f46ae2f4a731"
+    },
+    {
+      "bytes": 8563,
+      "path": "reproducibility/result_snapshot.json",
+      "sha256": "dabfa42ed885b9121881d9221b2c2ba8c476f89b8fa47f249a56e2d9228fcad0"
+    }
+  ],
+  "privacy_tier": "local audit package; public-release filtering occurs in Step 13.4",
+  "run_id": "step10_neural_full_parallel_v1",
+  "schema_version": "step13_artifact_manifest_v1"
+}

@@ -1,5 +1,9 @@
 # Step 13 Paper and Reproducibility Plan
 
+Status: **Steps 13.0--13.1 complete.** All 28 frozen inputs validated, 12
+contract outputs were generated, repeated builds were byte-identical, all four
+figures passed visual inspection, and the complete local suite passed 67 tests.
+
 ## Scope
 
 Step 13 converts the completed, audited analyses into a traceable manuscript
@@ -27,10 +31,11 @@ machine path, or other volatile field.
 ## Step 13.1 - stage paper tables and figures
 
 `scripts/build_paper_assets.py` reads only the hash-bound analysis outputs. It
-copies the already audited result figures byte-for-byte and creates compact
-paper tables from the accepted CSV rows. It writes a manifest containing the
-SHA-256 digest of every generated asset. Re-running the builder must produce
-the same bytes for all outputs.
+replots the accepted site-level values with publication labels and layout, and
+creates compact paper tables from the accepted CSV rows. Replotting does not
+change or add an inferential test. The builder writes a manifest containing the
+SHA-256 digest of every generated asset. Re-running it must produce the same
+bytes for all outputs.
 
 The staged main assets are:
 
@@ -67,6 +72,8 @@ Step 13.0--13.1 is complete only when:
 - the automated tests verify the primary values and claim boundaries;
 - all four figures pass visual inspection; and
 - the execution, decision, and AI-use logs record the work accurately.
+
+All six gates passed on 2026-08-09.
 
 ## Next paper-writing gate
 

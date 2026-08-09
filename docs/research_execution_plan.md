@@ -3,7 +3,9 @@
 Status: **active**. Steps 1--12A are complete. The full neural run passed its
 score-blind integrity audit, the confirmatory analysis was frozen and tested
 before unblinding, and the negative/null core result plus its influence audit
-are archived. Step 13 is the remaining paper and reproducibility work.
+are archived. Steps 13.0--13.1 have frozen the paper evidence boundary and
+generated deterministic, hash-tracked paper assets. Manuscript construction,
+the public/private reproducibility split, and final reproduction audit remain.
 
 ## Research question
 
@@ -29,7 +31,7 @@ flow, anatomical connectivity, or node-label heterophily.
 | 10 | Full identity/learned-local/GCN/trivial-bundle/BuNN evaluation | Completed; 18/18 sites and 9,324 fit/runtime units; score-blind audit passed with zero warnings |
 | 11 | Confirmatory statistics and mechanism analysis | Completed under pre-unblinding commit `6e1716e`; no complete BuNN anti-collapse advantage detected |
 | 12 | Optional robustness/external evaluation | Step 12A influence/seed/efficiency audit completed; external datasets and preprocessing variants remain optional future work |
-| 13 | Paper and reproducibility package | Every claim traces to an audited artifact |
+| 13 | Paper and reproducibility package | Steps 13.0--13.1 complete; manuscript, release package, and final audit remain |
 
 ## Step 7.5 - full baselines
 
@@ -271,6 +273,24 @@ task; it is not a replication of the ASD result. These datasets are future
 extensions, not permission to search for a favorable diagnosis.
 
 ## Step 13 - paper and reproducibility package
+
+### Current progress
+
+Steps 13.0--13.1 are complete on branch `codex/step13-paper`:
+
+- `configs/paper_assets_v1.json` binds the accepted evidence files and archives
+  to 28 SHA-256 digests;
+- `scripts/build_paper_assets.py` fails closed on evidence drift and creates a
+  deterministic result snapshot, artifact inventory, five compact tables, and
+  four publication-layout figures;
+- `docs/step13_claim_ledger.md` defines supported, conditional, and prohibited
+  claims; and
+- four dedicated tests pin the primary result, reject a modified digest,
+  validate PNG generation, and require byte-identical repeated builds.
+
+No model was refit and no inferential result was added or changed. Step 13.2 is
+the next gate: create the LaTeX manuscript skeleton and consume only the frozen
+snapshot and generated assets.
 
 ### Paper structure
 

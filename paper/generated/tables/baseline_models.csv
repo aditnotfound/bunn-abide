@@ -1,0 +1,4 @@
+model,label,held_out_sites,participants,equal_site_balanced_accuracy,pooled_balanced_accuracy,pooled_auroc
+covariates_l2_logistic,Covariates-only logistic regression,18,754,0.5651570580682372,0.5628919088202797,0.5972778391616758
+connectome_elastic_net_logistic,Connectome elastic net,18,754,0.6401067135652798,0.6495253108879395,0.6794001111947808
+combined_elastic_net_logistic,Connectome + covariates elastic net,18,754,0.6336049125763065,0.6428289922797041,0.6772677049537978

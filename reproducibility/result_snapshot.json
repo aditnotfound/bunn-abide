@@ -1,0 +1,247 @@
+{
+  "claim_boundaries": {
+    "biological_geometry_claim_allowed": false,
+    "causal_language_allowed": false,
+    "clinical_diagnostic_claim_allowed": false,
+    "conditional_abide_pipeline_language_required": true,
+    "general_bunn_inferiority_claim_allowed": false
+  },
+  "classical_baselines": {
+    "combined_elastic_net_logistic": {
+      "equal_site_balanced_accuracy": 0.6336049125763065,
+      "held_out_sites": 18,
+      "label": "Connectome + covariates elastic net",
+      "participants": 754,
+      "pooled_auroc": 0.6772677049537978,
+      "pooled_balanced_accuracy": 0.6428289922797041
+    },
+    "connectome_elastic_net_logistic": {
+      "equal_site_balanced_accuracy": 0.6401067135652798,
+      "held_out_sites": 18,
+      "label": "Connectome elastic net",
+      "participants": 754,
+      "pooled_auroc": 0.6794001111947808,
+      "pooled_balanced_accuracy": 0.6495253108879395
+    },
+    "covariates_l2_logistic": {
+      "equal_site_balanced_accuracy": 0.5651570580682372,
+      "held_out_sites": 18,
+      "label": "Covariates-only logistic regression",
+      "participants": 754,
+      "pooled_auroc": 0.5972778391616758,
+      "pooled_balanced_accuracy": 0.5628919088202797
+    }
+  },
+  "cohort": {
+    "asd": 371,
+    "control": 383,
+    "edge_features": 6670,
+    "held_out_sites": 18,
+    "parent_rows": 769,
+    "participants": 754,
+    "roi_count": 116,
+    "technical_exclusions": 15
+  },
+  "confirmatory_predictive_contrasts": {
+    "learned_bunn_curve_minus_connectome_elastic_net": {
+      "bootstrap_ci_95": [
+        -0.08296617448064689,
+        -0.027515645115699438
+      ],
+      "estimand": "BuNN normalized curve area minus site-matched connectome elastic net",
+      "estimate": -0.05516087023513731,
+      "exact_sign_flip_p": 0.00176239013671875,
+      "held_out_sites": 18,
+      "practical_margin": 0.03,
+      "primary": false,
+      "upper_excludes_practical_margin": true
+    },
+    "learned_bunn_curve_minus_gcn_curve": {
+      "bootstrap_ci_95": [
+        -0.036648034920577756,
+        0.011455085043534615
+      ],
+      "estimand": "normalized balanced-accuracy density-curve area; BuNN minus GCN",
+      "estimate": -0.009578650270252929,
+      "exact_sign_flip_p": 0.5237274169921875,
+      "held_out_sites": 18,
+      "practical_margin": 0.03,
+      "primary": true,
+      "upper_excludes_practical_margin": true
+    },
+    "learned_bunn_curve_minus_trivial_bundle_curve": {
+      "bootstrap_ci_95": [
+        -0.029304090813759967,
+        0.010820503246898755
+      ],
+      "estimand": "normalized balanced-accuracy density-curve area; BuNN minus trivial bundle",
+      "estimate": -0.006187939547536597,
+      "exact_sign_flip_p": 0.6812744140625,
+      "held_out_sites": 18,
+      "practical_margin": 0.03,
+      "primary": false,
+      "upper_excludes_practical_margin": true
+    },
+    "learned_bunn_nonzero_minus_identity": {
+      "bootstrap_ci_95": [
+        -0.032022463804772985,
+        0.0018194247179693756
+      ],
+      "estimand": "mean nonzero-density balanced accuracy; BuNN minus identity",
+      "estimate": -0.014646364647805134,
+      "exact_sign_flip_p": 0.115509033203125,
+      "held_out_sites": 18,
+      "practical_margin": 0.03,
+      "primary": false,
+      "upper_excludes_practical_margin": true
+    },
+    "learned_bunn_nonzero_minus_learned_local": {
+      "bootstrap_ci_95": [
+        -0.03466484218029784,
+        0.0008523075542544833
+      ],
+      "estimand": "mean nonzero-density balanced accuracy; BuNN minus learned-local",
+      "estimate": -0.016703213797187446,
+      "exact_sign_flip_p": 0.0958099365234375,
+      "held_out_sites": 18,
+      "practical_margin": 0.03,
+      "primary": false,
+      "upper_excludes_practical_margin": true
+    }
+  },
+  "contract_version": "step13_paper_assets_v1",
+  "evidence_commit": "a4def2a1f14f1bbff71356d0689eeeee4f405f4a",
+  "operator_efficiency": {
+    "gcn": {
+      "equal_site_curve_balanced_accuracy": 0.5945244936003954,
+      "fits": 2664,
+      "label": "GCN",
+      "maximum_peak_gpu_memory_gib": 0.3731212615966797,
+      "mean_runtime_seconds": 20.393341164716848,
+      "parameter_count": 5889,
+      "total_runtime_hours": 15.091072461890468
+    },
+    "learned_bunn": {
+      "equal_site_curve_balanced_accuracy": 0.5849458433301424,
+      "fits": 2664,
+      "label": "Learned BuNN",
+      "maximum_peak_gpu_memory_gib": 0.3779268264770508,
+      "mean_runtime_seconds": 42.07743172935893,
+      "parameter_count": 8529,
+      "total_runtime_hours": 31.13729947972561
+    },
+    "trivial_bundle": {
+      "equal_site_curve_balanced_accuracy": 0.591133782877679,
+      "fits": 2664,
+      "label": "Trivial-bundle diffusion",
+      "maximum_peak_gpu_memory_gib": 0.3769073486328125,
+      "mean_runtime_seconds": 35.120128348048496,
+      "parameter_count": 5889,
+      "total_runtime_hours": 25.988894977555884
+    }
+  },
+  "primary_representation_contrast": {
+    "bootstrap_ci_95": [
+      -0.013095766746942144,
+      -0.0010485811819615914
+    ],
+    "endpoint": "normalized_effective_rank",
+    "estimand": "BuNN minus GCN difference in normalized density-curve change from matched zero-density anchor",
+    "estimate": -0.007192178932822916,
+    "held_out_sites": 18,
+    "layer": "layer_2"
+  },
+  "robustness": {
+    "alternative_summaries": [
+      {
+        "confirmatory_primary": true,
+        "contrast": "learned_bunn_curve_minus_gcn_curve",
+        "estimate": -0.009578650270252929,
+        "summary": "equal_site_mean"
+      },
+      {
+        "confirmatory_primary": false,
+        "contrast": "learned_bunn_curve_minus_gcn_curve",
+        "estimate": 0.0029722538337268976,
+        "summary": "participant_weighted_mean"
+      },
+      {
+        "confirmatory_primary": false,
+        "contrast": "learned_bunn_curve_minus_gcn_curve",
+        "estimate": -0.0043896285617368025,
+        "summary": "median_site_difference"
+      },
+      {
+        "confirmatory_primary": true,
+        "contrast": "learned_bunn_curve_minus_connectome_elastic_net",
+        "estimate": -0.05516087023513731,
+        "summary": "equal_site_mean"
+      },
+      {
+        "confirmatory_primary": false,
+        "contrast": "learned_bunn_curve_minus_connectome_elastic_net",
+        "estimate": -0.044463433485377936,
+        "summary": "participant_weighted_mean"
+      },
+      {
+        "confirmatory_primary": false,
+        "contrast": "learned_bunn_curve_minus_connectome_elastic_net",
+        "estimate": -0.04644024982411177,
+        "summary": "median_site_difference"
+      },
+      {
+        "confirmatory_primary": true,
+        "contrast": "learned_bunn_minus_gcn_matched_anchor_effective_rank_change",
+        "estimate": -0.007192178932822916,
+        "summary": "equal_site_mean"
+      },
+      {
+        "confirmatory_primary": false,
+        "contrast": "learned_bunn_minus_gcn_matched_anchor_effective_rank_change",
+        "estimate": -0.010939034116096234,
+        "summary": "participant_weighted_mean"
+      },
+      {
+        "confirmatory_primary": false,
+        "contrast": "learned_bunn_minus_gcn_matched_anchor_effective_rank_change",
+        "estimate": -0.009170189121699299,
+        "summary": "median_site_difference"
+      }
+    ],
+    "decision": {
+      "analysis_version": "step12_neural_robustness_analysis_v1",
+      "confirmatory_step11_result_unchanged": true,
+      "leave_one_site_estimates_positive": 1,
+      "leave_one_site_intervals_excluding_zero_positive": 0,
+      "positive_override_allowed": false,
+      "robustness_category": "mixed_site_and_seed_sensitive_null",
+      "seed_estimates_positive": 2,
+      "seed_intervals_excluding_zero_positive": 0,
+      "seed_sensitive": true,
+      "site_sensitive": true
+    },
+    "primary_leave_one_site_out": {
+      "positive_estimates": 1,
+      "positive_intervals_excluding_zero": 0,
+      "rows": 18
+    },
+    "primary_seed_specific": {
+      "negative_intervals_excluding_zero": 1,
+      "positive_estimates": 2,
+      "positive_intervals_excluding_zero": 0,
+      "rows": 5
+    }
+  },
+  "run_id": "step10_neural_full_parallel_v1",
+  "schema_version": "step13_result_snapshot_v1",
+  "step11_decision": {
+    "all_three_conditions": false,
+    "baseline_condition": false,
+    "biological_geometry_claim_allowed": false,
+    "causal_language_allowed": false,
+    "decision_rule_version": "step11_neural_confirmatory_analysis_v1",
+    "predictive_condition": false,
+    "representation_condition": false,
+    "result_category": "no_complete_transfer_of_proposed_anti_collapse_advantage_detected"
+  }
+}
