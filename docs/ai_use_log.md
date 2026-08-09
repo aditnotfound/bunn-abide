@@ -66,6 +66,8 @@ tool, and purpose before it can be logged accurately.
 
 | 2026-08-10 | Codex | Investigated a failed clean-checkout manuscript build caused solely by Windows CRLF conversion of a hash-bound Markdown file, then added a cross-platform Git line-ending contract before repeating the audit. | Confirm that future contributors do not override `.gitattributes` when regenerating frozen evidence. | `.gitattributes`; clean-checkout failure at commit `5d6f918`; `docs/decision_log.md`. |
 
+| 2026-08-10 | Codex | Investigated three clean-clone failures caused by intentionally excluded private analysis archives. Made only the evidence-regeneration tests conditional on those archives and documented the public/private test counts; the frozen snapshot and manuscript tests remain mandatory. | Keep the private 75-test audit and public 72-test plus 3-skip audit distinct when reporting reproducibility. | `tests/test_build_paper_assets.py`; `docs/release.md`; clean-checkout failure at commit `ec9af85`. |
+
 ## Required fields for future entries
 
 - Date and tool/version where known
