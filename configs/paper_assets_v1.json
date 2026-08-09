@@ -4,6 +4,7 @@
   "run_id": "step10_neural_full_parallel_v1",
   "scope": "presentation and traceability only; no model fitting or new inferential selection",
   "frozen_inputs": {
+    "configs/abide_i_analysis_manifest.json": "73651f835aee2f7d9b1bb7dc902e769fb5242df343d675478283e18f5ff4b669",
     "outputs/analysis/step7_6_full_baselines_v2/analysis_manifest.json": "9fde7803904ee33e633f597f6971ec5e760121e3d8ca21acd09963b1d0514a89",
     "outputs/analysis/step7_6_full_baselines_v2/model_summary.csv": "29f3873ffa6bca7654908d7aac5e320ad786b48222a10a4e6ccdba4e1897db5b",
     "outputs/analysis/step7_6_full_baselines_v2/paired_balanced_accuracy_differences.csv": "240d4caccbd39e843c611b3159dddd877ecbf96947c83a46b0f2270964ec88c8",
