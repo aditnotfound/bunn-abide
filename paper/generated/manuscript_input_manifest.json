@@ -25,14 +25,14 @@
   ],
   "generated_inputs": [
     {
-      "bytes": 136818,
+      "bytes": 122983,
       "path": "paper/generated/figures/operator_schematic.png",
-      "sha256": "fd49922e32b777fd14c396f0477ae189d40e1d4068fbd8e04d58f20b7fe48838"
+      "sha256": "8c84f98aca63a13db7b9237482d8785617d2b3c96b08701001cfd48e2b224c2e"
     },
     {
-      "bytes": 208136,
+      "bytes": 180151,
       "path": "paper/generated/figures/study_design.png",
-      "sha256": "bb4f10206f9521f79f564a060270775533b16d7d9d4ae514193397965eadc147"
+      "sha256": "5f1511cc63c521b5e2115b4e53fb41514ed037ba1b5b8733d8f3af3fc7afcaac"
     },
     {
       "bytes": 1373,
