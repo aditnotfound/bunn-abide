@@ -60,6 +60,8 @@ tool, and purpose before it can be logged accurately.
 
 | 2026-08-10 | Codex | Restyled the study-design and operator schematics after researcher feedback so they match the paper's empirical figures. Removed the tinted background, infographic heading, accent theme, and dividers; reused the established operator colors and visually checked the rebuilt manuscript pages. | Confirm that the final white-background figures match the intended publication style. No scientific values or interpretations changed. | `scripts/build_manuscript_inputs.py`; `paper/generated/figures`; `output/pdf/manuscript.pdf`. |
 
+| 2026-08-10 | Codex | Removed the general study-design diagram and its cross-reference from the main manuscript, retained the operator schematic, rebuilt the PDF, and checked all eight pages after automatic figure renumbering. | Confirm the tighter Methods flow and retain the unused study-design asset only if it is useful for later presentation material. | `paper/sections/03_methods.tex`; `output/pdf/manuscript.pdf`. |
+
 ## Required fields for future entries
 
 - Date and tool/version where known
