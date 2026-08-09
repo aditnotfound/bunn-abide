@@ -1,11 +1,11 @@
 # Complete Research Execution Plan
 
-Status: **active**. Steps 1--12A are complete. The full neural run passed its
-score-blind integrity audit, the confirmatory analysis was frozen and tested
-before unblinding, and the negative/null core result plus its influence audit
-are archived. Steps 13.0--13.1 have frozen the paper evidence boundary and
-generated deterministic, hash-tracked paper assets. Manuscript construction,
-the public/private reproducibility split, and final reproduction audit remain.
+Status: **complete for the frozen ABIDE-I study**. Steps 1--12A produced the
+audited experiment, confirmatory result, and robustness analysis. Steps
+13.0--13.4 froze the evidence boundary, built the manuscript and supplement,
+separated the public and private reproducibility records, and completed the
+release audit. External validation and preprocessing variants are optional
+future studies rather than unfinished parts of this analysis.
 
 ## Research question
 
@@ -31,7 +31,7 @@ flow, anatomical connectivity, or node-label heterophily.
 | 10 | Full identity/learned-local/GCN/trivial-bundle/BuNN evaluation | Completed; 18/18 sites and 9,324 fit/runtime units; score-blind audit passed with zero warnings |
 | 11 | Confirmatory statistics and mechanism analysis | Completed under pre-unblinding commit `6e1716e`; no complete BuNN anti-collapse advantage detected |
 | 12 | Optional robustness/external evaluation | Step 12A influence/seed/efficiency audit completed; external datasets and preprocessing variants remain optional future work |
-| 13 | Paper and reproducibility package | Steps 13.0--13.1 complete; manuscript, release package, and final audit remain |
+| 13 | Paper and reproducibility package | Completed; manuscript, supplement, public-safe release builder, privacy scan, deterministic archive, complete tests, and page-level PDF audit passed |
 
 ## Step 7.5 - full baselines
 
@@ -276,7 +276,7 @@ extensions, not permission to search for a favorable diagnosis.
 
 ### Current progress
 
-Steps 13.0--13.1 are complete on branch `codex/step13-paper`:
+Steps 13.0--13.4 are complete on branch `codex/step13-paper`:
 
 - `configs/paper_assets_v1.json` binds the accepted evidence files and archives
   to 28 SHA-256 digests;
@@ -284,13 +284,17 @@ Steps 13.0--13.1 are complete on branch `codex/step13-paper`:
   deterministic result snapshot, artifact inventory, five compact tables, and
   four publication-layout figures;
 - `docs/step13_claim_ledger.md` defines supported, conditional, and prohibited
-  claims; and
-- four dedicated tests pin the primary result, reject a modified digest,
-  validate PNG generation, and require byte-identical repeated builds.
+  claims;
+- the manuscript and supplement consume only the frozen snapshot and generated
+  assets;
+- the final main paper retains the operator schematic and removes the redundant
+  study-design diagram; and
+- a separate release contract excludes data, run directories, credentials,
+  local infrastructure details, and participant-linked artifacts.
 
-No model was refit and no inferential result was added or changed. Step 13.2 is
-the next gate: create the LaTeX manuscript skeleton and consume only the frozen
-snapshot and generated assets.
+No model was refit and no inferential result was added or changed during Step
+13. The owner must still verify the displayed author name and affiliation before
+external publication and decide whether to adopt an open-source license.
 
 ### Paper structure
 
@@ -319,6 +323,21 @@ figure-generation code, and a machine-readable artifact inventory. Do not
 publish restricted/private credentials or unnecessary participant-level
 phenotypic information. The AI-use log remains a provenance record even though
 this project is no longer being prepared for S.T. Yau.
+
+### Step 13.4 - public/private split and final audit
+
+`configs/release_v1.json` defines the required public files and excluded local
+trees. `scripts/build_release_package.py` selects only versioned or intentionally
+staged files, scans text for known credentials and infrastructure identifiers,
+records every included file by byte count and SHA-256 digest, and creates a
+byte-deterministic release archive. Tests verify required coverage, private-tree
+exclusion, scanner failure on an unsafe fixture, and repeat-build identity.
+
+The release contains aggregate evidence and the private artifact manifest's
+hash record, but not the underlying participant-linked predictions or sealed
+training archive. `docs/release.md` records the boundary and remaining owner
+decisions. A clean-checkout audit rebuilds manuscript inputs, runs the complete
+test suite, compiles both PDFs, and renders every page for inspection.
 
 ## Recommended order and realistic schedule
 

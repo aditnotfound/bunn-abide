@@ -62,6 +62,8 @@ tool, and purpose before it can be logged accurately.
 
 | 2026-08-10 | Codex | Removed the general study-design diagram and its cross-reference from the main manuscript, retained the operator schematic, rebuilt the PDF, and checked all eight pages after automatic figure renumbering. | Confirm the tighter Methods flow and retain the unused study-design asset only if it is useful for later presentation material. | `paper/sections/03_methods.tex`; `output/pdf/manuscript.pdf`. |
 
+| 2026-08-10 | Codex with project-local Humanizer, LaTeX, and PDF workflows | Audited the final manuscript prose and metadata, synchronized stale project status records, created the public/private release boundary, added pinned direct dependencies and citation metadata, replaced a real AWS account identifier in a test fixture, implemented a deterministic privacy-scanned release builder, and completed clean reproduction and visual checks. | Verify the displayed author name and affiliation and choose the final software license before external publication. No model fitting or new statistical analysis occurred. | `README.md`; `docs/release.md`; `configs/release_v1.json`; `scripts/build_release_package.py`; `requirements.txt`; `CITATION.cff`; complete test, compile, and PDF QA records. |
+
 ## Required fields for future entries
 
 - Date and tool/version where known

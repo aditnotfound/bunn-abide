@@ -1,0 +1,10 @@
+# Direct dependencies used by the frozen Python 3.14 experiment and paper build.
+# PyTorch 2.11.0+cu128 was used for the AWS GPU runs. The plain 2.11.0 wheel is
+# sufficient for CPU-only integrity tests; install the matching CUDA wheel when
+# repeating model fitting on a GPU.
+matplotlib==3.11.1
+numpy==2.5.1
+pandas==3.0.5
+pytest==9.1.1
+scikit-learn==1.9.0
+torch==2.11.0

@@ -1,8 +1,9 @@
 # Step 13 Paper and Reproducibility Plan
 
-Status: **Steps 13.0--13.2 complete.** The evidence package, publication
-assets, manuscript inputs, main paper, and supplement are now built and
-verified. The current complete local unittest suite passes 62 tests.
+Status: **Steps 13.0--13.4 complete.** The evidence package, publication
+assets, manuscript inputs, main paper, supplement, and public-safe release
+builder are built and verified. The final test count and release hashes are
+recorded after the clean-checkout audit.
 
 ## Scope
 
@@ -139,3 +140,23 @@ The general study-design diagram was subsequently removed from the manuscript
 because it duplicated the Methods and cohort table. The generated image remains
 available for presentation use. The operator schematic is now Figure 1, and the
 predictive and representation plots were renumbered automatically.
+
+## Step 13.4 - reproducibility release and final audit
+
+The release contract separates aggregate, publication-ready evidence from the
+private participant-linked audit archive. The deterministic builder excludes
+data, run directories, checkpoints, credentials, local cloud settings, and the
+sealed neural artifact. It scans the remaining text for known private paths,
+notification details, instance addresses, and AWS account identifiers before
+writing the archive.
+
+The package includes the source, tests, configurations, evidence hashes,
+aggregate result snapshot, generated paper assets, LaTeX sources, and checked
+PDFs. A machine-readable manifest records every included file by byte count and
+SHA-256 digest. Repeated builds must be byte-identical.
+
+Final completion requires a clean-checkout input rebuild, the complete test
+suite, LaTeX compilation of both documents, page-level visual inspection, and
+a final package rebuild from the committed release-candidate state. Author and
+affiliation verification and the choice of an external license remain owner
+sign-offs rather than scientific tasks.
