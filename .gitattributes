@@ -1,0 +1,9 @@
+# Hash-bound text must retain identical bytes across Windows and Linux clones.
+* text=auto eol=lf
+
+# Never apply text conversion to binary research and publication artifacts.
+*.gz binary
+*.npz binary
+*.pdf binary
+*.png binary
+*.zip binary

@@ -64,6 +64,8 @@ tool, and purpose before it can be logged accurately.
 
 | 2026-08-10 | Codex with project-local Humanizer, LaTeX, and PDF workflows | Audited the final manuscript prose and metadata, synchronized stale project status records, created the public/private release boundary, added pinned direct dependencies and citation metadata, replaced a real AWS account identifier in a test fixture, implemented a deterministic privacy-scanned release builder, and completed clean reproduction and visual checks. | Verify the displayed author name and affiliation and choose the final software license before external publication. No model fitting or new statistical analysis occurred. | `README.md`; `docs/release.md`; `configs/release_v1.json`; `scripts/build_release_package.py`; `requirements.txt`; `CITATION.cff`; complete test, compile, and PDF QA records. |
 
+| 2026-08-10 | Codex | Investigated a failed clean-checkout manuscript build caused solely by Windows CRLF conversion of a hash-bound Markdown file, then added a cross-platform Git line-ending contract before repeating the audit. | Confirm that future contributors do not override `.gitattributes` when regenerating frozen evidence. | `.gitattributes`; clean-checkout failure at commit `5d6f918`; `docs/decision_log.md`. |
+
 ## Required fields for future entries
 
 - Date and tool/version where known
