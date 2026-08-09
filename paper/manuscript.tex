@@ -1,0 +1,31 @@
+\documentclass[10pt]{article}
+\input{preamble}
+\input{metadata}
+
+\begin{document}
+\maketitle
+\input{sections/00_abstract}
+\input{sections/01_introduction}
+\input{sections/02_related_work}
+\input{sections/03_methods}
+\input{sections/04_results}
+\input{sections/05_discussion}
+\input{sections/06_conclusion}
+
+\section*{Data and code availability}
+The analysis uses the public ABIDE-I Preprocessed Connectomes Project
+derivatives. The reproducibility package records the exact data manifest,
+technical exclusions, site splits, configurations, seeds, source hashes,
+analysis scripts, and aggregate result artifacts. Participant-linked audit
+artifacts remain separated from the public-safe release package.
+
+\section*{Acknowledgements}
+The author thanks the investigators who shared data through ABIDE and the
+Preprocessed Connectomes Project. Computational experiments were performed on
+an NVIDIA A10G cloud instance. AI-assisted tools were used for literature
+retrieval, code review, debugging, and document preparation; their use is
+recorded in the version-controlled provenance log.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+\end{document}

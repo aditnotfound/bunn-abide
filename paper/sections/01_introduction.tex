@@ -1,0 +1,45 @@
+\section{Introduction}
+
+Resting-state functional connectomes summarize statistical associations among
+regional blood-oxygen-level-dependent time series. Representing brain regions
+as nodes and functional associations as edges makes graph learning an
+intuitive modeling choice. Yet the common node feature in connectome studies
+is itself an entire row of the connectivity matrix, so each node begins with a
+global connectivity profile rather than purely local information. In this
+setting, neighborhood aggregation may remove useful distinctions instead of
+adding missing context.
+
+Recent multi-dataset benchmarking reported that classical models and
+non-graph neural networks can match or exceed graph deep-learning models for
+functional-connectome prediction, and isolated message aggregation as a
+potential source of degradation \citep{han2026rethinking}. That result changes
+the relevant question. The value of a graph operator should not be presumed
+from the fact that the input can be drawn as a graph; it should be demonstrated
+against identity propagation and strong regularized baselines under the same
+data splits.
+
+BuNNs diffuse features after transporting them through learned orthogonal maps
+between node-specific frames \citep{bamberger2025bundle}. Their theoretical and
+synthetic motivation includes greater control over representation collapse
+than ordinary graph diffusion. Related neural-sheaf work likewise shows that
+non-trivial transport can change diffusion behavior \citep{bodnar2022sheaf}.
+Whether that advantage transfers to dense functional connectomes with global
+connectivity-profile features is an empirical question.
+
+The initial formulation of this project connected negative functional
+correlations with heterophilic message passing. Formalizing the experiment
+showed that this interpretation was not identifiable: correlation sign does
+not establish node-label heterophily, excitation, inhibition, anatomical
+connectivity, or causal information flow, and sign can depend on preprocessing
+choices such as global-signal regression \citep{murphy2017global}. The dataset,
+BuNN architecture, connectome representation, and aggregation problem were
+therefore retained, while the hypothesis was narrowed to a controlled operator
+comparison.
+
+This study asks whether learned bundle transport produces a more favorable
+held-out-site performance-density curve than GCN aggregation, whether any
+advantage exceeds identity and learned-local controls as well as a regularized
+connectome baseline, and whether predictive behavior co-occurs with
+common-frame representation preservation. The contribution is an audit of an
+architectural inductive bias under one pre-specified ABIDE-I pipeline, not a
+claim about biological geometry or clinical diagnosis.

@@ -1,0 +1,80 @@
+{
+  "contract_version": "step13_manuscript_v1",
+  "evidence_commit": "a4def2a1f14f1bbff71356d0689eeeee4f405f4a",
+  "frozen_inputs": [
+    {
+      "bytes": 6096,
+      "path": "docs/step13_claim_ledger.md",
+      "sha256": "68faeaa04bc4343cc8cfb757bbb76e549e231f307804d0b91480bd0b6eb173fd"
+    },
+    {
+      "bytes": 2126,
+      "path": "paper/generated/paper_asset_manifest.json",
+      "sha256": "b449f93b7a747fb29386a5fbf7efa915c954a17956d20682e4ba68e6a8f6a6b2"
+    },
+    {
+      "bytes": 7849,
+      "path": "reproducibility/artifact_manifest.json",
+      "sha256": "558a88d17c6b678114ea8912dec72f0452f09e5edc5cb787c76626efc46f792d"
+    },
+    {
+      "bytes": 8563,
+      "path": "reproducibility/result_snapshot.json",
+      "sha256": "dabfa42ed885b9121881d9221b2c2ba8c476f89b8fa47f249a56e2d9228fcad0"
+    }
+  ],
+  "generated_inputs": [
+    {
+      "bytes": 139173,
+      "path": "paper/generated/figures/study_design.png",
+      "sha256": "fc7781cddb4fca05dd1cc5540e8da8f79dce78929275bde128caed46e8572d7e"
+    },
+    {
+      "bytes": 1373,
+      "path": "paper/generated/numbers.tex",
+      "sha256": "533eb2177669b0131ef1810d4d48e56b74ed29f421d0f4160f08be2aaf67f35c"
+    },
+    {
+      "bytes": 601,
+      "path": "paper/generated/tex/supplement_representation_tabular.tex",
+      "sha256": "4923fdefbb3f2b0f9bb5ee2b5e6bb244008e4a647448c4de9e6d09f7e5992ec7"
+    },
+    {
+      "bytes": 821,
+      "path": "paper/generated/tex/supplement_robustness_tabular.tex",
+      "sha256": "fd79e5f9b8c272e23d6f863c9313a87800852f0236258664e149690ab0d6251c"
+    },
+    {
+      "bytes": 463,
+      "path": "paper/generated/tex/table_baselines.tex",
+      "sha256": "10a2af873d68d72ad9da0b34eabfa74f37300c4254cd930eebebefaa745fda6d"
+    },
+    {
+      "bytes": 424,
+      "path": "paper/generated/tex/table_cohort.tex",
+      "sha256": "cd6649a4e58b84087922b294040d07937fb4db0d0dd472d34881400f4c044eaa"
+    },
+    {
+      "bytes": 667,
+      "path": "paper/generated/tex/table_confirmatory.tex",
+      "sha256": "b0a5c6af49fc960608b2392e926dd0badccb26002b84c0c1ab1efdead77d7ded"
+    },
+    {
+      "bytes": 521,
+      "path": "paper/generated/tex/table_efficiency.tex",
+      "sha256": "82549f7fa6f4c9497b4206b3e80013ab29cc70768e65fbd6257211d69131056f"
+    },
+    {
+      "bytes": 599,
+      "path": "paper/generated/tex/table_representation.tex",
+      "sha256": "f5e096a6ce4fef3cf8a2c5f2efa6490b71e4641e124b42f52dce88eb74bc2fc1"
+    },
+    {
+      "bytes": 819,
+      "path": "paper/generated/tex/table_robustness.tex",
+      "sha256": "4d1894dbdbe97f9c77832315ceb15aa63ef1e827fa255e3ed95d8053b7b23818"
+    }
+  ],
+  "paper_assets_commit": "08ccc89369517c82bf6c8142c4d94964cc983252",
+  "schema_version": "step13_manuscript_input_manifest_v1"
+}

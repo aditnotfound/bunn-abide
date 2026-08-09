@@ -1,0 +1,63 @@
+\section{Discussion}
+
+% Claims C03-C10
+This controlled audit found no complete transfer of the proposed BuNN
+anti-collapse advantage to the specified ABIDE-I functional-connectome
+pipeline. Learned bundle transport did not improve the primary performance-
+density curve relative to GCN, did not exceed the strongest regularized
+connectome baseline, and did not show the proposed matched-anchor effective-
+rank advantage. The result is scientifically useful because the design
+isolated propagation from backbone, input, tuning-budget, and capacity
+differences.
+
+\subsection{Why transport may not help in this setting}
+
+Two properties distinguish this task from the settings that motivate bundle
+transport. First, functional-connectome graphs are dense even after thresholding.
+Second, the feature attached to each node is its full connectivity row, so each
+node already contains global information before propagation. Diffusion may
+therefore average globally informative profiles rather than deliver missing
+long-range context. The downward descriptive density curves are consistent
+with density-dependent aggregation degradation, but do not alone prove a
+general over-smoothing mechanism.
+
+\subsection{Importance of the learned-local control}
+
+BuNN contains additional learned map-generator parameters. A comparison with
+GCN alone could confuse transport with added node-wise capacity. The
+learned-local control retained this capacity while removing inter-node
+diffusion. Its high raw effective rank showed why unaligned or unmatched rank
+curves could falsely appear to support bundle transport. The matched-anchor
+analysis instead tested what changed when inter-node transport was added.
+
+\subsection{Heterogeneity and uncertainty}
+
+The primary BuNN-GCN interval crossed zero, and its point estimate changed sign
+under participant weighting. Site exclusions and final seeds also changed the
+magnitude and sometimes the direction of the small contrast. These analyses do
+not reveal a hidden positive result; they show that a small average effect is
+unstable relative to multi-site and optimization variation. In contrast, the
+negative BuNN-versus-elastic-net result and matched-anchor effective-rank
+finding were stable across all leave-one-site exclusions.
+
+\subsection{Limitations}
+
+The conclusions are conditional on ABIDE-I, C-PAC filtered data without global-
+signal regression, the AAL-116 atlas, Pearson/Fisher-$z$ connectomes, positive-
+edge thresholding, connectivity-profile node features, the fixed density grid,
+the shared backbone, and the equal tuning budget. Functional correlations do
+not identify anatomy or causal information flow. The study has no locked
+external validation cohort, and site sample sizes vary substantially. Runtime
+comparisons depend on this implementation and hardware. Finally, the
+representation diagnostics measure computational behavior; they do not show
+that a representation change caused a predictive change.
+
+\subsection{Future work}
+
+The next scientifically clean extension would freeze the complete ABIDE-I code
+and evaluate it on a preprocessing-compatible ABIDE-II cohort. Separate
+pre-registered sensitivity studies could test global-signal regression,
+negative-edge handling, another atlas, or node features that do not already
+encode the full connectome. Such studies should remain distinct from the
+present confirmatory result and should not search across datasets for a
+favorable diagnosis.
