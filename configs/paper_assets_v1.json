@@ -1,0 +1,52 @@
+{
+  "contract_version": "step13_paper_assets_v1",
+  "evidence_commit": "a4def2a1f14f1bbff71356d0689eeeee4f405f4a",
+  "run_id": "step10_neural_full_parallel_v1",
+  "scope": "presentation and traceability only; no model fitting or new inferential selection",
+  "frozen_inputs": {
+    "outputs/analysis/step7_6_full_baselines_v2/analysis_manifest.json": "9fde7803904ee33e633f597f6971ec5e760121e3d8ca21acd09963b1d0514a89",
+    "outputs/analysis/step7_6_full_baselines_v2/model_summary.csv": "29f3873ffa6bca7654908d7aac5e320ad786b48222a10a4e6ccdba4e1897db5b",
+    "outputs/analysis/step7_6_full_baselines_v2/paired_balanced_accuracy_differences.csv": "240d4caccbd39e843c611b3159dddd877ecbf96947c83a46b0f2270964ec88c8",
+    "outputs/analysis/step7_6_full_baselines_v2/per_site_metrics.csv": "cad0c185b62f141627cf58454541c4cc01a53c7ba66daec96aac17043d52cf96",
+    "outputs/analysis/step7_6_full_baselines_v2.tar.gz": "c60d4f4918a1acfeab0bd2d8fdb1a4b2f171b1fd951fcad12c7b38b2e163267a",
+    "outputs/analysis/step11_neural_full_parallel_v1/analysis_manifest.json": "7cce054222eea2e31ab0cb8deb546436d79f3a6aaf475414c9363e47cef37379",
+    "outputs/analysis/step11_neural_full_parallel_v1/confirmatory_predictive_contrasts.csv": "d1d8f291c2ecabe64d1752156c2d7c5ff3575855d3c557ddb12eb9c22e70ed3a",
+    "outputs/analysis/step11_neural_full_parallel_v1/density_specific_contrasts.csv": "8e8284f6e004a27315ddc4728a0a1c1da2907401df2dd3583aa688fd7fefa2c2",
+    "outputs/analysis/step11_neural_full_parallel_v1/representation_contrasts.csv": "6733bbc69b1d6ae2a42025e5c48d0cea7d567e74d44b915a4479c1ee0ac3fa4f",
+    "outputs/analysis/step11_neural_full_parallel_v1/predictive_density_curves.png": "0991254e1f09b5329b62704dd227fda836517e283be3068c93018222ab13839e",
+    "outputs/analysis/step11_neural_full_parallel_v1/representation_density_curves.png": "4d2d9a3ccaeb1ecff8764cf988bad93643cd21df9f72902e9114ff8897e9e514",
+    "outputs/analysis/step11_neural_full_parallel_v1.tar.gz": "d03235fd99d08c6eff639070731c822d0fc9bf57d8382a2a697f2678b2ee5405",
+    "outputs/analysis/step12_neural_robustness_v1/analysis_manifest.json": "8325e3316321b65b530ae0d8199a6528bba021f4225bbb900c24975d82bb53c9",
+    "outputs/analysis/step12_neural_robustness_v1/alternative_summaries.csv": "dfe78f988eb05e16f1efaca537db43037b6346c1397931a2af41d91cba8da8a7",
+    "outputs/analysis/step12_neural_robustness_v1/exhaustive_curve_contrasts.csv": "e4d1fa3b54cfa81845d8e14f069f376cf60fbd5a142d21847d801c607f1ef359",
+    "outputs/analysis/step12_neural_robustness_v1/leave_one_site_out.csv": "c20a396cd5178f2827d1be850da4e5bf8db321b8ad955ccf4b79bfc96be0e1f5",
+    "outputs/analysis/step12_neural_robustness_v1/operator_efficiency.csv": "e9c827b3bd95670e9dbfe44d8dac558c5022d426ada29d1bbca57ab460ec8b0e",
+    "outputs/analysis/step12_neural_robustness_v1/robustness_decision.json": "dbccc5983f6587e0df0e9d97e35ecf54cac0ad8dab16dc09bb84211739e15f55",
+    "outputs/analysis/step12_neural_robustness_v1/seed_specific_curves.csv": "5c619a55fcb05a83c8589403798c8baffd2b5629e86b5a7b184ce4cfcc17681a",
+    "outputs/analysis/step12_neural_robustness_v1/site_influence.png": "b8cdebc72aae22979dab4e01fc188cbc6715648a134ba09d0bb854447d6e047a",
+    "outputs/analysis/step12_neural_robustness_v1/seed_stability.png": "c97237d29c1663e68ce0ca86b27db07dbe814bf2cd12538b2ed54dfa14de0155",
+    "outputs/analysis/step12_neural_robustness_v1.tar.gz": "c29ea30fa65fa4acd04bb80889c6cd30aad0caa4be79c4e86a6322574811be0c",
+    "outputs/archives/step10_neural_full_parallel_v1.integrity.json": "19b61c643348498669426b93d5f7b4fc8d0b449a7c635177a9075b991df70960",
+    "outputs/archives/step10_neural_full_parallel_v1.sealed.tar.gz": "91ffbd55da98064149d90ff3273e80bcd6c4d5d6195d0ac64344747ecdd5082f"
+  },
+  "staged_figures": {
+    "predictive_density_curves.png": "outputs/analysis/step11_neural_full_parallel_v1/predictive_density_curves.png",
+    "representation_density_curves.png": "outputs/analysis/step11_neural_full_parallel_v1/representation_density_curves.png",
+    "site_influence.png": "outputs/analysis/step12_neural_robustness_v1/site_influence.png",
+    "seed_stability.png": "outputs/analysis/step12_neural_robustness_v1/seed_stability.png"
+  },
+  "required_outputs": [
+    "paper/generated/figures/predictive_density_curves.png",
+    "paper/generated/figures/representation_density_curves.png",
+    "paper/generated/figures/site_influence.png",
+    "paper/generated/figures/seed_stability.png",
+    "paper/generated/tables/baseline_models.csv",
+    "paper/generated/tables/confirmatory_predictive_contrasts.csv",
+    "paper/generated/tables/representation_contrasts.csv",
+    "paper/generated/tables/operator_efficiency.csv",
+    "paper/generated/tables/robustness_summaries.csv",
+    "paper/generated/paper_asset_manifest.json",
+    "reproducibility/artifact_manifest.json",
+    "reproducibility/result_snapshot.json"
+  ]
+}
