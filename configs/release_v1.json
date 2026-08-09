@@ -1,0 +1,42 @@
+{
+  "schema_version": "public_release_v1",
+  "release_name": "bunn-abide-v1.0.0-rc1",
+  "release_date": "2026-08-10",
+  "source_commit_policy": "record current HEAD; working tree must contain only intended release changes",
+  "exclude_prefixes": [
+    ".git/",
+    ".run-control/",
+    ".venv/",
+    "data/",
+    "outputs/",
+    "output/release/",
+    "tmp/"
+  ],
+  "exclude_suffixes": [
+    ".aux",
+    ".bbl",
+    ".blg",
+    ".fdb_latexmk",
+    ".fls",
+    ".log",
+    ".out",
+    ".pem",
+    ".key",
+    ".pyc",
+    ".synctex.gz"
+  ],
+  "required_files": [
+    "README.md",
+    "CITATION.cff",
+    "LICENSE",
+    "requirements.txt",
+    "docs/release.md",
+    "docs/step13_claim_ledger.md",
+    "output/pdf/manuscript.pdf",
+    "output/pdf/supplement.pdf",
+    "paper/manuscript.tex",
+    "paper/supplement.tex",
+    "reproducibility/artifact_manifest.json",
+    "reproducibility/result_snapshot.json"
+  ]
+}

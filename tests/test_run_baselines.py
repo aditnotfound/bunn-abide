@@ -197,7 +197,7 @@ class BaselineRunnerTests(unittest.TestCase):
             return FakeSNS()
 
         fake_boto3 = types.SimpleNamespace(client=fake_client)
-        topic_arn = "arn:aws:sns:us-east-1:020529562621:bunn-abide-run-alerts"
+        topic_arn = "arn:aws:sns:us-east-1:123456789012:bunn-abide-run-alerts"
         with TemporaryDirectory() as directory, patch.dict(sys.modules, {"boto3": fake_boto3}):
             outcome = publish_sns_notification(Path(directory), topic_arn, "subject", "message")
 

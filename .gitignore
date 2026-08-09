@@ -42,3 +42,4 @@ Thumbs.db
 *.synctex.gz
 *.toc
 tmp/pdfs/
+output/release/
