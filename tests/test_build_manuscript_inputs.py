@@ -23,7 +23,7 @@ class ManuscriptInputTests(unittest.TestCase):
         result = build_manuscript_inputs(REPO_ROOT, CONTRACT)
         self.assertEqual(result["validated_frozen_inputs"], 4)
         self.assertEqual(result["validated_paper_assets"], 11)
-        self.assertEqual(len(result["generated_outputs"]), 11)
+        self.assertEqual(len(result["generated_outputs"]), 12)
 
         manifest = json.loads(
             (PAPER / "generated/manuscript_input_manifest.json").read_text(
@@ -31,7 +31,7 @@ class ManuscriptInputTests(unittest.TestCase):
             )
         )
         self.assertEqual(manifest["evidence_commit"], "a4def2a1f14f1bbff71356d0689eeeee4f405f4a")
-        self.assertEqual(len(manifest["generated_inputs"]), 10)
+        self.assertEqual(len(manifest["generated_inputs"]), 11)
         for record in manifest["generated_inputs"]:
             path = REPO_ROOT / record["path"]
             self.assertTrue(path.is_file())

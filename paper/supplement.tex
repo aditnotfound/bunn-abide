@@ -13,54 +13,53 @@
 \begin{document}
 \maketitle
 
-\section{Frozen analysis contract}
+\section{Analysis contract}
 
-The manuscript is compiled from the frozen Step 13 evidence package. The
-contract binds the claim ledger, result snapshot, artifact manifest, and paper
-asset manifest by SHA-256 digest. The manuscript-input builder refuses to
-generate tables or numeric macros if any bound input has changed. This
-supplement reports pre-specified secondary summaries; it introduces no new
-model fitting, participant exclusions, hyperparameter selection, or
-confirmatory inference.
+The manuscript is built from the locked Step 13 evidence package. SHA-256
+digests bind the claim ledger, result snapshot, artifact manifest, and paper
+asset manifest to the build. If any bound input changes, the builder stops
+before generating tables or numeric macros. This supplement contains the
+pre-specified secondary summaries. It adds no model fitting, participant
+exclusions, hyperparameter selection, or confirmatory inference.
 
-The claim boundary is deliberately narrow. Results apply to the analyzed
-ABIDE-I C-PAC filtered, no-global-signal-regression, AAL-116 pipeline with
-positive-edge graphs and connectivity-profile node features. They do not
-establish clinical utility, anatomical or causal connectivity, biological
-bundle geometry, or universal inferiority of BuNNs.
+The results apply to the analyzed ABIDE-I C-PAC filtered AAL-116 pipeline,
+which omits global-signal regression and uses positive-edge graphs with
+connectivity-profile node features. Clinical utility, anatomical or causal
+connectivity, biological bundle geometry, and BuNN performance outside this
+setting were not tested.
 
 \section{Representation endpoints}
 
-Raw learned-BuNN embeddings can occupy node-specific frames. Cross-node
-diagnostics were therefore computed only after mapping embeddings into a
-common learned frame. The primary endpoint was normalized effective rank at
-layer 2, compared using each operator's matched density-zero anchor.
-Dispersion, cosine similarity, invariant edge-transport distance, and
-encoder-to-layer-2 rank change were secondary diagnostics.
+Learned-BuNN embeddings may occupy different node-specific frames. Before any
+cross-node diagnostic, we mapped them into a common learned frame. The primary
+endpoint was normalized effective rank at layer 2, measured against each
+operator's matched density-zero anchor. Secondary diagnostics included
+dispersion, cosine similarity, invariant edge-transport distance, and the rank
+change from encoder to layer 2.
 
 \input{generated/tex/supplement_representation_tabular.tex}
 
 \section{Robustness summaries}
 
-The equal-site mean was the confirmatory aggregation because each held-out
-site defined one generalization unit. Participant-weighted and site-median
-summaries were pre-listed sensitivity analyses, not alternative routes to a
-positive conclusion.
+Each held-out site formed one generalization unit, so the confirmatory summary
+gave every site equal weight. Participant-weighted and site-median summaries
+were pre-listed sensitivity analyses and did not replace the primary
+aggregation.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.86\textwidth]{site_influence.png}
-  \caption{Leave-one-site-out influence analysis for the primary BuNN-minus-GCN
-  curve contrast. Every pre-listed exclusion is shown.}
+  \caption{Leave-one-site-out influence on the primary BuNN-minus-GCN curve
+  contrast. The figure includes every pre-listed site exclusion.}
   \label{fig:supp-site-influence}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.78\textwidth]{seed_stability.png}
-  \caption{Seed-specific curve contrasts. Intervals resample held-out sites
-  within each fixed final seed. Seed-level results are robustness diagnostics,
-  not alternative primary analyses.}
+  \caption{Curve contrasts for each final seed. Intervals resample held-out
+  sites within a fixed seed; these results assess robustness and do not replace
+  the primary analysis.}
   \label{fig:supp-seed-stability}
 \end{figure}
 
@@ -68,21 +67,20 @@ positive conclusion.
 \input{generated/tex/supplement_robustness_tabular.tex}
 \FloatBarrier
 
-The leave-one-site-out analysis recomputed each named contrast after excluding
-one outer site at a time. Seed-specific analyses recomputed the primary curve
-contrast separately for every fixed final seed. These analyses quantify site
-and optimization sensitivity; they do not replace the frozen primary
-estimand.
+For the influence analysis, we recomputed each named contrast after removing
+one outer site at a time. We also recomputed the primary curve contrast
+separately for every fixed final seed. These analyses measure sensitivity to
+sites and optimization while leaving the primary estimand unchanged.
 
 \section{Reproducibility and integrity}
 
-The repository records the exact participant manifest, technical exclusion
-rules, connectome construction, held-out-site splits, operator contracts,
-tuning budgets, final seeds, source hashes, run audits, and aggregate result
-artifacts. Generated manuscript values are not copied manually: the build
-script reads the frozen result snapshot and writes LaTeX macros and tables.
-Unit tests verify the input hashes, deterministic generation, claim coverage,
-bibliography resolution, and the absence of manually duplicated primary
-results in narrative source files.
+The repository records the participant manifest, technical exclusion rules,
+connectome construction, held-out-site splits, operator contracts, tuning
+budgets, final seeds, source hashes, run audits, and aggregate result
+artifacts. The build reads the locked result snapshot and writes the LaTeX
+macros and tables, so manuscript values are not copied by hand. Tests check the
+input hashes, deterministic generation, claim coverage, bibliography
+resolution, and the absence of manually duplicated primary results in the
+narrative source.
 
 \end{document}

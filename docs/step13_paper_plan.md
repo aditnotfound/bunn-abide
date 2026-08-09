@@ -107,3 +107,24 @@ No model was refit and no new inferential analysis was performed in Step 13.2.
 The PDFs are a reproducible manuscript scaffold, not a venue-specific final
 submission; authorship, target style, and any external-release details still
 require the researcher's review.
+
+## Step 13.3 - visual and prose revision
+
+The main-paper prose, supplement, captions, title, and diagram labels were
+revised with the project-local Humanizer guidance. The revision removed
+template-like phrasing and repetitive disclaimers while preserving every
+numeric macro, citation, claim ID, limitation, and result interpretation.
+
+The pastel rounded-box workflow was replaced with a restrained four-part
+line-art overview. A second schematic now distinguishes direct GCN averaging,
+the learned-local capacity control, and learned bundle transport. Both figures
+are generated deterministically by the manuscript builder. No brain
+illustration, attention map, or anatomical network view was added because the
+analysis does not support a biological localization claim.
+
+The generated-input contract now contains 11 deterministic inputs plus its
+manifest. Main-paper figures and tables are anchored to the sections that
+introduce them. The final PDFs remain 8 main pages and 3 supplement pages, and
+all 11 pages were rendered and inspected after the revision. This step changed
+presentation and wording only; it did not alter data, fitting, estimands,
+statistics, or conclusions.
