@@ -68,6 +68,8 @@ tool, and purpose before it can be logged accurately.
 
 | 2026-08-10 | Codex | Investigated three clean-clone failures caused by intentionally excluded private analysis archives. Made only the evidence-regeneration tests conditional on those archives and documented the public/private test counts; the frozen snapshot and manuscript tests remain mandatory. | Keep the private 75-test audit and public 72-test plus 3-skip audit distinct when reporting reproducibility. | `tests/test_build_paper_assets.py`; `docs/release.md`; clean-checkout failure at commit `ec9af85`. |
 
+| 2026-08-10 | Codex with bundled LaTeX and PDF workflows | Completed the clean-checkout audit at commit `3bdf2ff`: rebuilt manuscript inputs, ran the public test suite, resolved the dependency lock, compiled the main paper with BibTeX and the supplement, extracted text, rendered all 11 pages, and inspected them. Added a clean-tree release guard after observing that recompilation changes PDF metadata timestamps. | Verify author identity and affiliation before any external release. The visual and technical audit found no document defect. | `docs/release.md`; `scripts/build_release_package.py`; clean audit clone `bunn-abide-clean-audit-3bdf2ff`. |
+
 ## Required fields for future entries
 
 - Date and tool/version where known

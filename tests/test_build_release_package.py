@@ -36,8 +36,12 @@ class ReleasePackageTests(unittest.TestCase):
 
     def test_release_build_is_byte_deterministic(self) -> None:
         with tempfile.TemporaryDirectory() as first, tempfile.TemporaryDirectory() as second:
-            archive_a, manifest_a = build_release(ROOT, DEFAULT_CONFIG, Path(first))
-            archive_b, manifest_b = build_release(ROOT, DEFAULT_CONFIG, Path(second))
+            archive_a, manifest_a = build_release(
+                ROOT, DEFAULT_CONFIG, Path(first), require_clean=False
+            )
+            archive_b, manifest_b = build_release(
+                ROOT, DEFAULT_CONFIG, Path(second), require_clean=False
+            )
             self.assertEqual(sha256_file(archive_a), sha256_file(archive_b))
             self.assertEqual(manifest_a.read_bytes(), manifest_b.read_bytes())
             payload = json.loads(manifest_a.read_text(encoding="utf-8"))

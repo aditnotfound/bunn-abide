@@ -40,12 +40,26 @@ def load_config(path: Path) -> dict:
 
 def git_candidates(root: Path) -> list[str]:
     result = subprocess.run(
-        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+        ["git", "ls-files", "-z"],
         cwd=root,
         check=True,
         capture_output=True,
     )
     return sorted(item for item in result.stdout.decode("utf-8").split("\0") if item)
+
+
+def ensure_tracked_tree_clean(root: Path) -> None:
+    result = subprocess.run(
+        ["git", "status", "--porcelain=v1", "--untracked-files=no"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    if result.stdout.strip():
+        raise ReleaseError(
+            "tracked files differ from HEAD; commit or restore them before building a release"
+        )
 
 
 def collect_files(root: Path, config: dict) -> list[str]:
@@ -156,7 +170,15 @@ def write_zip(root: Path, archive: Path, release_name: str, files: list[str], ma
             bundle.writestr(info, data, compress_type=zipfile.ZIP_DEFLATED, compresslevel=9)
 
 
-def build_release(root: Path, config_path: Path, output_dir: Path) -> tuple[Path, Path]:
+def build_release(
+    root: Path,
+    config_path: Path,
+    output_dir: Path,
+    *,
+    require_clean: bool = True,
+) -> tuple[Path, Path]:
+    if require_clean:
+        ensure_tracked_tree_clean(root)
     config = load_config(config_path)
     files = collect_files(root, config)
     scan_files(root, files)
@@ -187,7 +209,7 @@ def main() -> int:
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
-    archive, manifest = build_release(ROOT, args.config, args.output_dir)
+    archive, manifest = build_release(ROOT, args.config, args.output_dir, require_clean=True)
     print(f"Built {archive}")
     print(f"Manifest {manifest}")
     return 0
