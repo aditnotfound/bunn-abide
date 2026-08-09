@@ -464,7 +464,7 @@ def _draw_network(
             Circle(
                 (origin_x + x, origin_y + y),
                 0.62,
-                facecolor="#F8F6F1",
+                facecolor="white",
                 edgecolor=ink,
                 linewidth=0.85,
                 zorder=2,
@@ -473,13 +473,15 @@ def _draw_network(
 
 
 def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
-    """Draw a restrained overview without card-style interface motifs."""
+    """Draw a publication-style study overview on a plain white field."""
     cohort = snapshot["cohort"]
-    background = "#F8F6F1"
-    ink = "#1F2933"
-    accent = "#9B4A32"
-    muted = "#65727B"
-    faint = "#D8D5CE"
+    background = "white"
+    ink = "#333333"
+    blue = "#35689B"
+    orange = "#E17C05"
+    green = "#3B8F3B"
+    muted = "#666666"
+    faint = "#D9D9D9"
 
     with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 8.5}):
         fig, axis = plt.subplots(figsize=(10.8, 3.65))
@@ -490,35 +492,19 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
         axis.set_facecolor(background)
         fig.patch.set_facecolor(background)
 
-        axis.text(
-            2,
-            30.3,
-            "ABIDE-I  /  OPERATOR AUDIT",
-            color=ink,
-            fontsize=8.2,
-            weight="bold",
-            va="top",
-        )
-        axis.plot([2, 98], [28.4, 28.4], color=ink, linewidth=0.75)
-        for x in [25, 50, 75]:
-            axis.plot([x, x], [3.3, 26.7], color=faint, linewidth=0.75)
-
         stages = [
-            (2.0, "01", "COHORT"),
-            (27.0, "02", "CONNECTOMES"),
-            (52.0, "03", "OPERATORS"),
-            (77.0, "04", "EVALUATION"),
+            (2.0, "(a)", "Cohort"),
+            (27.0, "(b)", "Connectomes"),
+            (52.0, "(c)", "Operators"),
+            (77.0, "(d)", "Evaluation"),
         ]
-        for x, number, label in stages:
+        for x, letter, label in stages:
             axis.text(
-                x, 26.5, number, color=accent, fontsize=7.5, weight="bold", va="top"
-            )
-            axis.text(
-                x + 3.2,
-                26.5,
-                label,
+                x,
+                28.0,
+                f"{letter}  {label}",
                 color=ink,
-                fontsize=8.3,
+                fontsize=9.2,
                 weight="bold",
                 va="top",
             )
@@ -531,7 +517,7 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
             axis.plot(
                 [x, x],
                 [y, y + height],
-                color=accent if site % 5 == 0 else muted,
+                color=blue if site % 5 == 0 else "#8BA6C0",
                 linewidth=1.15,
             )
         waveform_x = [3.0 + index * 0.75 for index in range(25)]
@@ -552,7 +538,7 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
         axis.text(
             2.5,
             4.5,
-            f"{cohort['participants']} participants  ·  {cohort['held_out_sites']} sites\n"
+            f"{cohort['participants']} participants / {cohort['held_out_sites']} sites\n"
             "AAL regional time series",
             color=ink,
             fontsize=8.1,
@@ -568,7 +554,7 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
                     shade = background
                 else:
                     value = (row * 3 + column * 5) % 7
-                    shade = accent if value in {0, 1} else (ink if value == 2 else faint)
+                    shade = blue if value in {0, 1} else (ink if value == 2 else faint)
                 axis.add_patch(
                     Rectangle(
                         (matrix_x + column * cell, matrix_y - row * cell),
@@ -578,11 +564,11 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
                         edgecolor="none",
                     )
                 )
-        _draw_network(axis, 42.0, 15.0, 8, ink, accent, faint)
+        _draw_network(axis, 42.0, 15.0, 8, ink, blue, faint)
         axis.text(
             27.8,
             4.5,
-            f"{cohort['roi_count']} regions  ·  {cohort['edge_features']:,} edges\n"
+            f"{cohort['roi_count']} regions / {cohort['edge_features']:,} edges\n"
             "positive density: 0, 1, 5, 10, 20%",
             color=ink,
             fontsize=8.1,
@@ -600,8 +586,10 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
             "trivial bundle",
             "learned BuNN",
         ]
+        operator_colors = [muted, muted, blue, orange, green]
         for index, label in enumerate(labels):
             y = 20.5 - index * 2.75
+            operator_color = operator_colors[index]
             axis.add_patch(
                 Circle(
                     (54.5, y),
@@ -613,10 +601,10 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
             )
             axis.plot([54.9, 60.0], [y, y], color=muted, linewidth=0.75)
             if index >= 2:
-                axis.plot([60.0, 63.0], [y, y], color=accent, linewidth=1.35)
+                axis.plot([60.0, 63.0], [y, y], color=operator_color, linewidth=1.35)
             if index in {1, 4}:
                 axis.plot(
-                    [61.3, 62.2], [y - 0.5, y + 0.5], color=accent, linewidth=0.9
+                    [61.3, 62.2], [y - 0.5, y + 0.5], color=green, linewidth=0.9
                 )
             axis.plot([63.0, 71.4], [y, y], color=muted, linewidth=0.75)
             axis.add_patch(
@@ -640,7 +628,7 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
         axis.text(
             52.8,
             4.5,
-            "one backbone  ·  five controlled variants\n"
+            "one backbone / five controlled variants\n"
             "only propagation and map capacity change",
             color=ink,
             fontsize=8.1,
@@ -658,8 +646,8 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
                         (block_x + column * 1.55, 19.7 - row * 1.55),
                         1.0,
                         1.0,
-                        facecolor=accent if test else "none",
-                        edgecolor=accent if test else muted,
+                        facecolor=blue if test else "none",
+                        edgecolor=blue if test else muted,
                         linewidth=0.7,
                     )
                 )
@@ -675,15 +663,15 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
         curve_x = [79.0, 82.3, 85.6, 88.9, 92.2, 95.5]
         curve_y_a = [13.6, 13.0, 12.2, 11.4, 10.7, 10.1]
         curve_y_b = [13.1, 12.5, 11.9, 11.3, 10.5, 9.8]
-        axis.plot(curve_x, curve_y_a, color=ink, linewidth=1.25)
-        axis.plot(curve_x, curve_y_b, color=accent, linewidth=1.25)
+        axis.plot(curve_x, curve_y_a, color=blue, linewidth=1.25)
+        axis.plot(curve_x, curve_y_b, color=green, linewidth=1.25)
         for x, y in zip(curve_x, curve_y_b):
             axis.add_patch(
                 Circle(
                     (x, y),
                     0.25,
                     facecolor=background,
-                    edgecolor=accent,
+                    edgecolor=green,
                     linewidth=0.8,
                 )
             )
@@ -711,11 +699,12 @@ def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
 
 def plot_operator_schematic(output: Path) -> None:
     """Show the operator distinction without implying biological transport."""
-    background = "#F8F6F1"
-    ink = "#1F2933"
-    accent = "#9B4A32"
-    muted = "#65727B"
-    faint = "#D8D5CE"
+    background = "white"
+    ink = "#333333"
+    gcn = "#35689B"
+    bunn = "#3B8F3B"
+    muted = "#666666"
+    faint = "#D9D9D9"
 
     with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 8.5}):
         fig, axis = plt.subplots(figsize=(10.8, 3.25))
@@ -725,31 +714,33 @@ def plot_operator_schematic(output: Path) -> None:
         axis.axis("off")
         axis.set_facecolor(background)
         fig.patch.set_facecolor(background)
-        axis.text(
-            2,
-            26.2,
-            "WHAT CHANGES BETWEEN THE THREE MAIN CONTROLS",
-            color=ink,
-            fontsize=8.2,
-            weight="bold",
-            va="top",
-        )
-        axis.plot([2, 98], [24.4, 24.4], color=ink, linewidth=0.75)
-        axis.plot([34, 34], [3, 22.6], color=faint, linewidth=0.75)
-        axis.plot([67, 67], [3, 22.6], color=faint, linewidth=0.75)
-
         panels = [
-            (2.5, "GCN", "average neighboring features\nin their current coordinates"),
-            (36.0, "LEARNED LOCAL", "learn node-wise maps\nwithout exchanging information"),
-            (69.0, "LEARNED BuNN", "transport to a common frame,\nthen diffuse across edges"),
+            (
+                2.5,
+                "(a)  GCN",
+                "Average neighboring features\nwithout learned transport",
+                gcn,
+            ),
+            (
+                36.0,
+                "(b)  Learned-local",
+                "Learn node-wise maps\nwithout exchanging information",
+                muted,
+            ),
+            (
+                69.0,
+                "(c)  Learned BuNN",
+                "Transport into a common frame,\nthen diffuse across edges",
+                bunn,
+            ),
         ]
-        for left, heading, description in panels:
+        for left, heading, description, color in panels:
             axis.text(
-                left, 22.2, heading, color=accent, fontsize=8.2, weight="bold", va="top"
+                left, 25.5, heading, color=color, fontsize=9.2, weight="bold", va="top"
             )
             axis.text(
                 left,
-                5.2,
+                4.2,
                 description,
                 color=ink,
                 fontsize=8.0,
@@ -775,11 +766,11 @@ def plot_operator_schematic(output: Path) -> None:
                     (target[0] - 1.2, target[1]),
                     arrowstyle="-|>",
                     mutation_scale=8,
-                    linewidth=0.75,
-                    color=muted,
+                    linewidth=1.0,
+                    color=gcn,
                 )
             )
-        axis.add_patch(Circle(target, 1.25, facecolor=ink, edgecolor=ink))
+        axis.add_patch(Circle(target, 1.25, facecolor=gcn, edgecolor=gcn))
         axis.text(
             target[0],
             target[1] - 0.05,
@@ -811,7 +802,7 @@ def plot_operator_schematic(output: Path) -> None:
                     arrowstyle="-|>",
                     mutation_scale=8,
                     linewidth=1.0,
-                    color=accent,
+                    color=bunn,
                 )
             )
         axis.text(
@@ -865,7 +856,7 @@ def plot_operator_schematic(output: Path) -> None:
                     arrowstyle="-|>",
                     mutation_scale=7,
                     linewidth=1.0,
-                    color=accent,
+                    color=bunn,
                 )
             )
             axis.add_patch(
@@ -874,8 +865,8 @@ def plot_operator_schematic(output: Path) -> None:
                     (target_x - 1.2, 15.5),
                     arrowstyle="-|>",
                     mutation_scale=7,
-                    linewidth=0.75,
-                    color=muted,
+                    linewidth=0.9,
+                    color=bunn,
                 )
             )
         axis.plot(
@@ -894,7 +885,7 @@ def plot_operator_schematic(output: Path) -> None:
             ha="center",
         )
         axis.add_patch(
-            Circle((target_x, 15.5), 1.25, facecolor=ink, edgecolor=ink)
+            Circle((target_x, 15.5), 1.25, facecolor=bunn, edgecolor=bunn)
         )
         axis.text(
             target_x,

@@ -128,3 +128,9 @@ introduce them. The final PDFs remain 8 main pages and 3 supplement pages, and
 all 11 pages were rendered and inspected after the revision. This step changed
 presentation and wording only; it did not alter data, fitting, estimands,
 statistics, or conclusions.
+
+After page-level review, both schematics were restyled once more to match the
+empirical plots. They now use a pure white background, conventional panel
+labels, and the same blue, orange, and green operator colors used throughout
+the Results figures. The separate infographic heading, tinted canvas, accent
+palette, and panel dividers were removed.

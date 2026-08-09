@@ -58,6 +58,8 @@ tool, and purpose before it can be logged accurately.
 
 | 2026-08-09 | Codex with project-local Humanizer guidance | Rewrote the manuscript, supplement, captions, title, and diagram labels in a more natural academic voice without changing results or claim boundaries. Replaced the pastel card-style workflow with abstract line art, added a computational operator schematic, corrected float ordering, rebuilt both PDFs, and visually reviewed every page. | Review the final wording and both new schematics. The operator drawing is explanatory and must not be interpreted as biological signal flow. | `paper`; `scripts/build_manuscript_inputs.py`; `paper/generated/figures`; `output/pdf`. |
 
+| 2026-08-10 | Codex | Restyled the study-design and operator schematics after researcher feedback so they match the paper's empirical figures. Removed the tinted background, infographic heading, accent theme, and dividers; reused the established operator colors and visually checked the rebuilt manuscript pages. | Confirm that the final white-background figures match the intended publication style. No scientific values or interpretations changed. | `scripts/build_manuscript_inputs.py`; `paper/generated/figures`; `output/pdf/manuscript.pdf`. |
+
 ## Required fields for future entries
 
 - Date and tool/version where known
