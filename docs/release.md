@@ -53,8 +53,9 @@ outputs requires the excluded private evidence package.
 
 The release builder scans every included text file for private paths,
 credentials, IP addresses, notification addresses, and AWS resource identifiers.
-It then writes a deterministic ZIP archive and a SHA-256 manifest under
-`output/release/`.
+It refuses to package modified tracked files, then writes a deterministic ZIP
+archive and a SHA-256 manifest under `output/release/`. Untracked files are not
+eligible for inclusion.
 
 Compile `paper/manuscript.tex` and `paper/supplement.tex` after regenerating
 their inputs. A final audit must render every PDF page and check citations,
@@ -67,3 +68,17 @@ an external release, the owner must verify the author name and affiliation,
 choose whether to replace the all-rights-reserved notice with an open-source
 license, and decide whether a venue-specific template or anonymized version is
 needed. These are ownership and publication decisions, not unresolved analysis.
+
+## Final clean-checkout audit
+
+Commit `3bdf2ff` was cloned into a separate directory on 2026-08-10. The
+hash-bound manuscript inputs rebuilt successfully. The public suite completed
+with 72 passes and the three documented private-evidence skips. The private
+repository completed all 75 tests. The dependency lock resolved under Python
+3.14 without installation changes.
+
+Bundled Tectonic compiled the 8-page manuscript with BibTeX and the 3-page
+supplement. Extracted text contained no unresolved citation, reference,
+placeholder, or question-mark markers. All 11 pages were rendered and visually
+checked for clipping, overlap, broken tables, figure legibility, headers,
+footers, and page order. No layout defect was found.
