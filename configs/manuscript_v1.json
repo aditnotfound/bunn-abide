@@ -2,7 +2,7 @@
   "contract_version": "step13_manuscript_v1",
   "evidence_commit": "a4def2a1f14f1bbff71356d0689eeeee4f405f4a",
   "paper_assets_commit": "08ccc89369517c82bf6c8142c4d94964cc983252",
-  "title": "Bundle Neural Networks for Functional Connectomes: A Controlled Test of Density-Dependent Aggregation and Representation Collapse",
+  "title": "Bundle Neural Networks for Functional Connectomes: Density-Dependent Aggregation and Cross-Site Prediction",
   "author": "Adit Patil",
   "affiliation": "School of Scholars, Akola, India",
   "scope": "compiling manuscript scaffold bound to the frozen Step 13.1 evidence; no new inference or model fitting",
@@ -14,6 +14,7 @@
   },
   "claim_ids": ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"],
   "required_generated_outputs": [
+    "paper/generated/figures/operator_schematic.png",
     "paper/generated/figures/study_design.png",
     "paper/generated/numbers.tex",
     "paper/generated/tex/table_baselines.tex",

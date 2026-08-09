@@ -1,23 +1,23 @@
 \section{Related work}
 
-\paragraph{Functional-connectome prediction.}
+\paragraph{Connectome prediction.}
 ABIDE-I aggregated resting-state fMRI and phenotypic data across international
 sites to support large-scale autism research \citep{dimartino2014abide}. The
 Preprocessed Connectomes Project subsequently released derivatives from
 several pipelines, including C-PAC \citep{abidepcp}. Multi-site prediction is
-challenging because acquisition, motion, demographics, and preprocessing can
-vary across sites. Held-out-site evaluation therefore addresses a stricter
-generalization problem than random participant splitting.
+difficult because acquisition, motion, demographics, and preprocessing vary
+by site. Holding out whole sites tests a stricter form of generalization than a
+random participant split.
 
 \paragraph{Graph aggregation.}
 GCNs apply normalized neighborhood aggregation followed by learned feature
 transformation \citep{kipf2017gcn}. Repeated diffusion can contract node
 representations, although the practical effect depends on architecture,
 features, graph construction, and task. In functional connectomes, the problem
-is especially relevant because connectivity-row node features already contain
-whole-graph information. The benchmark of \citet{han2026rethinking} motivates
-testing propagation against a no-propagation control rather than comparing
-only different GNN families.
+matters because a connectivity-row node feature already describes the whole
+graph. The findings of \citet{han2026rethinking} make a no-propagation control
+essential. A comparison among GNN families alone cannot show that aggregation
+helped.
 
 \paragraph{Learned transport.}
 Neural sheaf diffusion assigns vector spaces and learned maps to graph
@@ -25,7 +25,7 @@ incidences, allowing non-trivial transport before aggregation
 \citep{bodnar2022sheaf}. BuNN specializes this idea to flat vector bundles with
 orthogonal node maps and diffusion-based propagation
 \citep{bamberger2025bundle}. Raw embeddings from different node frames cannot
-be compared naively; meaningful collapse diagnostics require transport to a
-common frame or a gauge-invariant measure. The present experiment therefore
-separates raw map-generator capacity from inter-node transport using a
-learned-local control.
+be compared directly. Collapse diagnostics must either place them in a common
+frame or use a gauge-invariant quantity. We also include a learned-local
+control so that node-wise map capacity is not mistaken for an effect of
+inter-node transport.

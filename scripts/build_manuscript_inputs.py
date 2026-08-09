@@ -22,7 +22,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
+from matplotlib.patches import Circle, FancyArrowPatch, Rectangle
 
 
 class ManuscriptInputError(ValueError):
@@ -213,9 +213,9 @@ def table_cohort(snapshot: dict[str, Any]) -> str:
         ("ROIs / lower-triangle features", f"{cohort['roi_count']} / {cohort['edge_features']:,}"),
     ]
     body = "\n".join(rf"{latex_escape(str(label))} & {value} \\" for label, value in rows)
-    return rf"""\begin{{table}}[t]
+    return rf"""\begin{{table}}[H]
 \centering
-\caption{{Frozen cohort and connectome dimensions after technical quality control.}}
+\caption{{Cohort retained after technical quality control and resulting connectome dimensions.}}
 \label{{tab:cohort}}
 \begin{{tabular}}{{lr}}
 \toprule
@@ -241,7 +241,7 @@ def table_baselines(snapshot: dict[str, Any]) -> str:
             rf"{latex_escape(row['label'])} & {row['equal_site_balanced_accuracy']:.4f} & "
             rf"{row['pooled_balanced_accuracy']:.4f} & {row['pooled_auroc']:.4f} \\"
         )
-    return """\\begin{table}[t]
+    return """\\begin{table}[H]
 \\centering
 \\caption{Classical held-out-site baselines. Equal-site balanced accuracy is the primary summary.}
 \\label{tab:baselines}
@@ -273,9 +273,9 @@ def table_confirmatory(snapshot: dict[str, Any]) -> str:
             rf"[{row['bootstrap_ci_95'][0]:.4f}, {row['bootstrap_ci_95'][1]:.4f}] & "
             rf"{row['exact_sign_flip_p']:.4f} \\"
         )
-    return """\\begin{table}[t]
+    return """\\begin{table}[H]
 \\centering
-\\caption{Frozen predictive contrasts. Differences are BuNN minus the named comparator.}
+\\caption{Pre-specified predictive contrasts. Differences are BuNN minus the named comparator.}
 \\label{tab:confirmatory}
 \\small
 \\begin{tabularx}{\\textwidth}{Xrrr}
@@ -299,7 +299,7 @@ def table_efficiency(snapshot: dict[str, Any]) -> str:
             rf"{row['mean_runtime_seconds']:.2f} & {row['maximum_peak_gpu_memory_gib']:.3f} & "
             rf"{row['equal_site_curve_balanced_accuracy']:.4f} \\"
         )
-    return """\\begin{table}[!h]
+    return """\\begin{table}[H]
 \\centering
 \\caption{Observed execution cost and predictive curve summary for the three diffusion operators. Runtime is implementation- and hardware-specific.}
 \\label{tab:efficiency}
@@ -330,7 +330,7 @@ def table_representation(repo_root: Path) -> str:
             rf"{labels[row['endpoint']]} & {float(row['estimate']):.4f} & "
             rf"[{float(row['ci_95_low']):.4f}, {float(row['ci_95_high']):.4f}] \\"
         )
-    return """\\begin{table}[t]
+    return """\\begin{table}[H]
 \\centering
 \\caption{BuNN-minus-GCN matched-anchor representation contrasts at layer 2.}
 \\label{tab:representation}
@@ -388,7 +388,7 @@ def table_robustness(snapshot: dict[str, Any]) -> str:
             rf"{labels[row['contrast']]} & {latex_escape(row['summary'].replace('_', ' '))} & "
             rf"{row['estimate']:.5f} \\"
         )
-    return """\\begin{table}[t]
+    return """\\begin{table}[H]
 \\centering
 \\caption{Pre-listed alternative summaries. Equal-site means remain confirmatory.}
 \\label{tab:robustness-summaries}
@@ -431,41 +431,487 @@ Contrast & Summary & Estimate \\\\
 """
 
 
-def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
-    cohort = snapshot["cohort"]
-    boxes = [
-        (0.02, 0.58, 0.20, 0.28, "ABIDE-I PCP\nAAL ROI time series", "#DCEAF7"),
-        (0.27, 0.58, 0.20, 0.28, f"Technical QC\n{cohort['participants']} participants, {cohort['held_out_sites']} sites", "#E3F2E1"),
-        (0.52, 0.58, 0.20, 0.28, f"Fisher-z connectomes\n{cohort['roi_count']} ROIs; {cohort['edge_features']:,} features", "#FFF0D5"),
-        (0.77, 0.58, 0.21, 0.28, "Positive-edge graphs\n0%, 1%, 5%, 10%, 20%", "#F5E1EC"),
-        (0.10, 0.10, 0.22, 0.28, "Nested held-out-site\nevaluation and tuning", "#E8E2F5"),
-        (0.39, 0.10, 0.22, 0.28, "Shared backbone\n5 operators / controls", "#DFF0EE"),
-        (0.68, 0.10, 0.22, 0.28, "Frozen prediction,\nrepresentation, robustness", "#F4E7D7"),
+def _draw_network(
+    axis: Any,
+    origin_x: float,
+    origin_y: float,
+    density: int,
+    ink: str,
+    accent: str,
+    faint: str,
+) -> None:
+    nodes = [
+        (-4.0, 0.0), (-2.0, 4.0), (2.0, 4.6),
+        (4.2, 0.5), (2.4, -3.8), (-2.4, -3.6),
     ]
-    with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 9}):
-        fig, axis = plt.subplots(figsize=(10.2, 4.2))
-        axis.set_xlim(0, 1)
-        axis.set_ylim(0, 1)
-        axis.axis("off")
-        for x, y, width, height, text, color in boxes:
-            patch = FancyBboxPatch(
-                (x, y), width, height, boxstyle="round,pad=0.015,rounding_size=0.02",
-                linewidth=1.1, edgecolor="#444444", facecolor=color,
+    edges = [
+        (0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 0),
+        (0, 2), (1, 3), (2, 4), (3, 5), (4, 0), (5, 1),
+    ]
+    visible = min(len(edges), max(0, density))
+    for index, (left, right) in enumerate(edges):
+        x1, y1 = nodes[left]
+        x2, y2 = nodes[right]
+        axis.plot(
+            [origin_x + x1, origin_x + x2],
+            [origin_y + y1, origin_y + y2],
+            color=accent if index < visible else faint,
+            linewidth=1.05 if index < visible else 0.45,
+            zorder=1,
+        )
+    for x, y in nodes:
+        axis.add_patch(
+            Circle(
+                (origin_x + x, origin_y + y),
+                0.62,
+                facecolor="#F8F6F1",
+                edgecolor=ink,
+                linewidth=0.85,
+                zorder=2,
             )
-            axis.add_patch(patch)
-            axis.text(x + width / 2, y + height / 2, text, ha="center", va="center", fontsize=9)
-        arrows = [
-            ((0.22, 0.72), (0.27, 0.72)), ((0.47, 0.72), (0.52, 0.72)),
-            ((0.72, 0.72), (0.77, 0.72)), ((0.875, 0.58), (0.79, 0.38)),
-            ((0.68, 0.24), (0.61, 0.24)), ((0.39, 0.24), (0.32, 0.24)),
+        )
+
+
+def plot_study_design(snapshot: dict[str, Any], output: Path) -> None:
+    """Draw a restrained overview without card-style interface motifs."""
+    cohort = snapshot["cohort"]
+    background = "#F8F6F1"
+    ink = "#1F2933"
+    accent = "#9B4A32"
+    muted = "#65727B"
+    faint = "#D8D5CE"
+
+    with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 8.5}):
+        fig, axis = plt.subplots(figsize=(10.8, 3.65))
+        fig.subplots_adjust(left=0.02, right=0.985, top=0.95, bottom=0.08)
+        axis.set_xlim(0, 100)
+        axis.set_ylim(0, 32)
+        axis.axis("off")
+        axis.set_facecolor(background)
+        fig.patch.set_facecolor(background)
+
+        axis.text(
+            2,
+            30.3,
+            "ABIDE-I  /  OPERATOR AUDIT",
+            color=ink,
+            fontsize=8.2,
+            weight="bold",
+            va="top",
+        )
+        axis.plot([2, 98], [28.4, 28.4], color=ink, linewidth=0.75)
+        for x in [25, 50, 75]:
+            axis.plot([x, x], [3.3, 26.7], color=faint, linewidth=0.75)
+
+        stages = [
+            (2.0, "01", "COHORT"),
+            (27.0, "02", "CONNECTOMES"),
+            (52.0, "03", "OPERATORS"),
+            (77.0, "04", "EVALUATION"),
         ]
-        for start, end in arrows:
-            axis.add_patch(FancyArrowPatch(start, end, arrowstyle="-|>", mutation_scale=12, linewidth=1.2, color="#555555"))
-        axis.text(0.5, 0.96, "Frozen ABIDE-I operator-audit workflow", ha="center", va="center", fontsize=11, weight="bold")
+        for x, number, label in stages:
+            axis.text(
+                x, 26.5, number, color=accent, fontsize=7.5, weight="bold", va="top"
+            )
+            axis.text(
+                x + 3.2,
+                26.5,
+                label,
+                color=ink,
+                fontsize=8.3,
+                weight="bold",
+                va="top",
+            )
+
+        # Cohort: site marks above three regional time series.
+        for site in range(cohort["held_out_sites"]):
+            x = 3.0 + (site % 9) * 2.15
+            y = 20.6 - (site // 9) * 2.25
+            height = 0.9 + (site % 4) * 0.28
+            axis.plot(
+                [x, x],
+                [y, y + height],
+                color=accent if site % 5 == 0 else muted,
+                linewidth=1.15,
+            )
+        waveform_x = [3.0 + index * 0.75 for index in range(25)]
+        for row in range(3):
+            waveform_y = [
+                11.8
+                - row * 2.0
+                + 0.55 * math.sin(index * (0.64 + row * 0.07) + row)
+                + 0.18 * math.cos(index * 1.7)
+                for index in range(25)
+            ]
+            axis.plot(
+                waveform_x,
+                waveform_y,
+                color=ink if row == 0 else muted,
+                linewidth=0.8,
+            )
+        axis.text(
+            2.5,
+            4.5,
+            f"{cohort['participants']} participants  ·  {cohort['held_out_sites']} sites\n"
+            "AAL regional time series",
+            color=ink,
+            fontsize=8.1,
+            linespacing=1.55,
+            va="bottom",
+        )
+
+        # Connectomes: a correlation matrix paired with a thresholded graph.
+        matrix_x, matrix_y, cell = 28.4, 17.6, 1.15
+        for row in range(6):
+            for column in range(6):
+                if row == column:
+                    shade = background
+                else:
+                    value = (row * 3 + column * 5) % 7
+                    shade = accent if value in {0, 1} else (ink if value == 2 else faint)
+                axis.add_patch(
+                    Rectangle(
+                        (matrix_x + column * cell, matrix_y - row * cell),
+                        cell * 0.78,
+                        cell * 0.78,
+                        facecolor=shade,
+                        edgecolor="none",
+                    )
+                )
+        _draw_network(axis, 42.0, 15.0, 8, ink, accent, faint)
+        axis.text(
+            27.8,
+            4.5,
+            f"{cohort['roi_count']} regions  ·  {cohort['edge_features']:,} edges\n"
+            "positive density: 0, 1, 5, 10, 20%",
+            color=ink,
+            fontsize=8.1,
+            linespacing=1.55,
+            va="bottom",
+        )
+
+        # Operators: five treatments share the same input and readout.
+        axis.plot([54.5, 54.5], [9.0, 21.0], color=ink, linewidth=1.0)
+        axis.plot([71.8, 71.8], [9.0, 21.0], color=ink, linewidth=1.0)
+        labels = [
+            "identity",
+            "learned local",
+            "GCN",
+            "trivial bundle",
+            "learned BuNN",
+        ]
+        for index, label in enumerate(labels):
+            y = 20.5 - index * 2.75
+            axis.add_patch(
+                Circle(
+                    (54.5, y),
+                    0.42,
+                    facecolor=background,
+                    edgecolor=ink,
+                    linewidth=0.8,
+                )
+            )
+            axis.plot([54.9, 60.0], [y, y], color=muted, linewidth=0.75)
+            if index >= 2:
+                axis.plot([60.0, 63.0], [y, y], color=accent, linewidth=1.35)
+            if index in {1, 4}:
+                axis.plot(
+                    [61.3, 62.2], [y - 0.5, y + 0.5], color=accent, linewidth=0.9
+                )
+            axis.plot([63.0, 71.4], [y, y], color=muted, linewidth=0.75)
+            axis.add_patch(
+                Circle(
+                    (71.8, y),
+                    0.42,
+                    facecolor=ink,
+                    edgecolor=ink,
+                    linewidth=0.8,
+                )
+            )
+            axis.text(
+                63.4,
+                y + 0.56,
+                label,
+                color=ink,
+                fontsize=6.8,
+                ha="center",
+                va="bottom",
+            )
+        axis.text(
+            52.8,
+            4.5,
+            "one backbone  ·  five controlled variants\n"
+            "only propagation and map capacity change",
+            color=ink,
+            fontsize=8.1,
+            linespacing=1.55,
+            va="bottom",
+        )
+
+        # Evaluation: repeated held-out-site splits and paired density curves.
+        block_x = 79.0
+        for column in range(6):
+            for row in range(3):
+                test = column == 4
+                axis.add_patch(
+                    Rectangle(
+                        (block_x + column * 1.55, 19.7 - row * 1.55),
+                        1.0,
+                        1.0,
+                        facecolor=accent if test else "none",
+                        edgecolor=accent if test else muted,
+                        linewidth=0.7,
+                    )
+                )
+        axis.text(
+            89.7,
+            17.9,
+            "one site held out",
+            color=muted,
+            fontsize=6.7,
+            rotation=90,
+            va="center",
+        )
+        curve_x = [79.0, 82.3, 85.6, 88.9, 92.2, 95.5]
+        curve_y_a = [13.6, 13.0, 12.2, 11.4, 10.7, 10.1]
+        curve_y_b = [13.1, 12.5, 11.9, 11.3, 10.5, 9.8]
+        axis.plot(curve_x, curve_y_a, color=ink, linewidth=1.25)
+        axis.plot(curve_x, curve_y_b, color=accent, linewidth=1.25)
+        for x, y in zip(curve_x, curve_y_b):
+            axis.add_patch(
+                Circle(
+                    (x, y),
+                    0.25,
+                    facecolor=background,
+                    edgecolor=accent,
+                    linewidth=0.8,
+                )
+            )
+        axis.text(
+            77.8,
+            3.3,
+            "nested site-held-out validation\n"
+            "paired density curves\n"
+            "common-frame diagnostics",
+            color=ink,
+            fontsize=8.1,
+            linespacing=1.55,
+            va="bottom",
+        )
+
         output.parent.mkdir(parents=True, exist_ok=True)
         fig.savefig(
-            output, dpi=300, bbox_inches="tight", facecolor="white",
-            metadata={"Software": "bunn-abide Step 13.2 manuscript-input builder"},
+            output,
+            dpi=300,
+            facecolor=background,
+            metadata={"Software": "bunn-abide manuscript-input builder"},
+        )
+        plt.close(fig)
+
+
+def plot_operator_schematic(output: Path) -> None:
+    """Show the operator distinction without implying biological transport."""
+    background = "#F8F6F1"
+    ink = "#1F2933"
+    accent = "#9B4A32"
+    muted = "#65727B"
+    faint = "#D8D5CE"
+
+    with plt.rc_context({"font.family": "DejaVu Sans", "font.size": 8.5}):
+        fig, axis = plt.subplots(figsize=(10.8, 3.25))
+        fig.subplots_adjust(left=0.02, right=0.985, top=0.94, bottom=0.08)
+        axis.set_xlim(0, 100)
+        axis.set_ylim(0, 28)
+        axis.axis("off")
+        axis.set_facecolor(background)
+        fig.patch.set_facecolor(background)
+        axis.text(
+            2,
+            26.2,
+            "WHAT CHANGES BETWEEN THE THREE MAIN CONTROLS",
+            color=ink,
+            fontsize=8.2,
+            weight="bold",
+            va="top",
+        )
+        axis.plot([2, 98], [24.4, 24.4], color=ink, linewidth=0.75)
+        axis.plot([34, 34], [3, 22.6], color=faint, linewidth=0.75)
+        axis.plot([67, 67], [3, 22.6], color=faint, linewidth=0.75)
+
+        panels = [
+            (2.5, "GCN", "average neighboring features\nin their current coordinates"),
+            (36.0, "LEARNED LOCAL", "learn node-wise maps\nwithout exchanging information"),
+            (69.0, "LEARNED BuNN", "transport to a common frame,\nthen diffuse across edges"),
+        ]
+        for left, heading, description in panels:
+            axis.text(
+                left, 22.2, heading, color=accent, fontsize=8.2, weight="bold", va="top"
+            )
+            axis.text(
+                left,
+                5.2,
+                description,
+                color=ink,
+                fontsize=8.0,
+                linespacing=1.5,
+                va="top",
+            )
+
+        neighbor_positions = [(7, 15.5), (13, 19.0), (13, 12.0)]
+        target = (26.5, 15.5)
+        for x, y in neighbor_positions:
+            axis.add_patch(
+                Circle(
+                    (x, y),
+                    1.05,
+                    facecolor=background,
+                    edgecolor=ink,
+                    linewidth=0.85,
+                )
+            )
+            axis.add_patch(
+                FancyArrowPatch(
+                    (x + 1.1, y),
+                    (target[0] - 1.2, target[1]),
+                    arrowstyle="-|>",
+                    mutation_scale=8,
+                    linewidth=0.75,
+                    color=muted,
+                )
+            )
+        axis.add_patch(Circle(target, 1.25, facecolor=ink, edgecolor=ink))
+        axis.text(
+            target[0],
+            target[1] - 0.05,
+            r"$\Sigma$",
+            color=background,
+            fontsize=10,
+            ha="center",
+            va="center",
+        )
+
+        local_nodes = [(42.0, 15.5, 20), (50.5, 18.2, -25), (58.5, 13.3, 42)]
+        for x, y, angle in local_nodes:
+            axis.add_patch(
+                Circle(
+                    (x, y),
+                    1.05,
+                    facecolor=background,
+                    edgecolor=ink,
+                    linewidth=0.85,
+                )
+            )
+            length = 2.3
+            dx = length * math.cos(math.radians(angle))
+            dy = length * math.sin(math.radians(angle))
+            axis.add_patch(
+                FancyArrowPatch(
+                    (x, y),
+                    (x + dx, y + dy),
+                    arrowstyle="-|>",
+                    mutation_scale=8,
+                    linewidth=1.0,
+                    color=accent,
+                )
+            )
+        axis.text(
+            50.2,
+            10.0,
+            "no cross-node path",
+            color=muted,
+            fontsize=7.0,
+            ha="center",
+        )
+
+        source_positions = [(73.5, 19.0, 35), (73.5, 15.5, -30), (73.5, 12.0, 70)]
+        align_x = 84.0
+        target_x = 94.0
+        for x, y, angle in source_positions:
+            axis.add_patch(
+                Circle(
+                    (x, y),
+                    0.9,
+                    facecolor=background,
+                    edgecolor=ink,
+                    linewidth=0.8,
+                )
+            )
+            dx = 1.8 * math.cos(math.radians(angle))
+            dy = 1.8 * math.sin(math.radians(angle))
+            axis.add_patch(
+                FancyArrowPatch(
+                    (x, y),
+                    (x + dx, y + dy),
+                    arrowstyle="-|>",
+                    mutation_scale=7,
+                    linewidth=0.9,
+                    color=muted,
+                )
+            )
+            axis.add_patch(
+                FancyArrowPatch(
+                    (x + 1.0, y),
+                    (align_x - 1.0, y),
+                    arrowstyle="->",
+                    mutation_scale=7,
+                    linewidth=0.65,
+                    color=faint,
+                )
+            )
+            axis.add_patch(
+                FancyArrowPatch(
+                    (align_x, y),
+                    (align_x + 1.8, y),
+                    arrowstyle="-|>",
+                    mutation_scale=7,
+                    linewidth=1.0,
+                    color=accent,
+                )
+            )
+            axis.add_patch(
+                FancyArrowPatch(
+                    (align_x + 2.0, y),
+                    (target_x - 1.2, 15.5),
+                    arrowstyle="-|>",
+                    mutation_scale=7,
+                    linewidth=0.75,
+                    color=muted,
+                )
+            )
+        axis.plot(
+            [align_x - 1.4, align_x - 1.4],
+            [10.7, 20.3],
+            color=faint,
+            linewidth=0.7,
+            linestyle=(0, (2, 2)),
+        )
+        axis.text(
+            align_x - 1.4,
+            21.0,
+            "common frame",
+            color=muted,
+            fontsize=6.8,
+            ha="center",
+        )
+        axis.add_patch(
+            Circle((target_x, 15.5), 1.25, facecolor=ink, edgecolor=ink)
+        )
+        axis.text(
+            target_x,
+            15.45,
+            r"$\Sigma$",
+            color=background,
+            fontsize=10,
+            ha="center",
+            va="center",
+        )
+
+        output.parent.mkdir(parents=True, exist_ok=True)
+        fig.savefig(
+            output,
+            dpi=300,
+            facecolor=background,
+            metadata={"Software": "bunn-abide manuscript-input builder"},
         )
         plt.close(fig)
 
@@ -496,8 +942,10 @@ def build_manuscript_inputs(repo_root: Path, contract_path: Path) -> dict[str, A
         atomic_write(path, payload)
     study_design = repo_root / "paper/generated/figures/study_design.png"
     plot_study_design(snapshot, study_design)
+    operator_schematic = repo_root / "paper/generated/figures/operator_schematic.png"
+    plot_operator_schematic(operator_schematic)
 
-    generated_paths = sorted([*outputs, study_design])
+    generated_paths = sorted([*outputs, study_design, operator_schematic])
     generated_records = [
         {
             "path": path.relative_to(repo_root).as_posix(),

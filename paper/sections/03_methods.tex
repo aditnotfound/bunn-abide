@@ -3,68 +3,71 @@
 % Claims C01, C02, C03, C04, C05, C06, C09, C10
 \subsection{Study design}
 
-\begin{figure}[t]
+\begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{study_design.png}
-  \caption{Frozen study workflow. All feature preprocessing, model selection,
-  and hyperparameter selection were confined to training sites. The final
-  held-out site was used only for evaluation.}
+  \caption{Study design. Preprocessing, model selection, and hyperparameter
+  selection used training sites only. Each outer site remained untouched until
+  its final evaluation.}
   \label{fig:study-design}
 \end{figure}
 
-The protocol was organized as a controlled operator audit
-(\cref{fig:study-design}). Classical baselines were completed and independently
-audited first. A shared neural backbone was then paired with five propagation
-or capacity-control variants. All neural configurations used the same outer
-sites, inner grouped folds, candidate budget, stopping rule, and final seeds.
-The complete neural artifact was audited without revealing performance values;
-confirmatory analysis code and decision rules were frozen before unblinding.
+The experiment isolates the propagation operator while holding the surrounding
+pipeline fixed (\cref{fig:study-design}). We completed and audited the
+classical baselines before fitting the neural models. Five propagation or
+capacity-control variants then shared one neural backbone. They used identical
+outer sites, grouped inner folds, candidate budgets, stopping rules, and final
+seeds. Before examining performance, we verified the complete neural artifact
+and froze the confirmatory analysis code and decision rules.
 
 \subsection{Dataset and technical quality control}
 
-We used ABIDE-I C-PAC derivatives distributed by the Preprocessed Connectomes
-Project \citep{dimartino2014abide,abidepcp}. The frozen source was the
-band-pass-filtered, no-global-signal-regression AAL ROI time-series derivative.
+We used the ABIDE-I C-PAC derivatives released by the Preprocessed Connectomes
+Project \citep{dimartino2014abide,abidepcp}. The source was the
+band-pass-filtered AAL ROI time-series derivative without global-signal
+regression.
 The AAL atlas defines macroscopic anatomical regions in standardized space
-\citep{tzourio2002aal}. A downloaded file was technically eligible only if it
-had a valid header, finite numeric values, non-zero variance for every ROI, and
-produced a finite connectome. Of \StudyParentRows{} downloaded files,
-\StudyTechnicalExclusions{} failed the zero-variance requirement, leaving
+\citep{tzourio2002aal}. Eligibility required a valid header, finite numeric
+values, non-zero variance in every ROI, and a finite resulting connectome. Of
+\StudyParentRows{} downloaded files, \StudyTechnicalExclusions{} failed the
+zero-variance check. The retained cohort contained
 \StudyParticipants{} participants (\StudyASD{} ASD and \StudyControls{}
-controls) across \StudySites{} evaluable sites. These rules establish technical
+controls) from \StudySites{} evaluable sites. These checks establish technical
 eligibility, not population representativeness.
 
 \input{generated/tex/table_cohort.tex}
 
 \subsection{Connectomes, node features, and graphs}
 
-For each participant, Pearson correlations were computed between all pairs of
-\StudyROIs{} ROI time series and transformed with Fisher's $r$-to-$z$
-transformation. Diagonal entries were set to zero. The resulting matrix was
-finite and symmetric, and its \StudyEdges{} lower-triangle values formed the
-classical feature vector. Each neural node received its full connectivity row
-as a \StudyROIs{}-dimensional feature, so node inputs were globally informed.
+For each participant, we calculated Pearson correlations between every pair of
+\StudyROIs{} ROI time series and applied Fisher's $r$-to-$z$ transformation.
+We set the diagonal to zero. The \StudyEdges{} values in the lower triangle of
+the finite, symmetric matrix formed the classical feature vector. For the
+neural models, each node received its complete connectivity row as a
+\StudyROIs{}-dimensional feature. The node inputs were thus globally informed
+before any message passing occurred.
 
-For nonzero graph conditions, the strongest positive off-diagonal associations
-were retained symmetrically at densities of 1, 5, 10, and 20 percent. Density
-zero contained only the matched identity or learned-local anchor. Negative
-associations were excluded as a pre-specified computational choice and were
-not interpreted biologically.
+At nonzero densities, we retained the strongest positive off-diagonal
+associations symmetrically at 1, 5, 10, and 20 percent. Density zero contained
+only the matched identity or learned-local anchor. The exclusion of negative
+associations was a pre-specified computational choice, not a biological
+interpretation.
 
 \subsection{Classical baselines}
 
-Three logistic baselines were fit: covariates only, vectorized connectomes with
-elastic-net regularization, and connectomes plus covariates. Elastic-net
+We fit three logistic baselines: covariates alone, vectorized connectomes with
+elastic-net regularization, and connectomes combined with covariates. Elastic-net
 regularization combines $\ell_1$ and $\ell_2$ penalties and is appropriate for
 correlated high-dimensional predictors \citep{zou2005elastic}. Covariates were
 age, sex, mean framewise displacement, and usable scan length. Scaling,
-feature processing, and tuning were fit using training sites only.
+feature processing, and tuning used training sites only.
 
 \subsection{Shared neural backbone and operators}
 
-The encoder, hidden width, depth, nonlinearities, normalization, dropout,
-pooling, classifier, optimizer, training schedule, and tuning budget were held
-constant. The variants were:
+All variants shared the encoder, hidden width, depth, nonlinearities,
+normalization, dropout, pooling, classifier, optimizer, training schedule, and
+tuning budget. Only propagation and the capacity associated with learned maps
+changed:
 
 \begin{enumerate}
   \item \textbf{Identity}: no inter-node propagation.
@@ -78,52 +81,62 @@ constant. The variants were:
   diffusion \citep{bamberger2025bundle}.
 \end{enumerate}
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{operator_schematic.png}
+  \caption{Schematic distinction among GCN aggregation, the learned-local
+  capacity control, and learned bundle transport. The drawing describes a
+  computational operation only; it does not represent biological signal flow.}
+  \label{fig:operator-schematic}
+\end{figure}
+
 \subsection{Nested held-out-site evaluation}
 
-Each of the \StudySites{} sites served once as the outer test site. Within the
-remaining sites, four grouped inner folds selected among four equal-budget
-AdamW candidates using two tuning seeds. The selected configuration was refit
-with five fixed final seeds. Predictions from a test site were never used for
-scaling, tuning, early stopping, or configuration selection. The primary
-predictive endpoint was equal-site mean balanced accuracy; pooled balanced
-accuracy and AUROC were secondary summaries.
+Each of the \StudySites{} sites served once as the outer test site. Four
+grouped folds within the remaining sites selected among four equal-budget
+AdamW candidates using two tuning seeds. We refit the selected configuration
+with five fixed final seeds. Test-site data did not enter scaling, tuning,
+early stopping, or configuration selection. Equal-site mean balanced accuracy
+was the primary predictive endpoint. Pooled balanced accuracy and AUROC were
+secondary.
 
 \subsection{Density curves and representation diagnostics}
 
 The primary predictive estimand was the normalized trapezoidal area under the
-balanced-accuracy curve across the complete density grid. GCN and
-trivial-bundle curves used identity at density zero; the learned-BuNN curve used
-the parameter-matched learned-local anchor. This prevented a favorable density
-from replacing the pre-specified curve-level comparison.
+balanced-accuracy curve across the full density grid. GCN and trivial-bundle
+curves used identity at density zero. The learned-BuNN curve used the
+parameter-matched learned-local anchor. Evaluating the entire curve prevented
+the analysis from selecting a favorable density after the fact.
 
-After each propagation layer, embeddings were mapped to a common learned frame
-before cross-node comparison. The primary representation endpoint was
-normalized effective rank at layer 2. Normalized dispersion, mean pairwise
-cosine similarity, invariant edge-transport distance, and encoder-to-layer-2
-rank change were secondary. Predictive and representation behavior were tested
-as co-occurring outcomes; no mediation or causal claim was made.
+After every propagation layer, we mapped embeddings into a common learned
+frame before comparing nodes. Normalized effective rank at layer 2 was the
+primary representation endpoint. Secondary measures were normalized
+dispersion, mean pairwise cosine similarity, invariant edge-transport
+distance, and the change in rank from encoder to layer 2. Prediction and
+representation were analyzed as co-occurring outcomes, without a mediation or
+causal claim.
 
 \subsection{Statistical analysis and decision rule}
 
-Five final seeds were averaged within each site and configuration before
-site-level inference. Paired percentile intervals used 10,000 bootstrap
-resamples of the \StudySites{} held-out sites. Exact two-sided paired sign-flip
-tests accompanied curve contrasts. Density-specific tests were secondary and
-Holm-corrected within each named contrast family.
+We averaged the five final seeds within each site and configuration before
+site-level inference. Paired percentile intervals came from 10,000 bootstrap
+resamples of the \StudySites{} held-out sites. Curve contrasts also received
+exact two-sided paired sign-flip tests. Density-specific tests were secondary
+and Holm-corrected within each named contrast family.
 
-A complete positive BuNN result required all three pre-specified conditions:
-better representation preservation than GCN, better held-out prediction than
-GCN and no-propagation controls, and performance exceeding the strongest
-regularized baseline. A confidence interval containing zero was reported as no
-advantage detected. Absence of a practically meaningful gain was asserted only
-when the upper bound excluded the pre-specified +\PracticalMargin{} balanced-
-accuracy margin.
+The positive-result rule required three conditions: stronger representation
+preservation than GCN, better held-out prediction than GCN and the
+no-propagation controls, and performance above the strongest regularized
+baseline. We reported a confidence interval containing zero as no detected
+advantage. We ruled out a practically meaningful gain only when the upper
+bound excluded the pre-specified +\PracticalMargin{} balanced-accuracy margin.
 
 \subsection{Run integrity and reproducibility}
 
-Long runs used atomic per-site checkpoints, immutable data/configuration/source
-hashes, deterministic site ownership, resume validation, and independent
-completion audits. The accepted neural run contained all outer sites and
-passed the frozen coverage, recomputation, diagnostic, runtime, and warning
-checks before the result embargo was lifted. Paper values are generated from a
-hash-bound result snapshot rather than typed independently.
+Long runs wrote atomic checkpoints after each site and recorded immutable
+hashes for the data, configuration, and source. Deterministic site ownership,
+resume validation, and independent completion audits guarded the distributed
+run. The accepted neural artifact covered every outer site and passed checks
+for coverage, recomputation, diagnostics, runtime, and warnings before
+unblinding. Manuscript values are generated from a hash-bound result snapshot
+instead of being copied by hand.

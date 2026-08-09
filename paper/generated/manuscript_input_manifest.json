@@ -25,9 +25,14 @@
   ],
   "generated_inputs": [
     {
-      "bytes": 139173,
+      "bytes": 136818,
+      "path": "paper/generated/figures/operator_schematic.png",
+      "sha256": "fd49922e32b777fd14c396f0477ae189d40e1d4068fbd8e04d58f20b7fe48838"
+    },
+    {
+      "bytes": 208136,
       "path": "paper/generated/figures/study_design.png",
-      "sha256": "fc7781cddb4fca05dd1cc5540e8da8f79dce78929275bde128caed46e8572d7e"
+      "sha256": "bb4f10206f9521f79f564a060270775533b16d7d9d4ae514193397965eadc147"
     },
     {
       "bytes": 1373,
@@ -47,32 +52,32 @@
     {
       "bytes": 463,
       "path": "paper/generated/tex/table_baselines.tex",
-      "sha256": "10a2af873d68d72ad9da0b34eabfa74f37300c4254cd930eebebefaa745fda6d"
+      "sha256": "56ba6f41d6663b0952159f6553f06a57ed994014575f5f1557e08920290fa36f"
     },
     {
-      "bytes": 424,
+      "bytes": 436,
       "path": "paper/generated/tex/table_cohort.tex",
-      "sha256": "cd6649a4e58b84087922b294040d07937fb4db0d0dd472d34881400f4c044eaa"
+      "sha256": "6a52c9a0ed1e6363be6435f5c410b7da7d454777efe9e114da68aacdddeaaeaf"
     },
     {
-      "bytes": 667,
+      "bytes": 674,
       "path": "paper/generated/tex/table_confirmatory.tex",
-      "sha256": "b0a5c6af49fc960608b2392e926dd0badccb26002b84c0c1ab1efdead77d7ded"
+      "sha256": "9d6489b10b4914faee57f4d582a9a15dd5f1ea5a95501cacaa40f81846b5ba0a"
     },
     {
-      "bytes": 521,
+      "bytes": 520,
       "path": "paper/generated/tex/table_efficiency.tex",
-      "sha256": "82549f7fa6f4c9497b4206b3e80013ab29cc70768e65fbd6257211d69131056f"
+      "sha256": "9752b7097cec3934e8ec7197db7a19c197753888a01cd300d622555ae24d1b03"
     },
     {
       "bytes": 599,
       "path": "paper/generated/tex/table_representation.tex",
-      "sha256": "f5e096a6ce4fef3cf8a2c5f2efa6490b71e4641e124b42f52dce88eb74bc2fc1"
+      "sha256": "89ad04d15b3e8713eba774e1f52b4b849f04d7867d558c8915d9047339af9b4c"
     },
     {
       "bytes": 819,
       "path": "paper/generated/tex/table_robustness.tex",
-      "sha256": "4d1894dbdbe97f9c77832315ceb15aa63ef1e827fa255e3ed95d8053b7b23818"
+      "sha256": "1c5ef3c099a6b933fc989417168b419a7ded57600adbc657b8a830257f0896d8"
     }
   ],
   "paper_assets_commit": "08ccc89369517c82bf6c8142c4d94964cc983252",
