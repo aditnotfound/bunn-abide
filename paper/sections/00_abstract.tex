@@ -1,0 +1,24 @@
+\begin{abstract}
+Graph neural networks appear naturally suited to functional connectomes, but
+recent controlled evidence suggests that neighborhood aggregation can degrade
+prediction when node features already encode global connectivity profiles.
+This study tested whether learned orthogonal bundle transport changes that
+density-dependent behavior. Using \StudyParticipants{} technically eligible
+ABIDE-I participants from \StudySites{} sites, we compared a shared-backbone
+identity network, a learned-local capacity control, GCN aggregation,
+trivial-bundle diffusion, and learned BuNN transport across retained positive
+edge densities of 0, 1, 5, 10, and 20 percent. Evaluation used nested
+held-out-site validation, five final seeds, regularized non-graph baselines,
+and common-frame representation diagnostics. The primary BuNN-minus-GCN
+performance-curve contrast was \BunnGcnEstimate{} (95\% site-bootstrap CI
+[\BunnGcnCILow{}, \BunnGcnCIHigh{}]; exact sign-flip $p=\BunnGcnP$). BuNN was
+also below the connectome elastic-net reference by \BunnElasticEstimate{}
+(95\% CI [\BunnElasticCILow{}, \BunnElasticCIHigh{}]). The matched-anchor
+effective-rank contrast was \RankEstimate{} (95\% CI [\RankCILow{},
+\RankCIHigh{}]), opposite the proposed preservation advantage. The small
+BuNN-GCN contrast was sensitive to site weighting and training seed. Under
+this specified ABIDE-I pipeline, learned bundle transport therefore showed no
+detected predictive or representation-preservation advantage. The result is a
+conditional computational audit, not evidence about biological bundle
+geometry or universal BuNN performance.
+\end{abstract}

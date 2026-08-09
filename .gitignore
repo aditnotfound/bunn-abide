@@ -30,3 +30,15 @@ aws-credentials*
 Thumbs.db
 .vscode/
 .idea/
+
+# LaTeX intermediates and visual-QA renders
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+tmp/pdfs/

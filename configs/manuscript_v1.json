@@ -1,0 +1,39 @@
+{
+  "contract_version": "step13_manuscript_v1",
+  "evidence_commit": "a4def2a1f14f1bbff71356d0689eeeee4f405f4a",
+  "paper_assets_commit": "08ccc89369517c82bf6c8142c4d94964cc983252",
+  "title": "Bundle Neural Networks for Functional Connectomes: A Controlled Test of Density-Dependent Aggregation and Representation Collapse",
+  "author": "Adit Patil",
+  "affiliation": "School of Scholars, Akola, India",
+  "scope": "compiling manuscript scaffold bound to the frozen Step 13.1 evidence; no new inference or model fitting",
+  "frozen_inputs": {
+    "docs/step13_claim_ledger.md": "68faeaa04bc4343cc8cfb757bbb76e549e231f307804d0b91480bd0b6eb173fd",
+    "paper/generated/paper_asset_manifest.json": "b449f93b7a747fb29386a5fbf7efa915c954a17956d20682e4ba68e6a8f6a6b2",
+    "reproducibility/artifact_manifest.json": "558a88d17c6b678114ea8912dec72f0452f09e5edc5cb787c76626efc46f792d",
+    "reproducibility/result_snapshot.json": "dabfa42ed885b9121881d9221b2c2ba8c476f89b8fa47f249a56e2d9228fcad0"
+  },
+  "claim_ids": ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"],
+  "required_generated_outputs": [
+    "paper/generated/figures/study_design.png",
+    "paper/generated/numbers.tex",
+    "paper/generated/tex/table_baselines.tex",
+    "paper/generated/tex/table_cohort.tex",
+    "paper/generated/tex/table_confirmatory.tex",
+    "paper/generated/tex/table_efficiency.tex",
+    "paper/generated/tex/table_representation.tex",
+    "paper/generated/tex/table_robustness.tex",
+    "paper/generated/tex/supplement_representation_tabular.tex",
+    "paper/generated/tex/supplement_robustness_tabular.tex",
+    "paper/generated/manuscript_input_manifest.json"
+  ],
+  "verified_primary_sources": {
+    "abide": "https://doi.org/10.1038/mp.2013.78",
+    "abide_pcp": "https://fcon_1000.projects.nitrc.org/indi/abide/preprocessed.html",
+    "bunn": "https://proceedings.iclr.cc/paper_files/paper/2025/hash/2ac879d1865475a7abc8dfc7a9c15c27-Abstract-Conference.html",
+    "elastic_net": "https://doi.org/10.1111/j.1467-9868.2005.00503.x",
+    "gcn": "https://openreview.net/forum?id=SJU4ayYgl",
+    "global_signal": "https://doi.org/10.1016/j.neuroimage.2016.11.052",
+    "han_connectome_benchmark": "https://doi.org/10.1038/s44387-025-00067-x",
+    "neural_sheaf_diffusion": "https://proceedings.neurips.cc/paper_files/paper/2022/hash/75c45fca2aa416ada062b26cc4fb7641-Abstract.html"
+  }
+}

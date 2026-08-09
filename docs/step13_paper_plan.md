@@ -1,8 +1,8 @@
 # Step 13 Paper and Reproducibility Plan
 
-Status: **Steps 13.0--13.1 complete.** All 28 frozen inputs validated, 12
-contract outputs were generated, repeated builds were byte-identical, all four
-figures passed visual inspection, and the complete local suite passed 67 tests.
+Status: **Steps 13.0--13.2 complete.** The evidence package, publication
+assets, manuscript inputs, main paper, and supplement are now built and
+verified. The current complete local unittest suite passes 62 tests.
 
 ## Scope
 
@@ -75,9 +75,35 @@ Step 13.0--13.1 is complete only when:
 
 All six gates passed on 2026-08-09.
 
-## Next paper-writing gate
+## Step 13.2 - manuscript and supplement
 
-Only after these checks pass should Step 13.2 create the LaTeX manuscript and
-use the generated tables, figures, and result snapshot. Numbers must not be
-typed independently into the manuscript when a generated macro or table can
-provide them.
+`configs/manuscript_v1.json` binds the claim ledger, result snapshot, evidence
+manifest, and paper-asset manifest by SHA-256. The manuscript-input builder
+validates those inputs before generating the study-design figure, numeric
+LaTeX macros, main-paper tables, inline supplement tables, and a generated-input
+manifest. A bounded Windows retry preserves atomic output replacement if
+OneDrive briefly locks a generated file.
+
+The manuscript uses the original project's ABIDE connectomes, BuNN operator,
+aggregation question, and cross-site objective while explicitly narrowing the
+unidentifiable signed-edge interpretation to a controlled computational audit.
+Secondary site and seed plots are placed in the supplement so they remain
+visible without interrupting the main Results-to-Discussion flow.
+
+Completion checks on 2026-08-09:
+
+- all four bound manuscript inputs and all 11 staged paper assets validated;
+- 11 generated manuscript inputs were byte-deterministic across rebuilds;
+- all citation keys and claim IDs resolved;
+- headline values were absent from narrative source files and supplied through
+  generated macros or tables;
+- the complete repository suite passed 62 tests;
+- the 8-page main PDF and 3-page supplement compiled with BibTeX where needed;
+- all 11 final PDF pages were rendered and visually inspected; and
+- PDF text and LaTeX logs contained no unresolved citation/reference or fatal
+  error markers.
+
+No model was refit and no new inferential analysis was performed in Step 13.2.
+The PDFs are a reproducible manuscript scaffold, not a venue-specific final
+submission; authorship, target style, and any external-release details still
+require the researcher's review.
