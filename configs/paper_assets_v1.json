@@ -5,6 +5,7 @@
   "scope": "presentation and traceability only; no model fitting or new inferential selection",
   "frozen_inputs": {
     "configs/abide_i_analysis_manifest.json": "73651f835aee2f7d9b1bb7dc902e769fb5242df343d675478283e18f5ff4b669",
+    "configs/neural_confirmatory_analysis_v1.json": "aa031cac896681dcdc79e3cbb46170587121c1fef6497a84a6c39476e988d859",
     "outputs/analysis/step7_6_full_baselines_v2/analysis_manifest.json": "9fde7803904ee33e633f597f6971ec5e760121e3d8ca21acd09963b1d0514a89",
     "outputs/analysis/step7_6_full_baselines_v2/model_summary.csv": "29f3873ffa6bca7654908d7aac5e320ad786b48222a10a4e6ccdba4e1897db5b",
     "outputs/analysis/step7_6_full_baselines_v2/paired_balanced_accuracy_differences.csv": "240d4caccbd39e843c611b3159dddd877ecbf96947c83a46b0f2270964ec88c8",
@@ -14,6 +15,8 @@
     "outputs/analysis/step11_neural_full_parallel_v1/confirmatory_predictive_contrasts.csv": "d1d8f291c2ecabe64d1752156c2d7c5ff3575855d3c557ddb12eb9c22e70ed3a",
     "outputs/analysis/step11_neural_full_parallel_v1/density_specific_contrasts.csv": "8e8284f6e004a27315ddc4728a0a1c1da2907401df2dd3583aa688fd7fefa2c2",
     "outputs/analysis/step11_neural_full_parallel_v1/representation_contrasts.csv": "6733bbc69b1d6ae2a42025e5c48d0cea7d567e74d44b915a4479c1ee0ac3fa4f",
+    "outputs/analysis/step11_neural_full_parallel_v1/site_configuration_metrics.csv": "4037dca2e55cf92d724fbf774e542f9c9256a0e2db2ec36dd780b8d171ef660d",
+    "outputs/analysis/step11_neural_full_parallel_v1/site_representation_metrics.csv": "007c08896e7a2ec0e8350aeb807924712f2b06d00d9608ba0d6992ca88468b3e",
     "outputs/analysis/step11_neural_full_parallel_v1/predictive_density_curves.png": "0991254e1f09b5329b62704dd227fda836517e283be3068c93018222ab13839e",
     "outputs/analysis/step11_neural_full_parallel_v1/representation_density_curves.png": "4d2d9a3ccaeb1ecff8764cf988bad93643cd21df9f72902e9114ff8897e9e514",
     "outputs/analysis/step11_neural_full_parallel_v1.tar.gz": "d03235fd99d08c6eff639070731c822d0fc9bf57d8382a2a697f2678b2ee5405",
@@ -30,12 +33,12 @@
     "outputs/archives/step10_neural_full_parallel_v1.integrity.json": "19b61c643348498669426b93d5f7b4fc8d0b449a7c635177a9075b991df70960",
     "outputs/archives/step10_neural_full_parallel_v1.sealed.tar.gz": "91ffbd55da98064149d90ff3273e80bcd6c4d5d6195d0ac64344747ecdd5082f"
   },
-  "staged_figures": {
-    "predictive_density_curves.png": "outputs/analysis/step11_neural_full_parallel_v1/predictive_density_curves.png",
-    "representation_density_curves.png": "outputs/analysis/step11_neural_full_parallel_v1/representation_density_curves.png",
-    "site_influence.png": "outputs/analysis/step12_neural_robustness_v1/site_influence.png",
-    "seed_stability.png": "outputs/analysis/step12_neural_robustness_v1/seed_stability.png"
-  },
+  "generated_figures": [
+    "predictive_density_curves.png",
+    "representation_density_curves.png",
+    "site_influence.png",
+    "seed_stability.png"
+  ],
   "required_outputs": [
     "paper/generated/figures/predictive_density_curves.png",
     "paper/generated/figures/representation_density_curves.png",

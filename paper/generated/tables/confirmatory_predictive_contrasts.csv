@@ -1,0 +1,6 @@
+contrast,estimand,primary,held_out_sites,estimate,ci_95_low,ci_95_high,exact_sign_flip_p,practical_margin
+learned_bunn_curve_minus_gcn_curve,normalized balanced-accuracy density-curve area; BuNN minus GCN,1,18,-0.009578650270252929,-0.036648034920577756,0.011455085043534615,0.5237274169921875,0.03
+learned_bunn_curve_minus_trivial_bundle_curve,normalized balanced-accuracy density-curve area; BuNN minus trivial bundle,0,18,-0.006187939547536597,-0.029304090813759967,0.010820503246898755,0.6812744140625,0.03
+learned_bunn_nonzero_minus_learned_local,mean nonzero-density balanced accuracy; BuNN minus learned-local,0,18,-0.016703213797187446,-0.03466484218029784,0.0008523075542544833,0.0958099365234375,0.03
+learned_bunn_nonzero_minus_identity,mean nonzero-density balanced accuracy; BuNN minus identity,0,18,-0.014646364647805134,-0.032022463804772985,0.0018194247179693756,0.115509033203125,0.03
+learned_bunn_curve_minus_connectome_elastic_net,BuNN normalized curve area minus site-matched connectome elastic net,0,18,-0.05516087023513731,-0.08296617448064689,-0.027515645115699438,0.00176239013671875,0.03
