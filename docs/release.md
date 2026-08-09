@@ -44,6 +44,13 @@ python -m pytest -q
 python scripts/build_release_package.py
 ```
 
+With the private analysis archives present, the complete suite runs 75 tests.
+In a public clone, 72 tests run and three private evidence-regeneration tests
+are explicitly skipped. The public suite still verifies the frozen result
+snapshot, manuscript inputs, release contents, privacy scan, and deterministic
+archive. Regenerating the Step 13.1 paper assets from raw accepted analysis
+outputs requires the excluded private evidence package.
+
 The release builder scans every included text file for private paths,
 credentials, IP addresses, notification addresses, and AWS resource identifiers.
 It then writes a deterministic ZIP archive and a SHA-256 manifest under

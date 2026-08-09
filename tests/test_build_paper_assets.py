@@ -12,6 +12,17 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = REPO_ROOT / "configs/paper_assets_v1.json"
 
 
+def private_evidence_available() -> bool:
+    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+    return all((REPO_ROOT / relative).is_file() for relative in contract["frozen_inputs"])
+
+
+PRIVATE_EVIDENCE_AVAILABLE = private_evidence_available()
+PRIVATE_EVIDENCE_REASON = (
+    "private Step 7/11/12 evidence archives are not distributed in the public package"
+)
+
+
 class PaperAssetTests(unittest.TestCase):
     def build_in_temporary_directory(self, root: Path) -> dict[str, object]:
         return build_paper_assets(
@@ -21,6 +32,7 @@ class PaperAssetTests(unittest.TestCase):
             root / "reproducibility",
         )
 
+    @unittest.skipUnless(PRIVATE_EVIDENCE_AVAILABLE, PRIVATE_EVIDENCE_REASON)
     def test_real_frozen_evidence_builds_expected_snapshot(self) -> None:
         with TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -47,6 +59,7 @@ class PaperAssetTests(unittest.TestCase):
             self.assertFalse(snapshot["step11_decision"]["all_three_conditions"])
             self.assertFalse(snapshot["claim_boundaries"]["general_bunn_inferiority_claim_allowed"])
 
+    @unittest.skipUnless(PRIVATE_EVIDENCE_AVAILABLE, PRIVATE_EVIDENCE_REASON)
     def test_generation_is_byte_deterministic(self) -> None:
         with TemporaryDirectory() as first, TemporaryDirectory() as second:
             first_root = Path(first)
@@ -81,6 +94,7 @@ class PaperAssetTests(unittest.TestCase):
             self.assertFalse((root / "paper").exists())
             self.assertFalse((root / "reproducibility").exists())
 
+    @unittest.skipUnless(PRIVATE_EVIDENCE_AVAILABLE, PRIVATE_EVIDENCE_REASON)
     def test_publication_figures_are_valid_nonempty_pngs(self) -> None:
         with TemporaryDirectory() as temporary:
             root = Path(temporary)
