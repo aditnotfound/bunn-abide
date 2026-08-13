@@ -14,11 +14,11 @@ confirmatory analysis code and decision rules.
 \subsection{Dataset and technical quality control}
 
 We used the ABIDE-I C-PAC derivatives released by the Preprocessed Connectomes
-Project \citep{dimartino2014abide,abidepcp}. The source was the
+Project \cite{dimartino2014abide,abidepcp}. The source was the
 band-pass-filtered AAL ROI time-series derivative without global-signal
 regression.
 The AAL atlas defines macroscopic anatomical regions in standardized space
-\citep{tzourio2002aal}. Eligibility required a valid header, finite numeric
+\cite{tzourio2002aal}. Eligibility required a valid header, finite numeric
 values, non-zero variance in every ROI, and a finite resulting connectome. Of
 \StudyParentRows{} downloaded files, \StudyTechnicalExclusions{} failed the
 zero-variance check. The retained cohort contained
@@ -49,7 +49,7 @@ interpretation.
 We fit three logistic baselines: covariates alone, vectorized connectomes with
 elastic-net regularization, and connectomes combined with covariates. Elastic-net
 regularization combines $\ell_1$ and $\ell_2$ penalties and is appropriate for
-correlated high-dimensional predictors \citep{zou2005elastic}. Covariates were
+correlated high-dimensional predictors \cite{zou2005elastic}. Covariates were
 age, sex, mean framewise displacement, and usable scan length. Scaling,
 feature processing, and tuning used training sites only.
 
@@ -65,21 +65,21 @@ changed:
   \item \textbf{Learned-local}: the BuNN map generator and node-wise updates,
   but no inter-node diffusion, controlling for additional learned capacity.
   \item \textbf{GCN}: normalized neighborhood aggregation
-  \citep{kipf2017gcn}.
+  \cite{kipf2017gcn}.
   \item \textbf{Trivial bundle}: the same diffusion construction with identity
   transport maps.
   \item \textbf{Learned BuNN}: learned orthogonal node maps followed by bundle
-  diffusion \citep{bamberger2025bundle}.
+  diffusion \cite{bamberger2025bundle}.
 \end{enumerate}
 
-\begin{figure}[H]
+\begin{figure*}[!t]
   \centering
-  \includegraphics[width=\textwidth]{operator_schematic.png}
+  \includegraphics[width=0.94\textwidth]{operator_schematic.png}
   \caption{Schematic distinction among GCN aggregation, the learned-local
   capacity control, and learned bundle transport. The drawing describes a
   computational operation only; it does not represent biological signal flow.}
   \label{fig:operator-schematic}
-\end{figure}
+\end{figure*}
 
 \subsection{Nested held-out-site evaluation}
 

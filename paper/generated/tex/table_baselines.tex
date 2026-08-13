@@ -1,14 +1,15 @@
-\begin{table}[H]
+\begin{table}[!t]
 \centering
 \caption{Classical held-out-site baselines. Equal-site balanced accuracy is the primary summary.}
 \label{tab:baselines}
-\begin{tabular}{lccc}
+\footnotesize
+\begin{tabularx}{\columnwidth}{Xccc}
 \toprule
-Model & Equal-site BA & Pooled BA & Pooled AUROC \\
+Model & Site BA & Pooled BA & AUROC \\
 \midrule
 Covariates-only logistic regression & 0.5652 & 0.5629 & 0.5973 \\
 Connectome elastic net & 0.6401 & 0.6495 & 0.6794 \\
 Connectome + covariates elastic net & 0.6336 & 0.6428 & 0.6773 \\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}

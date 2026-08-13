@@ -11,17 +11,17 @@ than supply missing context.
 A recent benchmark across several datasets found that classical models and
 non-graph neural networks can match or outperform graph deep-learning models
 on functional-connectome tasks. Its ablations identified message aggregation
-as one possible source of degradation \citep{han2026rethinking}. A graph
+as one possible source of degradation \cite{han2026rethinking}. A graph
 representation alone is not enough to justify propagation. The operator must
 earn its place against identity propagation and strong regularized baselines
 evaluated on the same splits.
 
 BuNNs first transport features between node-specific frames using learned
 orthogonal maps and then diffuse the aligned features
-\citep{bamberger2025bundle}. Theory and synthetic experiments suggest that
+\cite{bamberger2025bundle}. Theory and synthetic experiments suggest that
 this construction can resist representation collapse more effectively than
 ordinary graph diffusion. Neural-sheaf models provide related evidence that
-non-trivial transport changes diffusion behavior \citep{bodnar2022sheaf}.
+non-trivial transport changes diffusion behavior \cite{bodnar2022sheaf}.
 Dense functional connectomes with globally informed node features present a
 different test.
 
@@ -30,7 +30,7 @@ form of heterophilic message passing. That interpretation did not survive
 formalization. Correlation sign does not identify node-label heterophily,
 neural excitation or inhibition, anatomy, or causal flow, and it can change
 with preprocessing choices such as global-signal regression
-\citep{murphy2017global}. We kept the dataset, connectome representation, BuNN
+\cite{murphy2017global}. We kept the dataset, connectome representation, BuNN
 architecture, and original aggregation problem, but shifted the hypothesis to
 the behavior of the propagation operator itself.
 

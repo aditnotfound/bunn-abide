@@ -40,44 +40,44 @@
       "sha256": "533eb2177669b0131ef1810d4d48e56b74ed29f421d0f4160f08be2aaf67f35c"
     },
     {
-      "bytes": 601,
+      "bytes": 611,
       "path": "paper/generated/tex/supplement_representation_tabular.tex",
-      "sha256": "4923fdefbb3f2b0f9bb5ee2b5e6bb244008e4a647448c4de9e6d09f7e5992ec7"
+      "sha256": "c4efec6471c90d66fc546e2551e1ea7d479bb67b7bb1de08f6c989feb6ab2f25"
     },
     {
-      "bytes": 821,
+      "bytes": 831,
       "path": "paper/generated/tex/supplement_robustness_tabular.tex",
-      "sha256": "fd79e5f9b8c272e23d6f863c9313a87800852f0236258664e149690ab0d6251c"
+      "sha256": "da397c75474219a3acbf6b5c1f0bf5a69d2b461239a2bdc40abd93cc4becd813"
     },
     {
-      "bytes": 463,
+      "bytes": 481,
       "path": "paper/generated/tex/table_baselines.tex",
-      "sha256": "56ba6f41d6663b0952159f6553f06a57ed994014575f5f1557e08920290fa36f"
+      "sha256": "793afa76281041b85208132b7c05ce5ce50275fd25e8436c2c53ce5fa9432a1a"
     },
     {
-      "bytes": 436,
+      "bytes": 451,
       "path": "paper/generated/tex/table_cohort.tex",
-      "sha256": "6a52c9a0ed1e6363be6435f5c410b7da7d454777efe9e114da68aacdddeaaeaf"
+      "sha256": "b9047960c5e770a5da9fc617e314dec211572e1d74ac5450dcbda5ecb386d7ad"
     },
     {
-      "bytes": 674,
+      "bytes": 684,
       "path": "paper/generated/tex/table_confirmatory.tex",
-      "sha256": "9d6489b10b4914faee57f4d582a9a15dd5f1ea5a95501cacaa40f81846b5ba0a"
+      "sha256": "5a78684263bed4043ce9a89872db404147a8591c2849b60aa60ae6b320d0603c"
     },
     {
-      "bytes": 520,
+      "bytes": 530,
       "path": "paper/generated/tex/table_efficiency.tex",
-      "sha256": "9752b7097cec3934e8ec7197db7a19c197753888a01cd300d622555ae24d1b03"
+      "sha256": "174c80d5d251615a90b7ab456dd4b5e160d16e306bb12961cd65c1158c43a728"
     },
     {
-      "bytes": 599,
+      "bytes": 609,
       "path": "paper/generated/tex/table_representation.tex",
-      "sha256": "89ad04d15b3e8713eba774e1f52b4b849f04d7867d558c8915d9047339af9b4c"
+      "sha256": "50da3fb0b5a007bdf73d673468cb7ce9084d644023a49b308abe26f4391e318b"
     },
     {
-      "bytes": 819,
+      "bytes": 829,
       "path": "paper/generated/tex/table_robustness.tex",
-      "sha256": "1c5ef3c099a6b933fc989417168b419a7ded57600adbc657b8a830257f0896d8"
+      "sha256": "afebb48bbe89bc963e07aaf59e0739965c640869bed8da2edfc71a06d698f9f5"
     }
   ],
   "paper_assets_commit": "08ccc89369517c82bf6c8142c4d94964cc983252",

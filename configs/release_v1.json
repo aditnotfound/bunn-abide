@@ -1,7 +1,7 @@
 {
   "schema_version": "public_release_v1",
-  "release_name": "bunn-abide-v1.0.0-rc1",
-  "release_date": "2026-08-10",
+  "release_name": "bunn-abide-v1.1.0-rc1",
+  "release_date": "2026-08-14",
   "source_commit_policy": "record current HEAD; working tree must contain only intended release changes",
   "exclude_prefixes": [
     ".git/",
@@ -32,11 +32,19 @@
     "requirements.txt",
     "docs/release.md",
     "docs/step13_claim_ledger.md",
+    "docs/final_claim_and_literature_audit.md",
+    "docs/literature_protocol_comparison.md",
+    "docs/abide_ii_compatibility_gate.md",
     "output/pdf/manuscript.pdf",
     "output/pdf/supplement.pdf",
+    "output/pdf/yhsa-final/report.pdf",
     "paper/manuscript.tex",
     "paper/supplement.tex",
+    "paper/yhsa-final/report.tex",
     "reproducibility/artifact_manifest.json",
-    "reproducibility/result_snapshot.json"
+    "reproducibility/result_snapshot.json",
+    "reproducibility/e1_extension_manifest.json",
+    "reproducibility/e2_extension_manifest.json",
+    "reproducibility/final_report_manifest.json"
   ]
 }

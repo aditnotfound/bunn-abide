@@ -2,8 +2,9 @@
 
 ## Completion state
 
-The ABIDE-I experiment, confirmatory analysis, robustness audit, manuscript,
-and supplement are complete. The release package reproduces the frozen paper
+The ABIDE-I experiment, confirmatory analysis, robustness audit, E1 checkpoint
+intervention study, E2 synthetic mechanism study, manuscript, supplement, and
+final evidence report are complete. The release package reproduces the papers
 from aggregate, hash-bound evidence. It does not repeat model fitting.
 
 ## Included in the public-safe package
@@ -13,6 +14,8 @@ from aggregate, hash-bound evidence. It does not repeat model fitting.
 - aggregate result snapshot and evidence hashes;
 - generated paper tables and figures;
 - manuscript and supplement source;
+- the separate final evidence-report source and PDF;
+- E1, E2, and final-report manifests;
 - checked PDFs; and
 - project, decision, experiment, and AI-use records.
 

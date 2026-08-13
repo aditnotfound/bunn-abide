@@ -1,14 +1,14 @@
-\documentclass[10pt]{article}
+\documentclass[conference,onecolumn]{IEEEtran}
 \input{preamble}
+\usepackage{float}
 \hypersetup{pdftitle={Supplementary Material: Bundle Neural Networks for Functional Connectomes}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\thetable}{S\arabic{table}}
 
-\title{Supplementary Material\\
-\large Bundle Neural Networks for Functional Connectomes}
-\author{Adit Patil\\
-\small School of Scholars, Akola, India}
-\date{}
+\title{Supplementary Material: Bundle Neural Networks for Functional Connectomes}
+\author{\IEEEauthorblockN{Adit Patil}
+\IEEEauthorblockA{School of Scholars\\
+Akola, India}}
 
 \begin{document}
 \maketitle
@@ -46,25 +46,25 @@ gave every site equal weight. Participant-weighted and site-median summaries
 were pre-listed sensitivity analyses and did not replace the primary
 aggregation.
 
-\begin{figure}[t]
+\input{generated/tex/supplement_robustness_tabular.tex}
+
+\begin{figure}[H]
   \centering
-  \includegraphics[width=0.86\textwidth]{site_influence.png}
+  \includegraphics[width=0.62\textwidth]{site_influence.png}
   \caption{Leave-one-site-out influence on the primary BuNN-minus-GCN curve
   contrast. The figure includes every pre-listed site exclusion.}
   \label{fig:supp-site-influence}
 \end{figure}
 
-\begin{figure}[t]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=0.78\textwidth]{seed_stability.png}
+  \includegraphics[width=0.55\textwidth]{seed_stability.png}
   \caption{Curve contrasts for each final seed. Intervals resample held-out
   sites within a fixed seed; these results assess robustness and do not replace
   the primary analysis.}
   \label{fig:supp-seed-stability}
 \end{figure}
 
-\FloatBarrier
-\input{generated/tex/supplement_robustness_tabular.tex}
 \FloatBarrier
 
 For the influence analysis, we recomputed each named contrast after removing

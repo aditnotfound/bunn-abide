@@ -213,10 +213,11 @@ def table_cohort(snapshot: dict[str, Any]) -> str:
         ("ROIs / lower-triangle features", f"{cohort['roi_count']} / {cohort['edge_features']:,}"),
     ]
     body = "\n".join(rf"{latex_escape(str(label))} & {value} \\" for label, value in rows)
-    return rf"""\begin{{table}}[H]
+    return rf"""\begin{{table}}[!t]
 \centering
 \caption{{Cohort retained after technical quality control and resulting connectome dimensions.}}
 \label{{tab:cohort}}
+\footnotesize
 \begin{{tabular}}{{lr}}
 \toprule
 Item & Value \\
@@ -241,17 +242,18 @@ def table_baselines(snapshot: dict[str, Any]) -> str:
             rf"{latex_escape(row['label'])} & {row['equal_site_balanced_accuracy']:.4f} & "
             rf"{row['pooled_balanced_accuracy']:.4f} & {row['pooled_auroc']:.4f} \\"
         )
-    return """\\begin{table}[H]
+    return """\\begin{table}[!t]
 \\centering
 \\caption{Classical held-out-site baselines. Equal-site balanced accuracy is the primary summary.}
 \\label{tab:baselines}
-\\begin{tabular}{lccc}
+\\footnotesize
+\\begin{tabularx}{\\columnwidth}{Xccc}
 \\toprule
-Model & Equal-site BA & Pooled BA & Pooled AUROC \\\\
+Model & Site BA & Pooled BA & AUROC \\\\
 \\midrule
 """ + "\n".join(body) + """
 \\bottomrule
-\\end{tabular}
+\\end{tabularx}
 \\end{table}
 """
 
@@ -273,11 +275,11 @@ def table_confirmatory(snapshot: dict[str, Any]) -> str:
             rf"[{row['bootstrap_ci_95'][0]:.4f}, {row['bootstrap_ci_95'][1]:.4f}] & "
             rf"{row['exact_sign_flip_p']:.4f} \\"
         )
-    return """\\begin{table}[H]
+    return """\\begin{table*}[!t]
 \\centering
 \\caption{Pre-specified predictive contrasts. Differences are BuNN minus the named comparator.}
 \\label{tab:confirmatory}
-\\small
+\\footnotesize
 \\begin{tabularx}{\\textwidth}{Xrrr}
 \\toprule
 Contrast & Estimate & 95\\% site-bootstrap CI & Exact $p$ \\\\
@@ -285,7 +287,7 @@ Contrast & Estimate & 95\\% site-bootstrap CI & Exact $p$ \\\\
 """ + "\n".join(body) + """
 \\bottomrule
 \\end{tabularx}
-\\end{table}
+\\end{table*}
 """
 
 
@@ -299,11 +301,11 @@ def table_efficiency(snapshot: dict[str, Any]) -> str:
             rf"{row['mean_runtime_seconds']:.2f} & {row['maximum_peak_gpu_memory_gib']:.3f} & "
             rf"{row['equal_site_curve_balanced_accuracy']:.4f} \\"
         )
-    return """\\begin{table}[H]
+    return """\\begin{table*}[!t]
 \\centering
 \\caption{Observed execution cost and predictive curve summary for the three diffusion operators. Runtime is implementation- and hardware-specific.}
 \\label{tab:efficiency}
-\\small
+\\footnotesize
 \\begin{tabular}{lrrrrr}
 \\toprule
 Operator & Params. & Fit h & s/fit & Peak GiB & Curve BA \\\\
@@ -311,7 +313,7 @@ Operator & Params. & Fit h & s/fit & Peak GiB & Curve BA \\\\
 """ + "\n".join(body) + """
 \\bottomrule
 \\end{tabular}
-\\end{table}
+\\end{table*}
 """
 
 
@@ -330,11 +332,11 @@ def table_representation(repo_root: Path) -> str:
             rf"{labels[row['endpoint']]} & {float(row['estimate']):.4f} & "
             rf"[{float(row['ci_95_low']):.4f}, {float(row['ci_95_high']):.4f}] \\"
         )
-    return """\\begin{table}[H]
+    return """\\begin{table*}[!t]
 \\centering
 \\caption{BuNN-minus-GCN matched-anchor representation contrasts at layer 2.}
 \\label{tab:representation}
-\\small
+\\footnotesize
 \\begin{tabularx}{\\textwidth}{Xrr}
 \\toprule
 Endpoint & Estimate & 95\\% site-bootstrap CI \\\\
@@ -342,7 +344,7 @@ Endpoint & Estimate & 95\\% site-bootstrap CI \\\\
 """ + "\n".join(body) + """
 \\bottomrule
 \\end{tabularx}
-\\end{table}
+\\end{table*}
 """
 
 
@@ -361,10 +363,11 @@ def supplement_representation_tabular(repo_root: Path) -> str:
             rf"{labels[row['endpoint']]} & {float(row['estimate']):.4f} & "
             rf"[{float(row['ci_95_low']):.4f}, {float(row['ci_95_high']):.4f}] \\"
         )
-    return """\\begin{center}
-\\captionof{table}{BuNN-minus-GCN matched-anchor representation contrasts at layer 2.}
+    return """\\begin{table}[H]
+\\centering
+\\caption{BuNN-minus-GCN matched-anchor representation contrasts at layer 2.}
 \\label{tab:supp-representation}
-\\small
+\\footnotesize
 \\begin{tabularx}{\\textwidth}{Xrr}
 \\toprule
 Endpoint & Estimate & 95\\% site-bootstrap CI \\\\
@@ -372,7 +375,7 @@ Endpoint & Estimate & 95\\% site-bootstrap CI \\\\
 """ + "\n".join(body) + """
 \\bottomrule
 \\end{tabularx}
-\\end{center}
+\\end{table}
 """
 
 
@@ -388,11 +391,11 @@ def table_robustness(snapshot: dict[str, Any]) -> str:
             rf"{labels[row['contrast']]} & {latex_escape(row['summary'].replace('_', ' '))} & "
             rf"{row['estimate']:.5f} \\"
         )
-    return """\\begin{table}[H]
+    return """\\begin{table*}[!t]
 \\centering
 \\caption{Pre-listed alternative summaries. Equal-site means remain confirmatory.}
 \\label{tab:robustness-summaries}
-\\small
+\\footnotesize
 \\begin{tabularx}{\\textwidth}{Xlr}
 \\toprule
 Contrast & Summary & Estimate \\\\
@@ -400,7 +403,7 @@ Contrast & Summary & Estimate \\\\
 """ + "\n".join(body) + """
 \\bottomrule
 \\end{tabularx}
-\\end{table}
+\\end{table*}
 """
 
 
@@ -416,10 +419,11 @@ def supplement_robustness_tabular(snapshot: dict[str, Any]) -> str:
             rf"{labels[row['contrast']]} & {latex_escape(row['summary'].replace('_', ' '))} & "
             rf"{row['estimate']:.5f} \\"
         )
-    return """\\begin{center}
-\\captionof{table}{Pre-listed alternative summaries. Equal-site means remain confirmatory.}
+    return """\\begin{table}[H]
+\\centering
+\\caption{Pre-listed alternative summaries. Equal-site means remain confirmatory.}
 \\label{tab:supp-robustness-summaries}
-\\small
+\\footnotesize
 \\begin{tabularx}{\\textwidth}{Xlr}
 \\toprule
 Contrast & Summary & Estimate \\\\
@@ -427,7 +431,7 @@ Contrast & Summary & Estimate \\\\
 """ + "\n".join(body) + """
 \\bottomrule
 \\end{tabularx}
-\\end{center}
+\\end{table}
 """
 
 

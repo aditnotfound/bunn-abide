@@ -1,0 +1,47 @@
+{
+  "manifest_version": 1,
+  "artifact": "final YHSA-format evidence report",
+  "date": "2026-08-14",
+  "evidence": {
+    "study_1_snapshot": "reproducibility/result_snapshot.json",
+    "e1_manifest": "reproducibility/e1_extension_manifest.json",
+    "e2_manifest": "reproducibility/e2_extension_manifest.json",
+    "sealed_archive_hashes_rechecked": true,
+    "accepted_results_modified": false
+  },
+  "report": {
+    "source": "paper/yhsa-final/report.tex",
+    "source_sha256": "a4fee1c9f7bcc0caa634261b31d8b770caa922781ebd2fede36d813664b004ba",
+    "pdf": "output/pdf/yhsa-final/report.pdf",
+    "pdf_sha256": "ce798d4de8ea93ac5565df0ce49f372ee24d7fada1d00869665598487b7042ce",
+    "pages": 36,
+    "unresolved_reference_markers": 0,
+    "visual_qa": "all 36 rendered pages inspected; literature table and references inspected at full-page resolution"
+  },
+  "audits": {
+    "claim_and_literature_audit": {
+      "path": "docs/final_claim_and_literature_audit.md",
+      "sha256": "03d62e11802aa03cdd28bd61064fe6e95f20511f09f0834ffd585072774b2060"
+    },
+    "literature_protocol_comparison": {
+      "path": "docs/literature_protocol_comparison.md",
+      "sha256": "18556eb87597d2d5aeff078c5409a974a48faf82e44479ab97c613283905728a"
+    },
+    "abide_ii_gate": {
+      "path": "docs/abide_ii_compatibility_gate.md",
+      "sha256": "43c565a55f89e3b71a2e616cdb203d5829055ed91c97cc81da43bb05b7e82f13",
+      "status": "not passed"
+    },
+    "privacy_scan": "passed for final source, audit documents, and extracted PDF text",
+    "tests": "98 passed in 229.80 seconds"
+  },
+  "bibliography": {
+    "path": "paper/references.bib",
+    "sha256": "b0ad32bf83a8da0548b4aca57f43b6ef83b1b5b210a15326f588633d4f3deeec"
+  },
+  "remaining_owner_actions": [
+    "verify personal and supervisor details",
+    "complete Claude and Cursor usage history",
+    "complete and sign integrity statements before any submission"
+  ]
+}

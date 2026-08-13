@@ -1,0 +1,82 @@
+{
+  "protocol_version": 1,
+  "status": "frozen_before_E1_scientific_values_were_opened",
+  "study": "E1 accepted-checkpoint intervention analysis",
+  "source": {
+    "sealed_archive": "outputs/archives/e1_full_v1.sealed.tar.gz",
+    "sealed_archive_sha256": "19ed2729d30b4e379b8e526b8146d1f8d1d11ff09e233c6c7142fc8a2762eb4d",
+    "manager_completion_sha256": "52f4361492670d0028239ba157f1edcdbbd5177f202b8b0fb67f29af1d151aed",
+    "intervention_contract_sha256": "78ce08bfbfaab01af9a19a9a71d4ccbee7f532d0aa451609e23229455f81afb7",
+    "runner_sha256": "942168e331f747a7bd80c0b5b50f1d2ac4cc21eb7d8beef6a471fcaa0686ddb6",
+    "score_blind_auditor_sha256": "563c27393300200dd6516b8de68837bbc7f9ba39c55201a8e6104fbc2b909d74"
+  },
+  "coverage": {
+    "sites": 18,
+    "densities": [0.01, 0.05, 0.10, 0.20],
+    "model_seeds": [20260803, 20260804, 20260805, 20260806, 20260807],
+    "randomizations_per_random_family": 100
+  },
+  "reference": "unaltered",
+  "primary_contrasts": [
+    "identity_maps",
+    "node_map_shuffle",
+    "random_orthogonal_maps",
+    "degree_preserving_topology"
+  ],
+  "engineering_control": "encoded_node_permutation_equivariance",
+  "aggregation": {
+    "threshold": 0.5,
+    "checkpoint_metric": "balanced_accuracy",
+    "random_family": "compute each permutation estimate, average 100 permutations within model-seed and site-density",
+    "model_seed": "average five accepted model seeds within site-density",
+    "density": "average four density-specific effects within site for the overall primary contrast",
+    "site": "unweighted mean of 18 paired site effects"
+  },
+  "primary_estimand": "intervened minus unaltered held-out balanced accuracy in percentage points",
+  "uncertainty": {
+    "paired_site_bootstrap_resamples": 10000,
+    "bootstrap_seed": 2026081401,
+    "confidence_level": 0.95,
+    "test": "exact two-sided paired sign-flip test over all 2^18 site sign assignments",
+    "multiplicity": "Holm adjustment across the four named primary contrasts"
+  },
+  "secondary_endpoints": [
+    "mean_absolute_probability_change",
+    "classification_flip_fraction",
+    "auroc_change",
+    "sensitivity_change",
+    "specificity_change",
+    "normalized_effective_rank_change",
+    "normalized_dispersion_change",
+    "mean_pairwise_cosine_change",
+    "invariant_edge_transport_distance_change"
+  ],
+  "secondary_status": "descriptive with paired site-bootstrap intervals; no confirmatory p-values",
+  "representation_prediction_analysis": "descriptive Spearman association across 72 site-density cells; no mediation or causal interpretation",
+  "fixed_outputs": {
+    "tables": [
+      "primary_contrasts.csv",
+      "density_contrasts.csv",
+      "secondary_endpoints.csv",
+      "site_density_effects.csv",
+      "representation_prediction_associations.csv"
+    ],
+    "figures": [
+      "primary_intervention_forest.png",
+      "density_intervention_effects.png",
+      "representation_prediction_associations.png"
+    ]
+  },
+  "decision_rules": [
+    "A negative intervention effect indicates that the intact component supported held-out prediction under this trained model and pipeline.",
+    "Map sensitivity establishes computational use of learned maps, not biological bundle geometry.",
+    "Topology sensitivity establishes reliance on the constructed graph, not anatomy or causal flow.",
+    "Representation and prediction changes may be described as co-occurring, not as causal mediation.",
+    "Insensitivity to an intervention is reported as no detected functional dependence, not proof of absence.",
+    "The frozen Study 1 conclusion cannot be overwritten by this post-hoc extension."
+  ],
+  "unblinding": {
+    "required_acknowledgement": "I acknowledge that this command opens the audited E1 scientific values under analysis protocol v1.",
+    "terminal_policy": "do not print scientific values; write, hash, and audit the complete artifact before interpretation"
+  }
+}
