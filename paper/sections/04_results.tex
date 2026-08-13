@@ -16,15 +16,15 @@ prediction, not clinical diagnostic performance.
 % Claims C03, C04, C05 and C10
 \subsection{Predictive density curves}
 
-\begin{figure}[H]
+\begin{figure*}[!t]
   \centering
-  \includegraphics[width=0.98\textwidth]{predictive_density_curves.png}
+  \includegraphics[width=0.94\textwidth]{predictive_density_curves.png}
   \caption{Equal-site mean held-out balanced accuracy across the pre-specified
   positive-edge density grid. Error bars show 1.96 standard errors across sites
   for visualization; confirmatory inference used paired site bootstrap and
   exact sign-flip tests on the locked curve estimand.}
   \label{fig:predictive-curves}
-\end{figure}
+\end{figure*}
 
 All three diffusion curves declined as density increased
 (\cref{fig:predictive-curves}). The normalized curve-area difference for
@@ -46,14 +46,14 @@ propagation and the learned-local control also failed the positive-result rule
 % Claim C06
 \subsection{Common-frame representation diagnostics}
 
-\begin{figure}[H]
+\begin{figure*}[!t]
   \centering
-  \includegraphics[width=\textwidth]{representation_density_curves.png}
+  \includegraphics[width=0.94\textwidth]{representation_density_curves.png}
   \caption{Equal-site means for common-frame layer-2 representation
   diagnostics. Zero-density points use the matched identity or learned-local
   anchor. Raw unaligned BuNN node embeddings were not compared.}
   \label{fig:representation}
-\end{figure}
+\end{figure*}
 
 The matched-anchor normalized effective-rank contrast was \RankEstimate{}
 (95\% CI [\RankCILow{}, \RankCIHigh{}]), the opposite of the proposed BuNN

@@ -1,0 +1,32 @@
+{
+  "execution_version": 2,
+  "status": "bound_after_pre_result_generator_correction_and_before_v2_AWS_smoke_or_full_run",
+  "supersedes": "configs/extensions/e2_execution_v1.json",
+  "amendment": "docs/extensions/e2_pre_result_amendment_v2.md",
+  "quarantined_run": {
+    "run_id": "e2_synthetic_full_v1",
+    "reason": "S0 used reflection maps in half its bundles instead of identity maps",
+    "scientific_values_opened": false,
+    "reuse_permitted": false
+  },
+  "corrected_run_id": "e2_synthetic_full_v2",
+  "protocol_sha256": "b5111eaca25629e39af8ca035208791afefacaf786cb6edd84ea6f9d4fcc0e79",
+  "analysis_protocol_sha256": "ef172dbfc70add8c679c89049b8a05ebebefc4d77f96eded2933701ce0cc6991",
+  "corrected_implementation_sha256": {
+    "src/extensions/e2_synthetic.py": "7d26f079e1429782f22ee8573472d6ea5f1689c62abcc8cd695fe0d6af40f525",
+    "src/extensions/e2_training.py": "84c0cbead6ee00134a00d6f68738b2e60079a6b8a0e558dc8c16fd0c95aaf7a8",
+    "src/extensions/e2_analysis.py": "4d77f8cfa33f7b68c2cf9e56e02826f92180551cf9905a952f925b1951131a76",
+    "scripts/run_e2_synthetic.py": "79779803715cdff6269be23a5cf649ce86dab2b892a940a46bfef0d761f970af",
+    "scripts/launch_e2_full.sh": "70da703a9799e69f164edead7187fcb97f116c3e82aef4f8430da7b6b8f51b90",
+    "scripts/audit_e2_full_run.py": "8f84e41244f9bbcc4914041f2d5cb0749d7cb6d15abc2fa1c947a4b0e6809328",
+    "scripts/analyze_e2_synthetic.py": "1aa338816d6e259d9060b1548b5c672bbd2254c614750d7d5dedd3dc9e0ac9b5",
+    "scripts/audit_e2_analysis.py": "4816f31e6e3246c236594c37d8e1df04c785b58a8c16e4edcc3b45a50c8574f3"
+  },
+  "corrected_regression_test_sha256": "11b68e893e829c0d838a30bf8a95036ff7cb0befe37eb6bca150d6831227c5b2",
+  "pre_v2_verification": {
+    "E2_tests_passed": 13,
+    "S0_exact_identity_regression_passed": true,
+    "cached_operator_equivalence_passed": true,
+    "scientific_values_opened": false
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "manifest_version": 1,
+  "study": "E2 synthetic known-geometry extension",
+  "classification": "post_hoc controlled computational mechanism study",
+  "quarantined_pre_result_run": "e2_synthetic_full_v1",
+  "accepted_run": "e2_synthetic_full_v2",
+  "source_archive": {
+    "path": "outputs/archives/e2_synthetic_full_v2.sealed.tar.gz",
+    "sha256": "a848773f3be0d7ce3f7872496f5b038f5837f64c014d2e2a2990fc9fa525bf65"
+  },
+  "analysis_archive": {
+    "path": "outputs/archives/e2_analysis_v2.sealed.tar.gz",
+    "sha256": "36bd0dcbf9586fa004a392443ea7f724035d61eba7c40be1437bf6732e9cfb19"
+  },
+  "protocol": "configs/extensions/e2_synthetic_geometry_v1.json",
+  "analysis_protocol": "configs/extensions/e2_analysis_v1.json",
+  "execution_amendment": "configs/extensions/e2_execution_v2.json",
+  "pre_result_amendment": "docs/extensions/e2_pre_result_amendment_v2.md",
+  "result_summary": "docs/extensions/e2_results.md",
+  "claim_ledger": "docs/extensions/e2_claim_ledger.md",
+  "post_E2_E3_decision": "docs/extensions/e3_decision_after_e2.md",
+  "report": {
+    "source": "paper/yhsa-e2/report.tex",
+    "source_sha256": "4b04e204966259dbfa10d1cee83a6d5f5a8fa3f490fbb72c6776fd5717bf4c5f",
+    "pdf": "output/pdf/yhsa-e2/report.pdf",
+    "pdf_sha256": "031958f5434f958fe8945a58031d611c29014f4a34a86cba27e53638c2c277d4",
+    "pages": 34,
+    "visual_qa": "all pages rendered and inspected; E2 result pages inspected at full resolution"
+  },
+  "source_cells": 700,
+  "sealed_replicates": 100,
+  "independent_analysis_audit": "passed",
+  "frozen_study_1_unchanged": true,
+  "scientific_classification": "supported"
+}
