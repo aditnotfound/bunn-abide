@@ -30,6 +30,8 @@ does not contain the underlying participant-linked files.
 - the sealed 1 GB neural training archive;
 - model checkpoints and MLflow data;
 - SSH keys, cloud credentials, `.env` files, and `.run-control` settings;
+- AWS launch scripts and historical planning notes that contain machine-specific
+  paths or cloud identifiers;
 - local absolute paths, IP addresses, AWS account identifiers, and notification
   destinations.
 
