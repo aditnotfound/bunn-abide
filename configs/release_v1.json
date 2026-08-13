@@ -10,7 +10,11 @@
     "data/",
     "outputs/",
     "output/release/",
-    "tmp/"
+    "tmp/",
+    "docs/outline_alignment_and_paper_scope_audit.md",
+    "scripts/launch_e1_caltech_smoke.sh",
+    "scripts/launch_e1_full.sh",
+    "scripts/launch_e2_full.sh"
   ],
   "exclude_suffixes": [
     ".aux",
