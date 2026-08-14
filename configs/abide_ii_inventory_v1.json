@@ -1,0 +1,38 @@
+{
+  "contract_version": "abide_ii_metadata_inventory_v1",
+  "status": "Frozen before any ABIDE-II model fitting, prediction, or score inspection.",
+  "purpose": "Determine whether ABIDE-II can support a prospective external evaluation compatible with the frozen ABIDE-I representation.",
+  "official_sources": {
+    "composite_phenotype": "https://fcon_1000.projects.nitrc.org/indi/abide2/release/phenotypic_data/ABIDEII_Composite_Phenotypic.csv",
+    "longitudinal_phenotype": "https://fcon_1000.projects.nitrc.org/indi/abide2/release/phenotypic_data/ABIDEII_Long_Composite_Phenotypic.csv",
+    "mri_quality_metrics": "https://fcon_1000.projects.nitrc.org/indi/abide/ABIDEII_MRI_Quality_Metrics.zip",
+    "release_page": "https://fcon_1000.projects.nitrc.org/indi/abide/abide_II.html",
+    "pcp_s3_bucket": "https://s3.amazonaws.com/fcp-indi"
+  },
+  "frozen_study_1_representation": {
+    "pipeline": "cpac",
+    "strategy": "filt_noglobal",
+    "derivative": "rois_aal",
+    "roi_count": 116,
+    "pcp_prefix": "data/Projects/ABIDE_Initiative/Outputs/cpac/filt_noglobal/rois_aal/"
+  },
+  "candidate_prefixes": {
+    "abide_ii_direct": [
+      "data/Projects/ABIDEII",
+      "data/Projects/ABIDE_II"
+    ],
+    "lle_abide_ii": "data/Projects/ABIDE_Initiative/Outputs/lle/abide2/"
+  },
+  "decision_rule": {
+    "pass_requires": [
+      "An official or fully documented derivative maps unambiguously to the main ABIDE-II phenotype records.",
+      "The derivative supplies 116-column AAL time series in a documented orientation.",
+      "Filtering, global-signal treatment, nuisance regression, registration, censoring, and temporal units are documented well enough to compare with Study 1.",
+      "Technical quality checks can be applied without using diagnosis or model outcomes to choose exclusions.",
+      "The longitudinal ABIDE-I participants are excluded from the independent external cohort.",
+      "No ABIDE-II label or score is used for model selection, preprocessing selection, checkpoint selection, or tuning."
+    ],
+    "fail_closed": true,
+    "failure_action": "Do not construct predictions. Record the incompatibility and keep ABIDE-II outside the completed findings."
+  }
+}

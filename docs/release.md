@@ -73,6 +73,16 @@ an external release, the owner must verify the author name and affiliation,
 choose whether to replace the all-rights-reserved notice with an open-source
 license, and decide whether a venue-specific template or anonymized version is
 needed. These are ownership and publication decisions, not unresolved analysis.
+The exact remaining fields are listed in `docs/owner_signoff_checklist.md`.
+
+## ABIDE-II gate
+
+The public package includes the source-hashed ABIDE-II metadata inventory and
+its fail-closed decision. The gate failed before model fitting because no
+complete matching C-PAC `filt_noglobal` AAL-116 derivative was found. Raw
+ABIDE-II metadata and quality files are excluded from the package. The release
+contains only aggregate inventory counts, source hashes, code, and the decision
+record.
 
 ## Final clean-checkout audit
 

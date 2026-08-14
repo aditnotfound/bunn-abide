@@ -1144,7 +1144,13 @@ orientation and reflections, and node shuffling preserves the learned map
 distribution while breaking its assignment. Their effect sizes reveal
 functional dependence under these checkpoints, not the effect of changing a
 single isolated biological mechanism. Finally, the completed report does not
-contain an external ABIDE-II validation cohort.
+contain an external ABIDE-II validation cohort. A score-blind availability
+audit found the official 1,114-participant phenotype and quality records, but
+no complete C-PAC filtered, no-GSR AAL-116 ROI-time-series derivative for those
+participants. The alternative LLE repository documents mixed C-PAC and
+SPM-preprocessed volumes rather than the frozen Study 1 representation
+\cite{abideii_release,abide_lle}. The external evaluation gate therefore failed
+before any model was fitted or scored.
 
 E2 was designed after the ABIDE-I result was known and cannot serve as an
 independent confirmation of that result. Its ring graph, frame marker, smooth
@@ -1166,10 +1172,13 @@ illustrates why generator-level tests are essential in mechanism studies.
 The accepted-checkpoint intervention audit and synthetic known-geometry study
 are now complete and independently audited. Both remain separate from the
 confirmatory result because their protocols were frozen after Study 1 was
-known. Deeper matched GCN/BuNN networks, a leakage-free Wang-style time-series
-model, and prospective ABIDE-II evaluation remain separate studies. E3 is only
-warranted if the paper needs to answer a remaining depth/capacity question; it
-is not needed to establish the conditional E2 mechanism.
+known. Deeper matched GCN/BuNN networks and a leakage-free Wang-style
+time-series model remain separate studies. A prospective ABIDE-II evaluation
+was examined only at the metadata and derivative-availability stage. It remains
+blocked unless a matching official derivative appears or a separate raw-data
+preprocessing study is frozen and validated. E3 is only warranted if the paper
+needs to answer a remaining depth/capacity question; it is not needed to
+establish the conditional E2 mechanism.
 
 \section{Conclusion}
 
@@ -1226,11 +1235,11 @@ and independent artifact audits.
 \textbf{Component} & \textbf{Completed and audited} & \textbf{Not yet a result} \\
 \midrule
 \endhead
-Data & ABIDE-I C-PAC filtered, no-GSR AAL time series; technical QC; 754-person connectome archive. & Alternative preprocessing, atlases, negative-edge propagation, ABIDE-II. \\
+Data & ABIDE-I C-PAC filtered, no-GSR AAL time series; technical QC; 754-person connectome archive; score-blind ABIDE-II metadata and derivative-availability audit. & Alternative preprocessing, atlases, negative-edge propagation, and any ABIDE-II model evaluation. \\
 Classical models & Covariate, connectome elastic-net, and combined baselines across all 18 held-out sites. & Additional harmonization or feature-selection families. \\
 Neural models & Two-layer identity, learned-local, GCN, trivial-bundle, and learned-BuNN operator study; five seeds; complete density grid. & Five-layer matched study, Wang-inspired time-series architecture. \\
 Mechanism evidence & Common-frame representation curves, matched anchors, site influence, seed stability, efficiency, the audited 360-checkpoint intervention study, and the 700-cell synthetic known-geometry study. & Optional matched depth/capacity sensitivity and component-level feature-loss analysis. \\
-External validity & None claimed beyond the frozen ABIDE-I pipeline. & Prospective preprocessing-compatible ABIDE-II evaluation. \\
+External validity & None claimed beyond the frozen ABIDE-I pipeline; the ABIDE-II compatibility gate failed before prediction. & Prospective ABIDE-II evaluation only after a matching derivative or separately frozen raw-data pipeline passes the gate. \\
 \bottomrule
 \end{longtable}
 
@@ -1288,6 +1297,7 @@ must be supplied by the researcher.
 
 \clearpage
 \begin{singlespace}
+\footnotesize
 \bibliographystyle{IEEEtran}
 \bibliography{../references}
 \end{singlespace}

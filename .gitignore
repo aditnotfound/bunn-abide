@@ -4,6 +4,7 @@ data/processed/
 outputs/runs/
 outputs/analysis/
 outputs/archives/
+outputs/extensions/
 outputs/figures/
 outputs/tables/
 checkpoints/
@@ -43,3 +44,6 @@ Thumbs.db
 *.toc
 tmp/
 output/release/
+output/pdf/*/rendered/
+output/pdf/*/report.txt
+output/pdf/yhsa-current/

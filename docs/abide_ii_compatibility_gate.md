@@ -1,80 +1,87 @@
 # ABIDE-II compatibility gate
 
-Status: **not passed; no ABIDE-II model evaluation is authorized.**
+Status: **failed on 14 August 2026; ABIDE-II model evaluation is not authorized.**
 
-## Purpose
+## Question
 
-ABIDE-II can strengthen the paper only if it supports a prospective external
-evaluation that is close enough to the frozen ABIDE-I representation. It must
-not become a second development set or a loosely matched dataset added for a
-larger sample count.
+ABIDE-II would strengthen the paper only as a prospective external evaluation.
+That requires a representation close enough to the frozen ABIDE-I C-PAC
+`filt_noglobal` AAL-116 ROI time series to make the comparison interpretable.
+ABIDE-II cannot be used as a second development set or added simply to increase
+the sample count.
 
-## What the official sources currently establish
+## Reproducible inventory
 
-- The official ABIDE-II page distributes phenotypic files, quality metrics,
-  site-specific raw imaging archives, and acquisition information.
-- The main Preprocessed Connectomes Project ABIDE download page documents the
-  ABIDE-I public S3 derivatives, including C-PAC `filt_noglobal` AAL ROI time
-  series. It does not document a matching full ABIDE-II derivative collection.
-- A separate LLE repository lists several ABIDE-II sites preprocessed with
-  C-PAC defaults, but this is not yet evidence that the data match the frozen
-  C-PAC strategy, filtering, nuisance regression, spatial normalization, AAL
-  extraction, and quality-control contract used in Study 1.
+The score-blind inventory is defined in
+`configs/abide_ii_inventory_v1.json` and produced by:
 
-The current evidence therefore does not justify launching an ABIDE-II test.
+```powershell
+python scripts/inventory_abide_ii.py --refresh
+```
 
-## Pass criteria
+The command downloads only official release metadata and quality files, hashes
+each source, lists the relevant public S3 prefixes, and writes
+`reproducibility/abide_ii_gate_inventory.json`. It does not fit a model, create
+predictions, or read model scores. Four unit tests cover identifier parsing and
+the fail-closed decision rule.
 
-All criteria must be answered before labels or model scores are inspected:
+## What the inventory found
 
-1. **Provenance:** every file comes from an official ABIDE-II or documented
-   preprocessing repository and maps unambiguously to the official phenotype
-   record.
-2. **Representation:** every accepted participant has a 116-column AAL ROI
-   time series with a documented atlas and orientation matching Study 1.
-3. **Preprocessing:** filtering, global-signal treatment, nuisance regression,
-   registration, temporal censoring, and temporal units are documented well
-   enough to classify differences from the ABIDE-I C-PAC `filt_noglobal`
-   derivative.
-4. **Quality control:** diagnosis, site, scan identity, usable length, finite
-   values, and ROI variance can be checked without outcome-based exclusions.
-5. **Independence:** any participant or longitudinal scan already represented
-   in ABIDE-I is excluded or handled under a frozen overlap rule.
-6. **Evaluation:** Study 1 code, weights or refitting rule, feature order,
-   densities, metrics, and uncertainty procedure are frozen before ABIDE-II
-   labels are evaluated.
-7. **No adaptation on test labels:** ABIDE-II diagnosis labels cannot choose
-   preprocessing, exclusions, hyperparameters, epochs, checkpoints, or model
-   variants.
+- The official main composite phenotype contains 1,114 unique participants
+  from 19 sites: 521 ASD and 593 control records.
+- The official functional quality file covers 1,043 of those 1,114 participant
+  identifiers. It does not contain main-cohort records for SU_2 or U_MIA_1 and
+  is missing one IP_1 participant.
+- The main ABIDE-II identifiers have no numeric overlap with the ABIDE-I
+  phenotype used here.
+- The separate longitudinal table contains 38 participants represented at two
+  time points. All 38 identifiers occur in ABIDE-I, so that collection is
+  frozen out of any independent external cohort.
+- The public PCP prefix used by Study 1 contains 1,102 ABIDE-I AAL derivatives
+  and zero matching main ABIDE-II identifiers.
+- The tested public prefixes `data/Projects/ABIDEII` and
+  `data/Projects/ABIDE_II` contain no objects.
+- The official LLE area exposes 21 non-mask ABIDE-II site directories. Its
+  documentation describes mixed C-PAC and SPM-preprocessed volumes, not the
+  frozen C-PAC filtered, no-GSR AAL-116 ROI derivative.
 
-## Feasibility sequence
+The official ABIDE-II release page provides the composite phenotype, quality
+metrics, scan protocols, and site-specific raw archives. The ABIDE-I PCP page
+documents the C-PAC strategy and AAL derivative used in Study 1. Neither source
+documents a complete matching ABIDE-II ROI-time-series release.
 
-1. Download only the official phenotype legend, composite phenotype table,
-   quality metrics, and site inventory.
-2. Build a file-level inventory without diagnosis-based filtering.
-3. Select ten scans across several sites using identifiers only.
-4. Produce AAL-116 time series for the sample under one documented pipeline,
-   or locate an official derivative that already supplies them.
-5. Run only technical checks: shape, finite values, ROI variance, scan length,
-   orientation, and connectome construction.
-6. Record every mismatch against the frozen ABIDE-I contract.
-7. Pass the gate only if the mismatches support a scientifically interpretable
-   external evaluation. Otherwise stop and report incompatibility.
+## Gate decision
 
-## Evaluation contract if the gate passes
+The gate failed because provenance and phenotype coverage alone do not establish
+representation or preprocessing compatibility. Extracting AAL time series from
+the LLE volumes would change the pipeline and mix preprocessing families across
+sites. Reprocessing the raw scans could be a separate project, but it would
+require a versioned C-PAC workflow, raw-data access, subject-level registration
+and nuisance-regression checks, and a new pre-specified QC contract. It cannot be
+silently treated as the same derivative.
 
-- Keep Study 1 as the primary result.
-- Treat ABIDE-II as one prospective external transportability study.
-- Evaluate a minimal frozen set: connectome elastic net, GCN, and learned BuNN.
-- Report ordinary and balanced accuracy, AUROC, sensitivity, specificity,
-  sample coverage, and site-level results.
-- Do not retune to recover a favorable result.
-- Label material preprocessing differences and avoid calling the result an
-  exact replication.
+No ten-participant time-series smoke test or AWS evaluation was launched because
+the required derivative was absent. This is a gate failure, not a negative
+ABIDE-II predictive result.
 
-## Current decision
+## Conditions for reopening the gate
 
-No compute job should start yet. The next authorized ABIDE-II action is the
-metadata and derivative-availability inventory. Model training or score
-generation remains blocked by this gate.
+The gate may be rerun if either of the following becomes available:
 
+1. an official full ABIDE-II C-PAC `filt_noglobal` AAL-116 ROI-time-series
+   derivative with documented file-to-phenotype mapping; or
+2. a separately frozen raw-data preprocessing study that reproduces the Study 1
+   nuisance, filtering, registration, atlas, censoring, and temporal contracts.
+
+If the gate later passes, the main Study 1 result remains primary. ABIDE-II must
+be evaluated once with a minimal frozen set consisting of the connectome elastic
+net, GCN, and learned BuNN. No ABIDE-II label may select preprocessing,
+exclusions, hyperparameters, epochs, checkpoints, or model variants.
+
+## Official sources checked
+
+- [ABIDE-II release page](https://fcon_1000.projects.nitrc.org/indi/abide/abide_II.html)
+- [ABIDE-II phenotype directory](https://fcon_1000.projects.nitrc.org/indi/abide2/release/phenotypic_data/)
+- [ABIDE-II phenotypic data legend](https://fcon_1000.projects.nitrc.org/indi/abide/ABIDEII_Data_Legend.pdf)
+- [ABIDE Preprocessed downloads](https://preprocessed-connectomes-project.org/abide/download.html)
+- [ABIDE LLE repository documentation](https://fcon_1000.projects.nitrc.org/indi/abide/LLE_home.html)

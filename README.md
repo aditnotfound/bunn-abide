@@ -17,6 +17,11 @@ advantage for learned BuNN transport under the specified pipeline. This is a
 conditional computational result. It is not evidence about biological bundle
 geometry, clinical diagnosis, or BuNN performance outside this setting.
 
+A score-blind ABIDE-II metadata and derivative inventory was completed on
+14 August 2026. The external-evaluation gate failed because no complete official
+C-PAC `filt_noglobal` AAL-116 ROI-time-series derivative was found for the main
+ABIDE-II cohort. No ABIDE-II model was fitted or scored.
+
 The current PDFs are available at `output/pdf/manuscript.pdf` and
 `output/pdf/supplement.pdf`.
 
