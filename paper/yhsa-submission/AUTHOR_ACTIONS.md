@@ -5,6 +5,8 @@ external submission until the student completes the items below.
 
 ## Authorship and AI disclosure
 
+- Complete `STUDENT_AUDIT_WORKSHEET.md` as a genuine comprehension check, not
+  as a formality.
 - Read and independently verify every paragraph, equation, table, figure, and
   citation.
 - Rewrite the report body in the student's own academic expression. The current
@@ -13,7 +15,8 @@ external submission until the student completes the items below.
 - Add the exact Codex product/model information available in the retained
   product records.
 - Add truthful Claude and Cursor versions, dates, frequency, retained chats,
-  and affected tasks. Do not estimate or invent missing history.
+  and affected tasks in `DISCLOSURE_INPUTS.md`. Do not estimate or invent
+  missing history.
 - Confirm and document whether the supervising teacher approved each AI system
   before use.
 - Describe the supervising teacher's actual contribution.

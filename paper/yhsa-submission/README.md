@@ -26,6 +26,12 @@ scientific content, rewrite and own the academic expression as required by the
 official AI rules, complete the assistance history, and obtain the required
 signatures.
 
+`STUDENT_AUDIT_WORKSHEET.md` provides the section-by-section scientific
+ownership check. `DISCLOSURE_INPUTS.md` lists the factual AI and supervision
+details that only the student and supervising teacher can supply. The
+fail-closed mechanical consistency audit is implemented in
+`scripts/audit_yhsa_submission.py`.
+
 Build with the project LaTeX workflow after regenerating the evidence-bound
 tables. The reviewed PDF is written to
 `output/pdf/yhsa-submission/Comp-183-Research Report.pdf`.
