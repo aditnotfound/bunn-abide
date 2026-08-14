@@ -41,6 +41,14 @@
     "privacy_scan": "passed for final source, audit documents, and extracted PDF text",
     "tests": "102 passed in 294.11 seconds; root collection constrained to tests/"
   },
+  "clean_checkout_audit": {
+    "audited_commit": "ac54855",
+    "public_tests": "99 passed, 3 expected private-evidence skips",
+    "release_archive_sha256": "d644363a0e56d80b9bec44576a8d905c7835bccbe12548f221077af8d303a24e",
+    "release_archive_byte_match": true,
+    "report_pages": 36,
+    "report_extracted_text_sha256": "43f5b07208c3cb75f3a5ec0dc410a2c2709f9b30947fedf73a2b3326a8bb60af"
+  },
   "bibliography": {
     "path": "paper/references.bib",
     "sha256": "04c61ed867daec4881577486682f7d41feab89f8cbc61610586b6e93627b268b"

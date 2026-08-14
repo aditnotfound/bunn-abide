@@ -97,3 +97,13 @@ supplement. Extracted text contained no unresolved citation, reference,
 placeholder, or question-mark markers. All 11 pages were rendered and visually
 checked for clipping, overlap, broken tables, figure legibility, headers,
 footers, and page order. No layout defect was found.
+
+### ABIDE-II gate release audit
+
+Commit `ac54855` was cloned into a separate directory on 14 August 2026. The
+clean clone rebuilt the public release archive byte for byte, matching SHA-256
+`d644363a0e56d80b9bec44576a8d905c7835bccbe12548f221077af8d303a24e`.
+Its public suite completed with 99 passes and the three expected
+private-evidence skips. The YHSA-format report compiled independently to 36
+pages. The rebuilt PDF had different container metadata, as expected, while
+its extracted text length and SHA-256 matched the checked PDF exactly.
