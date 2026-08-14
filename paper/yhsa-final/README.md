@@ -18,3 +18,11 @@ score-blind ABIDE-II derivative-compatibility gate. No ABIDE-II model was fitted
 or scored. The integrity and AI-use pages still contain fields that the
 researcher must review, complete, and sign before any actual competition
 submission.
+
+The 14 August editorial pass reviewed two user-supplied YHSA reports for broad
+structural conventions, then rewrote this report independently. The revised
+order is abstract, contents, introduction, related work, methods, the complete
+Study 1 result, E1, E2, discussion, conclusion, acknowledgments and research
+integrity material, appendices, and references. The pass removed formulaic
+prose and repeated caveats without changing accepted scientific values,
+citations, or the confirmatory and post-hoc boundary.
