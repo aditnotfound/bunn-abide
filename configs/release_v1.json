@@ -1,7 +1,7 @@
 {
   "schema_version": "public_release_v1",
-  "release_name": "bunn-abide-v1.2.0-rc1",
-  "release_date": "2026-08-14",
+  "release_name": "bunn-abide-v1.3.0-rc1",
+  "release_date": "2026-08-15",
   "source_commit_policy": "record current HEAD; working tree must contain only intended release changes",
   "exclude_prefixes": [
     ".git/",
@@ -40,6 +40,8 @@
     "docs/literature_protocol_comparison.md",
     "docs/abide_ii_compatibility_gate.md",
     "docs/owner_signoff_checklist.md",
+    "docs/extensions/nonlinear_connectome_baseline_plan.md",
+    "docs/extensions/nonlinear_baseline_results.md",
     "output/pdf/manuscript.pdf",
     "output/pdf/supplement.pdf",
     "output/pdf/yhsa-final/report.pdf",
@@ -47,12 +49,18 @@
     "paper/supplement.tex",
     "paper/yhsa-final/report.tex",
     "configs/abide_ii_inventory_v1.json",
+    "configs/extensions/nonlinear_connectome_baseline_v1.json",
+    "configs/extensions/nonlinear_baseline_analysis_v1.json",
     "scripts/inventory_abide_ii.py",
+    "scripts/run_nonlinear_connectome_baseline.py",
+    "scripts/audit_nonlinear_connectome_baseline.py",
+    "scripts/analyze_nonlinear_connectome_baseline.py",
     "reproducibility/abide_ii_gate_inventory.json",
     "reproducibility/artifact_manifest.json",
     "reproducibility/result_snapshot.json",
     "reproducibility/e1_extension_manifest.json",
     "reproducibility/e2_extension_manifest.json",
+    "reproducibility/nonlinear_baseline_result.json",
     "reproducibility/final_report_manifest.json"
   ]
 }
