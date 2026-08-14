@@ -26,3 +26,8 @@ Study 1 result, E1, E2, discussion, conclusion, acknowledgments and research
 integrity material, appendices, and references. The pass removed formulaic
 prose and repeated caveats without changing accepted scientific values,
 citations, or the confirmatory and post-hoc boundary.
+
+The complete Study 1 hyperparameter table is generated from the frozen model
+contracts. The weighting-sensitivity table is generated from the frozen result
+snapshot. Run `python scripts/build_final_report_tables.py` from the repository
+root before compiling the report.
