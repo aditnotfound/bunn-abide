@@ -1,0 +1,42 @@
+{
+  "manifest_version": "1.0",
+  "created_date": "2026-08-15",
+  "status": "author_review_required",
+  "branch": "codex/final-yhsa-revision",
+  "frozen_analysis_contract_commit": "ddb2953",
+  "accepted_results_changed": false,
+  "model_retraining_performed": false,
+  "pdf": {
+    "path": "output/pdf/yhsa-submission/Comp-183-Research Report.pdf",
+    "sha256": "0bc8225fb2ca064e201090605fa066521ca7d70e0de863c51a66032e0559e9ed",
+    "bytes": 1700894,
+    "pages": 37,
+    "unresolved_reference_markers": 0,
+    "visually_inspected": true
+  },
+  "author_review_package": {
+    "path": "output/submission/Comp-183-Research-Report-Author-Review.zip",
+    "sha256": "2ad53cd1bd7353cd4f4305390af29d9d97c65b8639adb639c923304787b92acf",
+    "bytes": 1575968,
+    "contents_verified": true
+  },
+  "artifacts": {
+    "configs/final_revision_analysis_v1.json": "c1ac2d5c42c1bdb82f74c86db463341da58b91b92d44fb9b7a7ee67ea2d5f030",
+    "docs/final_revision_analysis_plan.md": "e94df09a0d9951299b93a1fc2d395ff9a3ea47a8ff78e4ca2c34559f96dacdec",
+    "scripts/analyze_final_revision.py": "c935f3cf4a5601064e15857086798ba9e7850f8dab18f7c3c691b7d65462f1a0",
+    "tests/test_analyze_final_revision.py": "fa00afa51536c08bbbcf5c0ff5b4363604869eee8a860a2cdfcb61908f28d132",
+    "reproducibility/final_revision_result.json": "9f9963774e0c2a1d332b3d023ba4d071731ac36f7ce955bc38f4baa1fd0b5283",
+    "paper/yhsa-submission/report.tex": "0c7a0cedbe1f52756b492ba96bb0e95a15f3be86d27bcd4e31a0ae0a951a451d",
+    "paper/yhsa-submission/AUTHOR_ACTIONS.md": "65eceafb7dcaa50add4726f15160876016db48112421b3a85e93d4060052e1a4",
+    "paper/yhsa-submission/official/2026-YHSA-Research-Report-Template.docx": "d89523b69b385d7730070eff8b7715b8d980a852bc690193760cdbdc4c104c44",
+    "paper/yhsa-submission/official/Commitments-on-Academic-Honesty-and-Integrity.docx": "94be4de3b322c374d6adef1a4b7512b15c9457b305d0790adde28597e933624f"
+  },
+  "author_only_blockers": [
+    "independent scientific and citation verification",
+    "student rewrite and ownership of academic expression",
+    "complete Claude and Cursor usage history",
+    "supervisor approval and contribution details",
+    "required AI chat records",
+    "student, supervisor, and principal signatures"
+  ]
+}
