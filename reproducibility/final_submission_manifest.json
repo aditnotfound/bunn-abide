@@ -8,7 +8,7 @@
   "model_retraining_performed": false,
   "pdf": {
     "path": "output/pdf/yhsa-submission/Comp-183-Research Report.pdf",
-    "sha256": "0bc8225fb2ca064e201090605fa066521ca7d70e0de863c51a66032e0559e9ed",
+    "sha256": "addc2b496633fb9f164d4ff5fecd7fc481818c3d636de0ce9bae798788692284",
     "bytes": 1700894,
     "pages": 37,
     "unresolved_reference_markers": 0,
@@ -16,8 +16,8 @@
   },
   "author_review_package": {
     "path": "output/submission/Comp-183-Research-Report-Author-Review.zip",
-    "sha256": "2ad53cd1bd7353cd4f4305390af29d9d97c65b8639adb639c923304787b92acf",
-    "bytes": 1575968,
+    "sha256": "44e6109ea1714d45796b0feb60e3e5ec2e8ef4037fa3397172cda081862c4df3",
+    "bytes": 1580351,
     "contents_verified": true
   },
   "artifacts": {
@@ -27,7 +27,13 @@
     "tests/test_analyze_final_revision.py": "fa00afa51536c08bbbcf5c0ff5b4363604869eee8a860a2cdfcb61908f28d132",
     "reproducibility/final_revision_result.json": "9f9963774e0c2a1d332b3d023ba4d071731ac36f7ce955bc38f4baa1fd0b5283",
     "paper/yhsa-submission/report.tex": "0c7a0cedbe1f52756b492ba96bb0e95a15f3be86d27bcd4e31a0ae0a951a451d",
-    "paper/yhsa-submission/AUTHOR_ACTIONS.md": "65eceafb7dcaa50add4726f15160876016db48112421b3a85e93d4060052e1a4",
+    "paper/yhsa-submission/AUTHOR_ACTIONS.md": "ca22d5a5396e5ba6ae449f18b6849620e2446bb944d631e86a0928dfb0bca928",
+    "paper/yhsa-submission/STUDENT_AUDIT_WORKSHEET.md": "90be2923739122d198caab21d1958bbb9fd277bd243434417bc78233539f0963",
+    "paper/yhsa-submission/DISCLOSURE_INPUTS.md": "70c2411353c31c6b772ccfc4421af94629314694f7fbb1b89d7aa93d87017835",
+    "scripts/audit_yhsa_submission.py": "46f7d1b63ad505ef47413e22cb3781c316e522b2d9b5621524cf8fed4a9860e7",
+    "tests/test_audit_yhsa_submission.py": "27569232e8c489b853d4b39928bba57b0cfcc518aeed9b556b27a7e4931f3364",
+    "reproducibility/final_submission_audit.json": "e818ca13bc5aac6bf0b4422502487a2446bcd20f87429f3ef75d22cf79a852aa",
+    "docs/final_submission_verification.md": "0b3ebe9ed45279768a9c7b1e7a413ffe0fd45304e23d1f8efcb02cfd4096a64c",
     "paper/yhsa-submission/official/2026-YHSA-Research-Report-Template.docx": "d89523b69b385d7730070eff8b7715b8d980a852bc690193760cdbdc4c104c44",
     "paper/yhsa-submission/official/Commitments-on-Academic-Honesty-and-Integrity.docx": "94be4de3b322c374d6adef1a4b7512b15c9457b305d0790adde28597e933624f"
   },

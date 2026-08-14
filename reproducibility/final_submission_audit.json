@@ -1,0 +1,24 @@
+{
+  "audit_version": "yhsa_submission_audit_v1",
+  "passed": true,
+  "checks": {
+    "all_citations_defined": true,
+    "required_claim_tokens_present": true,
+    "no_unresolved_placeholders": true,
+    "required_evidence_files_present": true,
+    "report_source_matches_manifest": true,
+    "accepted_results_marked_unchanged": true,
+    "no_model_retraining_marked": true,
+    "status_requires_author_review": true
+  },
+  "details": {
+    "citation_count": 16,
+    "missing_citations": [],
+    "missing_claim_tokens": {},
+    "found_forbidden_tokens": [],
+    "missing_files": [],
+    "report_sha256": "0c7a0cedbe1f52756b492ba96bb0e95a15f3be86d27bcd4e31a0ae0a951a451d",
+    "manifest_report_sha256": "0c7a0cedbe1f52756b492ba96bb0e95a15f3be86d27bcd4e31a0ae0a951a451d"
+  },
+  "boundary": "This mechanical audit does not complete the student's scientific-ownership, AI-disclosure, supervisor-approval, or signature obligations."
+}
