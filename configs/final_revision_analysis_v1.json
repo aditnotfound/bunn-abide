@@ -1,0 +1,86 @@
+{
+  "analysis_version": "final_revision_analysis_v1",
+  "status": "Frozen revision-only analysis contract. No model retraining and no changes to accepted Study 1, E1, E2, or nonlinear-baseline outputs.",
+  "frozen_on": "2026-08-15",
+  "inputs": {
+    "raw_phenotype": {
+      "path": "data/raw/Phenotypic_V1_0b_preprocessed1.csv",
+      "sha256": "009f01a89697113e5375ded4fbcff4c85e89a4daa6d13e63c21ae5d57dda0865"
+    },
+    "parent_manifest": {
+      "path": "data/processed/abide_i_manifest_cpac_filt_noglobal_rois_aal.csv",
+      "sha256": "ce3bdbfa02589629a687c341cb5c69fe176a7be5d2ad913d7d510665c093f39b"
+    },
+    "analysis_manifest": {
+      "path": "data/processed/abide_i_analysis_manifest.csv",
+      "sha256": "bef94eb5d144a445f253f5828bedf452b1c8343c745417766d695fb206f05945"
+    },
+    "connectomes": {
+      "path": "data/processed/abide_i_connectomes_fisher_z.npz",
+      "sha256": "34b6092c94bcadbb8fca8edae331bc527d7f13e2356f5ebc227d5697b727d431"
+    },
+    "site_configuration_metrics": {
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/site_configuration_metrics.csv",
+      "sha256": "4037dca2e55cf92d724fbf774e542f9c9256a0e2db2ec36dd780b8d171ef660d"
+    },
+    "site_predictive_curves": {
+      "path": "outputs/analysis/step11_neural_full_parallel_v1/site_predictive_curves.csv",
+      "sha256": "b46e4dc74d57859bfa41d0e21b13a878cf4786b0671dc0222931a18b9ca0c038"
+    },
+    "baseline_site_metrics": {
+      "path": "outputs/analysis/step7_6_full_baselines_v2/per_site_metrics.csv",
+      "sha256": "cad0c185b62f141627cf58454541c4cc01a53c7ba66daec96aac17043d52cf96"
+    },
+    "e1_site_density_effects": {
+      "path": "outputs/analysis/e1_interventions_v1/site_density_effects.csv",
+      "sha256": "1c01a1a12022d3af657688fd0220e555332d69426c90a441abbfc0b656638b57"
+    }
+  },
+  "inference": {
+    "site_bootstrap_resamples": 10000,
+    "bootstrap_seed": 20260816,
+    "interval": "percentile_95",
+    "exact_sign_flip": true,
+    "e1_pairwise_multiplicity": "Holm across all six exploratory intervention pairs",
+    "site_curve_weights": {
+      "density_grid": [0.0, 0.01, 0.05, 0.1, 0.2],
+      "normalized_trapezoid": [0.025, 0.125, 0.225, 0.375, 0.25],
+      "sensitivity": "uniform average across the five grid points"
+    },
+    "participant_weighting": "Weight each held-out-site estimate by its analysis-manifest participant count; resample sites as clusters and recompute normalized weights in every bootstrap sample.",
+    "model_level_intervals": "Equal-site bootstrap intervals for each reported classical and neural model summary."
+  },
+  "qc_cascade": [
+    "all phenotype rows",
+    "valid diagnosis",
+    "available FILE_ID",
+    "qc_rater_1 equals OK",
+    "qc_func_rater_2 equals OK",
+    "eligible 18-site set",
+    "nonzero-variance ROI time series"
+  ],
+  "heat_spectrum": {
+    "densities": [0.01, 0.05, 0.1, 0.2],
+    "laplacian": "L_rw = I - D^-1 A",
+    "eigenvalue_computation": "Use the symmetric-similar normalized Laplacian I - D^-1/2 A D^-1/2.",
+    "diffusion_time": 1.0,
+    "response": "exp(-lambda)",
+    "summaries": [
+      "lambda_2",
+      "lambda_median",
+      "lambda_max",
+      "response_min",
+      "response_median",
+      "mean_heat_response",
+      "stationary_mode_fraction"
+    ]
+  },
+  "claim_limits": [
+    "All revision analyses are post-hoc descriptive or sensitivity analyses.",
+    "Do not change any frozen accuracy, AUROC, interval, or intervention result.",
+    "Do not describe absence of significance as equivalence.",
+    "Do not attribute QC attrition to motion without reporting the observed framewise-displacement distributions.",
+    "Do not claim that a representation diagnostic caused predictive performance.",
+    "Do not interpret functional-connectivity signs or bundle maps as biological excitation, inhibition, causal flow, or brain geometry."
+  ]
+}
