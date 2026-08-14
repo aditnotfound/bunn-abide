@@ -1,0 +1,22 @@
+% Generated from frozen JSON contracts. Do not edit by hand.
+\begin{table}[htbp]
+\centering
+\caption{Complete Study 1 model-selection, architecture, and training settings.}
+\label{tab:hyperparameters}
+\small
+\begin{tabularx}{\textwidth}{@{}p{3.0cm}Y Y@{}}
+\toprule
+\textbf{Model or component} & \textbf{Tuned values} & \textbf{Fixed settings} \\
+\midrule
+Covariates logistic & C: 0.01, 0.1, 1, 10 & L2; balanced classes \\
+Connectome elastic net & C: 0.03, 0.3, 3; l1 ratio: 0.1, 0.5, 0.9 & SAGA; balanced classes \\
+Combined elastic net & C: 0.03, 0.3, 3; l1 ratio: 0.1, 0.5, 0.9 & SAGA; balanced classes \\
+All neural operators & (learning rate, weight decay): (0.0003, 1e-05); (0.0003, 0.0001); (0.001, 1e-05); (0.001, 0.0001) & AdamW; batch 8; at most 150 epochs; patience 20 \\
+Shared neural backbone & 2 propagation layers; width 32; dropout 0.2 & GELU; node-mean pooling; one graph-level logit; 2 tuning and 5 final seeds \\
+Bundle representation & Not tuned & 8 bundles; dimension 2; 2 vector-field channels per bundle; $8\times2\times2=32$ hidden coordinates \\
+Heat operator & Not tuned & $t=1$; exact $\exp(-tL)$; $L=I-D^{-1}A$; isolated-node Laplacian rows fixed at zero \\
+Map generator, each layer & Not tuned & MLP $32\rightarrow32\rightarrow8$ with GELU; one angle per node and bundle; 4 rotations and 4 reflections \\
+Parameter totals & Not tuned & Identity, GCN, trivial bundle: 5,889; learned-local and BuNN: 8,529; map-generator difference: 2,640 \\
+\bottomrule
+\end{tabularx}
+\end{table}

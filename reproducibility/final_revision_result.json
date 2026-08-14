@@ -1,0 +1,27 @@
+{
+  "analysis_version": "final_revision_analysis_v1",
+  "claim_boundary": "Revision-only post-hoc and sensitivity analyses; frozen fitted-model results unchanged.",
+  "headline_results": {
+    "qc_cascade": [1112, 1112, 1035, 997, 776, 769, 754],
+    "learned_bunn_minus_gcn_equal_site": {
+      "estimate": -0.00957865027025,
+      "ci_95": [-0.0360639022189, 0.0110163933242]
+    },
+    "learned_bunn_minus_gcn_participant_weighted": {
+      "estimate": 0.00297225383373,
+      "ci_95": [-0.00766591770114, 0.0154608948977]
+    },
+    "learned_bunn_minus_gcn_uniform_grid": {
+      "estimate": -0.00657604059062,
+      "ci_95": [-0.0269175270551, 0.0112826827253]
+    },
+    "heat_mean_response_by_density": {
+      "0.01": 0.739259557761,
+      "0.05": 0.492396593043,
+      "0.10": 0.429997878773,
+      "0.20": 0.394228056487
+    }
+  },
+  "protocol_sha256": "c1ac2d5c42c1bdb82f74c86db463341da58b91b92d44fb9b7a7ee67ea2d5f030",
+  "generated_output_manifest": "outputs/analysis/final_revision_v1/result.json"
+}
