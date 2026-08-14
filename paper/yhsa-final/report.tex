@@ -61,7 +61,7 @@
 \newcommand{\BuNN}{Bundle Neural Network}
 \newcommand{\GCN}{Graph Convolutional Network}
 \newcommand{\BA}{balanced accuracy}
-\newcommand{\draftnote}{This report contains the frozen ABIDE-I operator comparison and two separately labelled post-hoc studies. It does not report external validation or additional architecture experiments.}
+\newcommand{\draftnote}{This report contains the frozen ABIDE-I operator comparison and three separately labelled post-hoc studies. It does not report external validation or additional architecture experiments.}
 \input{../generated/numbers.tex}
 
 \begin{document}
@@ -146,8 +146,11 @@ interval [\RankCILow{}, \RankCIHigh{}]), opposite to the proposed
 representation-preservation advantage. Prediction also declined with density
 for every diffusion operator.
 
-Two post-hoc studies examined this result without changing it. First, an
-intervention audit used the 360 accepted BuNN checkpoints. Replacing learned
+Three post-hoc studies examined this result without changing it. A nonlinear
+RBF-SVM on the same vectorized connectomes reached 0.6255 equal-site balanced
+accuracy. It did not exceed the elastic net, although it performed above the
+learned-BuNN curve. An intervention audit then used the 360 accepted BuNN
+checkpoints. Replacing learned
 maps with random orthogonal maps reduced equal-site balanced accuracy by 8.86
 percentage points (95\% interval $[-12.36,-4.78]$; Holm-adjusted exact
 $p=0.0038$). The learned maps were therefore active, although their exact node
@@ -410,6 +413,16 @@ elastic-net model used all vectorized connectome features, with combined
 $\ell_1$ and $\ell_2$ penalties for correlated high-dimensional predictors
 \cite{zou2005elastic}. The third model combined those connectome features and
 covariates. Scaling, feature processing, and tuning used training sites only.
+
+After Study 1, E1, and E2 were complete, a post-hoc nonlinear comparator was
+added. An RBF-kernel support vector machine used the same 6,670 connectome
+features and frozen nested site splits. Each inner fit standardized its own
+training partition. The grid crossed $C\in\{0.1,1,10\}$ with
+$\gamma\in\{0.25/D,1/D,4/D\}$, where $D=6670$. Candidates were selected by
+the unweighted mean balanced accuracy across inner validation sites. The
+decision threshold remained fixed at zero, and no probability calibration,
+PCA, feature selection, or harmonization was used. This comparison was not
+allowed to alter the confirmatory Study 1 decision.
 
 \subsection{Shared neural backbone and operator controls}
 
@@ -694,6 +707,28 @@ pre-specified confirmatory estimand was the equal-site mean.
 
 \input{generated/tables/weighting_robustness.tex}
 
+\subsection{Post-hoc nonlinear connectome baseline}
+
+The RBF-SVM reached 0.6255 equal-site balanced accuracy, 0.6565 pooled balanced
+accuracy, and 0.7014 pooled AUROC. Against the connectome elastic net, its
+equal-site difference was $-0.0146$ (95\% paired site-bootstrap interval
+$[-0.0555,0.0206]$; exact sign-flip $p=0.498$). The analysis therefore found
+no RBF-SVM advantage over the strongest classical baseline.
+
+RBF-SVM exceeded the GCN curve by 0.0310, but that interval crossed zero. Its
+difference from the learned-BuNN curve was 0.0406 (95\% interval
+$[0.0069,0.0744]$; exact $p=0.037$). This is a post-hoc practical comparison,
+not a new confirmatory test of the BuNN hypothesis.
+
+Weighting changed the model ordering. RBF-SVM was 0.0146 below elastic net in
+the equal-site mean but 0.0089 above it when sites were weighted by participant
+count. The median paired site difference was zero. Pooled performance alone
+would therefore have suggested a different conclusion from the pre-specified
+equal-site analysis.
+
+\input{generated/tables/nonlinear_baseline.tex}
+\FloatBarrier
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.92\textwidth]{site_influence.png}
@@ -917,6 +952,11 @@ better preserved. Because the inputs, backbone, tuning budget, and controls
 were shared, the comparison isolates this propagation design rather than
 contrasting unrelated models.
 
+The later RBF-SVM comparison reached the same practical conclusion from a
+different model family. Nonlinearity improved on learned BuNN, but it did not
+improve on elastic net under equal-site weighting. The strongest reference in
+this pipeline therefore remained the simpler regularized linear model.
+
 E1 removes one possible explanation for the null result. Training did use the
 map system: random orthogonal replacement caused a large loss of held-out
 performance that survived multiplicity correction. BuNN had learned
@@ -961,6 +1001,7 @@ explanations remain plausible.
 Diffusion curves decline with density & Adding more propagation edges is associated with worse held-out-site prediction in this pipeline. & A universal law of over-smoothing or a causal biological mechanism. \\
 BuNN does not beat GCN & Learned transport provides no detected predictive advantage over ordinary aggregation here. & That BuNN never works on brain or non-brain graphs. \\
 BuNN remains below elastic net & A regularized model on the full connectome is the stronger practical reference for these inputs. & That nonlinear modeling is always unnecessary. \\
+RBF-SVM does not beat elastic net & A nonlinear whole-connectome model did not improve the equal-site result. & That every nonlinear model or feature representation will fail. \\
 Learned-local anchor already has high raw rank & Extra node-wise map capacity can create an apparent raw diversity advantage without transport. & That every aspect of the learned maps is useless. \\
 Matched-anchor rank favors GCN & The proposed common-frame representation-preservation advantage is not supported. & A causal mediation pathway from rank to prediction. \\
 Random maps reduce BA by 8.86 points & Accepted predictions depend on properties of the learned map system. & Biological bundle geometry or causal neural transport. \\
@@ -1012,8 +1053,10 @@ inconsistent with a gain of 0.03 balanced accuracy on the pre-specified curve.
 
 The elastic-net comparison was more stable. Its interval remained below zero,
 so learned BuNN underperformed the regularized non-graph reference in this
-analysis. A comparison limited to neural graph variants would have missed the
-strongest baseline.
+analysis. The post-hoc RBF-SVM result depended on weighting: elastic net led
+under equal-site averaging, whereas RBF-SVM led under participant weighting.
+A comparison limited to neural graph variants or pooled scores would have
+missed these distinctions.
 
 \subsection{Limitations}
 
@@ -1031,8 +1074,8 @@ differ, so equal-site and participant-weighted means answer different
 questions. The representation diagnostics are computational summaries, and
 their association with prediction is not a mediation analysis.
 
-E1 was specified after the Study 1 result, so it is a post-hoc audit rather
-than an independent confirmation. Its interventions are intentionally
+E1, E2, and the RBF-SVM comparator were specified after the Study 1 result, so
+they are post-hoc analyses rather than independent confirmation. E1's interventions are intentionally
 artificial. Random maps can disrupt the coordinate system expected by later
 weights. Identity maps remove learned orientation and reflections. Node
 shuffling preserves the collection of learned maps while breaking their

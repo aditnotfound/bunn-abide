@@ -19,6 +19,11 @@ def parse_args() -> argparse.Namespace:
         "--snapshot", type=Path, default=Path("reproducibility/result_snapshot.json")
     )
     parser.add_argument(
+        "--nonlinear",
+        type=Path,
+        default=Path("reproducibility/nonlinear_baseline_result.json"),
+    )
+    parser.add_argument(
         "--output-dir", type=Path, default=Path("paper/yhsa-final/generated/tables")
     )
     return parser.parse_args()
@@ -128,12 +133,45 @@ def build_weighting(snapshot: dict[str, Any]) -> str:
 """
 
 
+def build_nonlinear(result: dict[str, Any]) -> str:
+    labels = {
+        "rbf_svm_minus_connectome_elastic_net": "RBF-SVM $-$ elastic net",
+        "rbf_svm_minus_gcn_curve": "RBF-SVM $-$ GCN curve",
+        "rbf_svm_minus_learned_bunn_curve": "RBF-SVM $-$ learned BuNN curve",
+    }
+    rows = []
+    for contrast in result["contrasts"]:
+        low, high = contrast["bootstrap_ci_95"]
+        rows.append(
+            f"{labels[contrast['name']]} & "
+            f"{float(contrast['equal_site_mean_difference']):+.4f} & "
+            f"$[{float(low):+.4f}, {float(high):+.4f}]$ & "
+            f"{float(contrast['exact_sign_flip_p']):.3f} \\\\"
+        )
+    return """% Generated from the audited nonlinear-baseline result. Do not edit by hand.
+\\begin{table}[htbp]
+\\centering
+\\caption{Post-hoc RBF-SVM comparisons using paired held-out sites.}
+\\label{tab:nonlinear-baseline}
+\\small
+\\begin{tabularx}{\\textwidth}{@{}Y r r r@{}}
+\\toprule
+\\textbf{Contrast} & \\textbf{Difference} & \\textbf{95\\% CI} & \\textbf{Exact $p$} \\\\
+\\midrule
+""" + "\n".join(rows) + """
+\\bottomrule
+\\end{tabularx}
+\\end{table}
+"""
+
+
 def build_tables(
     baseline_path: Path,
     neural_path: Path,
     operator_path: Path,
     snapshot_path: Path,
     output_dir: Path,
+    nonlinear_path: Path | None = None,
 ) -> list[Path]:
     baseline = read_json(baseline_path)
     neural = read_json(neural_path)
@@ -150,6 +188,11 @@ def build_tables(
         output_dir / "hyperparameters.tex": build_hyperparameters(baseline, neural, operator),
         output_dir / "weighting_robustness.tex": build_weighting(snapshot),
     }
+    if nonlinear_path is not None:
+        nonlinear = read_json(nonlinear_path)
+        if nonlinear.get("post_hoc") is not True or nonlinear.get("confirmatory_override_allowed"):
+            raise ValueError("Nonlinear result does not preserve its post-hoc evidence boundary")
+        outputs[output_dir / "nonlinear_baseline.tex"] = build_nonlinear(nonlinear)
     for path, content in outputs.items():
         path.write_text(content, encoding="utf-8", newline="\n")
     return list(outputs)
@@ -158,7 +201,8 @@ def build_tables(
 def main() -> None:
     args = parse_args()
     outputs = build_tables(
-        args.baseline, args.neural, args.operator, args.snapshot, args.output_dir
+        args.baseline, args.neural, args.operator, args.snapshot, args.output_dir,
+        args.nonlinear,
     )
     print(json.dumps({"generated": [str(path) for path in outputs]}, indent=2))
 
