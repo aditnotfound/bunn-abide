@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this study or code, cite the manuscript and this repository."
+title: "Bundle Neural Networks for Functional Connectomes: Density-Dependent Aggregation and Cross-Site Prediction"
+type: software
+authors:
+  - family-names: Patil
+    given-names: Adit
+version: 1.2.0-rc1
+date-released: 2026-08-14
+repository-code: "https://github.com/aditnotfound/bunn-abide"
+license: LicenseRef-All-Rights-Reserved

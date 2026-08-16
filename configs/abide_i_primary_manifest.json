@@ -1,0 +1,29 @@
+{
+  "dataset": "ABIDE-I Preprocessed Connectomes Project",
+  "phenotypic_url": "https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiative/Phenotypic_V1_0b_preprocessed1.csv",
+  "pipeline": "cpac",
+  "strategy": "filt_noglobal",
+  "derivative": "rois_aal",
+  "qc_rule": "rater1_and_func2_ok",
+  "requires_file_id": true,
+  "min_site_class_size": 1,
+  "verification": {
+    "raw_row_count": 1112,
+    "rows_before_site_filter": 776,
+    "manifest_row_count": 769,
+    "site_count": 18,
+    "class_counts": {
+      "asd": 378,
+      "control": 391
+    },
+    "raw_csv_sha256": "009f01a89697113e5375ded4fbcff4c85e89a4daa6d13e63c21ae5d57dda0865",
+    "manifest_sha256": "ce3bdbfa02589629a687c341cb5c69fe176a7be5d2ad913d7d510665c093f39b",
+    "url_checked": 776,
+    "url_missing": 0
+  },
+  "excluded_sites": {
+    "LEUVEN_2": "No ASD participant after QC; held-out-site balanced accuracy undefined.",
+    "SBL": "No control participant after QC; held-out-site balanced accuracy undefined."
+  },
+  "generated_on": "2026-08-03"
+}

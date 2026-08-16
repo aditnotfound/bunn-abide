@@ -1,0 +1,28 @@
+{
+  "manifest_version": 1,
+  "study": "E1 accepted-checkpoint intervention extension",
+  "source_archive": {
+    "path": "outputs/archives/e1_full_v1.sealed.tar.gz",
+    "sha256": "19ed2729d30b4e379b8e526b8146d1f8d1d11ff09e233c6c7142fc8a2762eb4d"
+  },
+  "analysis": {
+    "protocol": "configs/extensions/e1_analysis_v1.json",
+    "execution_contract": "configs/extensions/e1_analysis_execution_v1.json",
+    "execution_contract_sha256": "4a6b68d1a92f2a6aeaf2adfaaf9cf90861879992fbd49fe0c26e95f2c5cb4323",
+    "metadata_sha256": "1e04f77d4a6a3f0497fce6535b38592f07e1ba8d13c8641f800bfd98e4862855",
+    "audit_sha256": "be261e4db14c2402fb3000b202732e4b75b53e460816954dea21a5303246df81",
+    "sealed_archive": "outputs/archives/e1_analysis_v1.sealed.tar.gz",
+    "sealed_archive_sha256": "5e1f71d2eb077a86be6726b0487a7d657b866e4d86ae5824a92b3dfb24ea727a"
+  },
+  "report": {
+    "source": "paper/yhsa-e1/report.tex",
+    "source_sha256": "ac88e3045b92d5c35fc172a65210eb586e0222082b52d34cb97ed6edf01cecda",
+    "pdf": "output/pdf/yhsa-e1/report.pdf",
+    "pdf_sha256": "5f44603a982e9558ccfd513619f7b12b6f41b659c5b7c26d348dea932f750360",
+    "pages": 29,
+    "visual_qa": "all pages rendered and inspected"
+  },
+  "claim_ledger": "docs/extensions/e1_claim_ledger.md",
+  "frozen_study_1_unchanged": true,
+  "post_hoc_extension": true
+}

@@ -1,0 +1,57 @@
+{
+  "analysis_version": "nonlinear_baseline_analysis_v1",
+  "run_id": "rbf_svm_full_v1",
+  "post_hoc": true,
+  "confirmatory_override_allowed": false,
+  "cohort": {
+    "participants": 754,
+    "sites": 18,
+    "features": 6670
+  },
+  "rbf_svm": {
+    "equal_site_balanced_accuracy": 0.6255113412103456,
+    "pooled_balanced_accuracy": 0.6565172105592816,
+    "pooled_auroc": 0.7014209003962193,
+    "sensitivity": 0.6576819407008087,
+    "specificity": 0.6553524804177546
+  },
+  "contrasts": [
+    {
+      "name": "rbf_svm_minus_connectome_elastic_net",
+      "equal_site_mean_difference": -0.014595372354934223,
+      "bootstrap_ci_95": [-0.0555053839499373, 0.020628076998263942],
+      "exact_sign_flip_p": 0.497528076171875,
+      "participant_weighted_mean_difference": 0.008928958307545115,
+      "median_site_difference": 0.0,
+      "positive_sites": 8,
+      "negative_sites": 8
+    },
+    {
+      "name": "rbf_svm_minus_gcn_curve",
+      "equal_site_mean_difference": 0.03098684760995016,
+      "bootstrap_ci_95": [-0.015577385062097876, 0.07047533785355561],
+      "exact_sign_flip_p": 0.19342041015625,
+      "participant_weighted_mean_difference": 0.05636464562664996,
+      "median_site_difference": 0.044454365079365066,
+      "positive_sites": 13,
+      "negative_sites": 5
+    },
+    {
+      "name": "rbf_svm_minus_learned_bunn_curve",
+      "equal_site_mean_difference": 0.04056549788020309,
+      "bootstrap_ci_95": [0.006913052240895855, 0.07437885298364316],
+      "exact_sign_flip_p": 0.03702545166015625,
+      "participant_weighted_mean_difference": 0.05339239179292305,
+      "median_site_difference": 0.06247519841269844,
+      "positive_sites": 13,
+      "negative_sites": 5
+    }
+  ],
+  "source_sha256": {
+    "sealed_run_archive": "a9bc9a5f2758591aaa7e5f0bb53ffcf7d9b0f970c26d56b92055267cb5fea477",
+    "score_blind_audit_remote": "f60038efcfabb239f7f0adc0257b27551fa4770477699bdd49fd10d16c8d5ed6",
+    "paired_contrasts": "11033bc935cf70bb78755211c9fa85f267ff04f5b2dbdbfb6b0f8a6d7eb29299",
+    "rbf_svm_summary": "bcd9080c47623500728e0cdecda4ed44f1dd0a261501b1aea1865ed899ccb21d",
+    "site_differences": "e91cab461dd4d5886cda47314692a040a49030a4b555f1257389f3bf61850d3b"
+  }
+}

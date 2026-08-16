@@ -1,0 +1,6 @@
+endpoint,layer,estimand,primary,held_out_sites,estimate,ci_95_low,ci_95_high
+normalized_effective_rank,layer_2,BuNN minus GCN difference in normalized density-curve change from matched zero-density anchor,1,18,-0.007192178932822916,-0.013095766746942144,-0.0010485811819615914
+normalized_dispersion,layer_2,BuNN minus GCN difference in normalized density-curve change from matched zero-density anchor,0,18,-0.04174129636088429,-0.052346464776233934,-0.030611189367074496
+mean_pairwise_cosine,layer_2,BuNN minus GCN difference in normalized density-curve change from matched zero-density anchor,0,18,0.04147908159750959,0.031932719224377,0.05069269597065211
+invariant_edge_transport_distance,layer_2,BuNN minus GCN difference in normalized density-curve change from matched zero-density anchor,0,18,-0.6435964480191052,-0.8204693124382144,-0.4719601009936112
+encoder_to_layer_2_normalized_effective_rank_change,encoder_to_layer_2,BuNN minus GCN difference in normalized density-curve change from matched zero-density anchor,0,18,-0.005563895944556512,-0.014448534891948635,0.004785636954942962

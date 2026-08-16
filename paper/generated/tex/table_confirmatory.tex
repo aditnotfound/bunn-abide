@@ -1,0 +1,17 @@
+\begin{table*}[!t]
+\centering
+\caption{Pre-specified predictive contrasts. Differences are BuNN minus the named comparator.}
+\label{tab:confirmatory}
+\footnotesize
+\begin{tabularx}{\textwidth}{Xrrr}
+\toprule
+Contrast & Estimate & 95\% site-bootstrap CI & Exact $p$ \\
+\midrule
+BuNN curve - GCN curve & -0.0096 & [-0.0366, 0.0115] & 0.5237 \\
+BuNN curve - trivial-bundle curve & -0.0062 & [-0.0293, 0.0108] & 0.6813 \\
+BuNN nonzero mean - learned-local & -0.0167 & [-0.0347, 0.0009] & 0.0958 \\
+BuNN nonzero mean - identity & -0.0146 & [-0.0320, 0.0018] & 0.1155 \\
+BuNN curve - connectome elastic net & -0.0552 & [-0.0830, -0.0275] & 0.0018 \\
+\bottomrule
+\end{tabularx}
+\end{table*}

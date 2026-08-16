@@ -1,0 +1,60 @@
+{
+  "registry_version": 1,
+  "frozen_utc": "2026-08-13T09:30:00Z",
+  "status": "frozen_before_extension_inference",
+  "study_1": {
+    "run_id": "step10_neural_full_parallel_v1",
+    "repository_commit_at_extension_freeze": "15333281f031f77200152550cc86855ba36f8073",
+    "classification": "immutable_completed_confirmatory_operator_audit",
+    "conclusion": "No learned-BuNN predictive or matched-anchor representation-preservation advantage was detected under the frozen ABIDE-I pipeline.",
+    "sealed_archive_sha256": "91ffbd55da98064149d90ff3273e80bcd6c4d5d6195d0ac64344747ecdd5082f",
+    "integrity_certificate_sha256": "19b61c643348498669426b93d5f7b4fc8d0b449a7c635177a9075b991df70960"
+  },
+  "experiments": [
+    {
+      "id": "E1.1",
+      "name": "existing_artifact_diagnostics",
+      "status": "authorized",
+      "result_class": "post_hoc_explanatory",
+      "new_model_training": false,
+      "purpose": "Audit optimization, tuning-boundary, density, site, seed, representation, warning, and runtime evidence already accepted in Study 1."
+    },
+    {
+      "id": "E1.2",
+      "name": "accepted_checkpoint_interventions",
+      "status": "authorized_subject_to_reproduction_and_timing_gates",
+      "result_class": "post_hoc_intervention",
+      "new_model_training": false,
+      "purpose": "Measure whether accepted learned-BuNN predictions and common-frame diagnostics are sensitive to learned maps and graph topology."
+    },
+    {
+      "id": "E2",
+      "name": "synthetic_known_geometry",
+      "status": "deferred",
+      "reason": "No validated generator, controls, or measured runtime."
+    },
+    {
+      "id": "E3",
+      "name": "matched_depth_and_capacity",
+      "status": "deferred",
+      "reason": "Requires new nested training and a separate measured compute budget."
+    },
+    {
+      "id": "E4",
+      "name": "wang_cgcn_leakage_audit",
+      "status": "deferred",
+      "reason": "Released CC200 LOSO artifact is unavailable and no validated modern port exists."
+    },
+    {
+      "id": "E5",
+      "name": "abide_ii_external_evaluation",
+      "status": "deferred",
+      "reason": "No preprocessing-compatible frozen ABIDE-II derivative has passed feasibility."
+    }
+  ],
+  "claim_boundary": [
+    "An intervention measures computational sensitivity, not biological geometry.",
+    "A post-hoc result may explain or qualify Study 1 but may not overwrite it.",
+    "No smoke, partial-site artifact, or unaudited output is a scientific result."
+  ]
+}

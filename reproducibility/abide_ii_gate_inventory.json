@@ -1,0 +1,248 @@
+{
+  "contract": "configs/abide_ii_inventory_v1.json",
+  "derivative_inventory": {
+    "direct_abide_ii_prefix_key_counts": {
+      "data/Projects/ABIDEII": 0,
+      "data/Projects/ABIDE_II": 0
+    },
+    "lle_abide_ii_site_count_excluding_masks": 21,
+    "lle_abide_ii_sites": [
+      "BNI_1",
+      "EMC_1",
+      "ETH_1",
+      "GU_1",
+      "IP_1",
+      "IU_1",
+      "KKI_1",
+      "KUL_3",
+      "NYU_1",
+      "NYU_2",
+      "OHSU_1",
+      "ONRC_2",
+      "SDSU_1",
+      "STANFORD",
+      "TCD_1",
+      "UCD_1",
+      "UCLA_1",
+      "UCLA_Long",
+      "UPSM_Long",
+      "USM_1",
+      "U_MIA_1"
+    ],
+    "lle_compatibility": "Documented mixed C-PAC/SPM preprocessed volumes; not the frozen C-PAC filt_noglobal AAL-116 ROI derivative.",
+    "main_abide_ii_subject_id_matches": 0,
+    "study_1_pcp_key_count": 1102,
+    "study_1_pcp_prefix": "data/Projects/ABIDE_Initiative/Outputs/cpac/filt_noglobal/rois_aal/"
+  },
+  "functional_quality_metrics": {
+    "main_cohort_participants_covered": 1043,
+    "main_cohort_participants_missing": 71,
+    "rows": 1449,
+    "unique_participants": 1081
+  },
+  "gate": {
+    "decision": "FAIL",
+    "exact_derivative_complete": false,
+    "model_evaluation_authorized": false,
+    "reasons": [
+      "No official complete C-PAC filt_noglobal AAL-116 ROI-time-series collection was found for the main ABIDE-II cohort.",
+      "The tested ABIDE-II-specific public S3 prefixes contain no objects.",
+      "The official LLE area contains ABIDE-II site directories, but its documented mixed C-PAC/SPM volume workflow is not the frozen Study 1 ROI derivative."
+    ]
+  },
+  "longitudinal_collection": {
+    "abide_i_numeric_id_overlap": 38,
+    "frozen_rule": "Exclude the longitudinal collection from an independent external cohort.",
+    "rows": 76,
+    "unique_participants": 38
+  },
+  "main_cohort": {
+    "abide_i_numeric_id_overlap": 0,
+    "diagnosis_counts": {
+      "1": 521,
+      "2": 593
+    },
+    "rows": 1114,
+    "sites": 19,
+    "unique_participants": 1114
+  },
+  "model_outputs_read_or_created": false,
+  "schema_version": "abide_ii_metadata_inventory_v1",
+  "score_blind": true,
+  "site_inventory": [
+    {
+      "asd": 29,
+      "control": 29,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 58,
+      "participants": 58,
+      "site_id": "ABIDEII-BNI_1"
+    },
+    {
+      "asd": 27,
+      "control": 27,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 54,
+      "participants": 54,
+      "site_id": "ABIDEII-EMC_1"
+    },
+    {
+      "asd": 13,
+      "control": 24,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 37,
+      "participants": 37,
+      "site_id": "ABIDEII-ETH_1"
+    },
+    {
+      "asd": 51,
+      "control": 55,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 106,
+      "participants": 106,
+      "site_id": "ABIDEII-GU_1"
+    },
+    {
+      "asd": 22,
+      "control": 34,
+      "functional_qap_coverage": 0.982143,
+      "functional_qap_participants": 55,
+      "participants": 56,
+      "site_id": "ABIDEII-IP_1"
+    },
+    {
+      "asd": 20,
+      "control": 20,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 40,
+      "participants": 40,
+      "site_id": "ABIDEII-IU_1"
+    },
+    {
+      "asd": 56,
+      "control": 155,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 211,
+      "participants": 211,
+      "site_id": "ABIDEII-KKI_1"
+    },
+    {
+      "asd": 28,
+      "control": 0,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 28,
+      "participants": 28,
+      "site_id": "ABIDEII-KUL_3"
+    },
+    {
+      "asd": 48,
+      "control": 30,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 78,
+      "participants": 78,
+      "site_id": "ABIDEII-NYU_1"
+    },
+    {
+      "asd": 27,
+      "control": 0,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 27,
+      "participants": 27,
+      "site_id": "ABIDEII-NYU_2"
+    },
+    {
+      "asd": 37,
+      "control": 56,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 93,
+      "participants": 93,
+      "site_id": "ABIDEII-OHSU_1"
+    },
+    {
+      "asd": 24,
+      "control": 35,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 59,
+      "participants": 59,
+      "site_id": "ABIDEII-OILH_2"
+    },
+    {
+      "asd": 33,
+      "control": 25,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 58,
+      "participants": 58,
+      "site_id": "ABIDEII-SDSU_1"
+    },
+    {
+      "asd": 21,
+      "control": 21,
+      "functional_qap_coverage": 0.0,
+      "functional_qap_participants": 0,
+      "participants": 42,
+      "site_id": "ABIDEII-SU_2"
+    },
+    {
+      "asd": 21,
+      "control": 21,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 42,
+      "participants": 42,
+      "site_id": "ABIDEII-TCD_1"
+    },
+    {
+      "asd": 18,
+      "control": 14,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 32,
+      "participants": 32,
+      "site_id": "ABIDEII-UCD_1"
+    },
+    {
+      "asd": 16,
+      "control": 16,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 32,
+      "participants": 32,
+      "site_id": "ABIDEII-UCLA_1"
+    },
+    {
+      "asd": 17,
+      "control": 16,
+      "functional_qap_coverage": 1.0,
+      "functional_qap_participants": 33,
+      "participants": 33,
+      "site_id": "ABIDEII-USM_1"
+    },
+    {
+      "asd": 13,
+      "control": 15,
+      "functional_qap_coverage": 0.0,
+      "functional_qap_participants": 0,
+      "participants": 28,
+      "site_id": "ABIDEII-U_MIA_1"
+    }
+  ],
+  "sources": {
+    "composite_phenotype": {
+      "bytes": 561572,
+      "sha256": "537e541114884f63a2e736ba4d223a816dd013f701e56fb223ebe42e219e06f6",
+      "url": "https://fcon_1000.projects.nitrc.org/indi/abide2/release/phenotypic_data/ABIDEII_Composite_Phenotypic.csv"
+    },
+    "longitudinal_phenotype": {
+      "bytes": 39325,
+      "sha256": "af72102bb56e9a582d32b12ae546b995376128adb568eaf063a4ce5b0e510d53",
+      "url": "https://fcon_1000.projects.nitrc.org/indi/abide2/release/phenotypic_data/ABIDEII_Long_Composite_Phenotypic.csv"
+    },
+    "mri_quality_metrics": {
+      "bytes": 196277,
+      "sha256": "83325778bd566be26cb2b6d772754e4e6b278ede2d6e8fd348648f39456055b7",
+      "url": "https://fcon_1000.projects.nitrc.org/indi/abide/ABIDEII_MRI_Quality_Metrics.zip"
+    },
+    "release_page": {
+      "bytes": 296551,
+      "sha256": "ead77f83db257c49f50e87ea391c7cf0756a05d77d0ecc657835a2976fdc2fba",
+      "url": "https://fcon_1000.projects.nitrc.org/indi/abide/abide_II.html"
+    }
+  }
+}

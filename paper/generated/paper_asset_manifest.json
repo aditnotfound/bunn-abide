@@ -1,0 +1,61 @@
+{
+  "assets": [
+    {
+      "bytes": 122566,
+      "path": "paper/generated/figures/predictive_density_curves.png",
+      "sha256": "bfb2338fe1e86eb20dff0cea41e225d9e0dc59fe3c8aa788cc287ee24702c671"
+    },
+    {
+      "bytes": 336961,
+      "path": "paper/generated/figures/representation_density_curves.png",
+      "sha256": "56991c18d7cf28c099ef44a9f1db1bc8de4d7f59bcfb4c07adb084d7ff077987"
+    },
+    {
+      "bytes": 80556,
+      "path": "paper/generated/figures/seed_stability.png",
+      "sha256": "313f6328f46454488a688f04219193f9bad69818f1c7e5ea5cd8bd88570dc1b4"
+    },
+    {
+      "bytes": 158964,
+      "path": "paper/generated/figures/site_influence.png",
+      "sha256": "1d46ce93915058965735ecab42e61323b0689ed1ea5a5a22ed9868881358a6dd"
+    },
+    {
+      "bytes": 479,
+      "path": "paper/generated/tables/baseline_models.csv",
+      "sha256": "ef8efa108e62082ad56cf9e0ab4d35d938b8591162358da3afdb99d02eb72fd1"
+    },
+    {
+      "bytes": 1112,
+      "path": "paper/generated/tables/confirmatory_predictive_contrasts.csv",
+      "sha256": "94cdf0151d0d2ff681806327cba30def6b90dfae4a2e12881f8e1c8e1399a7f2"
+    },
+    {
+      "bytes": 556,
+      "path": "paper/generated/tables/operator_efficiency.csv",
+      "sha256": "79013f087e7cd3d8d0052bd0d23505430d0f152fa21549604ddab9e1f7fbdea6"
+    },
+    {
+      "bytes": 1093,
+      "path": "paper/generated/tables/representation_contrasts.csv",
+      "sha256": "001613df9bc40da05a3aa183c4e7c1dfddc04313b0b9cf6c9303c24a735d5dcf"
+    },
+    {
+      "bytes": 928,
+      "path": "paper/generated/tables/robustness_summaries.csv",
+      "sha256": "f0326474afa564edd69be15ffa1000f4f5e4ca2a551e3bfd2813f46ae2f4a731"
+    },
+    {
+      "bytes": 7849,
+      "path": "reproducibility/artifact_manifest.json",
+      "sha256": "558a88d17c6b678114ea8912dec72f0452f09e5edc5cb787c76626efc46f792d"
+    },
+    {
+      "bytes": 8563,
+      "path": "reproducibility/result_snapshot.json",
+      "sha256": "dabfa42ed885b9121881d9221b2c2ba8c476f89b8fa47f249a56e2d9228fcad0"
+    }
+  ],
+  "contract_version": "step13_paper_assets_v1",
+  "schema_version": "step13_paper_asset_manifest_v1"
+}

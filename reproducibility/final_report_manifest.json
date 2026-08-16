@@ -1,0 +1,68 @@
+{
+  "manifest_version": 2,
+  "artifact": "final YHSA-format evidence report",
+  "date": "2026-08-15",
+  "report_evidence_commit": "ab4118ade25a5245f899033264c2fd9917dfb9cb",
+  "evidence": {
+    "study_1_snapshot": "reproducibility/result_snapshot.json",
+    "e1_manifest": "reproducibility/e1_extension_manifest.json",
+    "e2_manifest": "reproducibility/e2_extension_manifest.json",
+    "nonlinear_result": "reproducibility/nonlinear_baseline_result.json",
+    "sealed_archive_hashes_rechecked": true,
+    "confirmatory_results_modified": false,
+    "nonlinear_extension_label": "post-hoc practical comparator"
+  },
+  "report": {
+    "source": "paper/yhsa-final/report.tex",
+    "source_sha256": "6efa341b8d9875d0b582b8671e5cb8ce4cc88687ed120797c0450d303b7410b8",
+    "pdf": "output/pdf/yhsa-final/report.pdf",
+    "pdf_sha256": "511ef8ccc98def319b785b6c1ed412fd61b678f669a9db4496ddc8b002f7811b",
+    "pages": 36,
+    "extracted_text_sha256": "2771c8fbf8313c85ea6357c4ea4be730e9899bee274d82600adaef4678e00e61",
+    "unresolved_reference_markers": 0,
+    "visual_qa": "all 36 rendered pages inspected; nonlinear result pages and generated table inspected at full-page resolution"
+  },
+  "nonlinear_baseline": {
+    "run_id": "rbf_svm_full_v1",
+    "sealed_run_archive_sha256": "a9bc9a5f2758591aaa7e5f0bb53ffcf7d9b0f970c26d56b92055267cb5fea477",
+    "score_blind_audit_passed": true,
+    "remote_audit_sha256": "f60038efcfabb239f7f0adc0257b27551fa4770477699bdd49fd10d16c8d5ed6",
+    "analysis_contract": "configs/extensions/nonlinear_baseline_analysis_v1.json",
+    "analysis_contract_sha256": "0d5ccd11d4a37f56903b36e98c05852f63ee2fb0cc19e25cefcb9e5ae1697f31",
+    "result": "reproducibility/nonlinear_baseline_result.json",
+    "result_sha256": "0ea9da41c04345b4559cf611fd1737d91433b294ca9f69903fa32d44c16cecbd",
+    "confirmatory_override_allowed": false
+  },
+  "audits": {
+    "claim_and_literature_audit": {
+      "path": "docs/final_claim_and_literature_audit.md",
+      "sha256": "03d62e11802aa03cdd28bd61064fe6e95f20511f09f0834ffd585072774b2060"
+    },
+    "literature_protocol_comparison": {
+      "path": "docs/literature_protocol_comparison.md",
+      "sha256": "18556eb87597d2d5aeff078c5409a974a48faf82e44479ab97c613283905728a"
+    },
+    "abide_ii_gate": {
+      "path": "docs/abide_ii_compatibility_gate.md",
+      "sha256": "6ad11647d17021585f2b80b208f835df138c4040c013f336ee0676153f42d04d",
+      "status": "failed before model fitting"
+    },
+    "abide_ii_inventory": {
+      "path": "reproducibility/abide_ii_gate_inventory.json",
+      "sha256": "084475fa756b4f61e02e8791458515dcbf77ffaf961bccc081ce8b6785876dfe",
+      "score_blind": true,
+      "model_outputs_created": false
+    },
+    "privacy_scan": "passed for final source and extracted PDF text",
+    "tests": "109 passed in 228.40 seconds; root collection constrained to tests/"
+  },
+  "bibliography": {
+    "path": "paper/references.bib",
+    "sha256": "04c61ed867daec4881577486682f7d41feab89f8cbc61610586b6e93627b268b"
+  },
+  "remaining_owner_actions": [
+    "verify personal and supervisor details",
+    "complete Claude and Cursor usage history",
+    "complete and sign integrity statements before any submission"
+  ]
+}

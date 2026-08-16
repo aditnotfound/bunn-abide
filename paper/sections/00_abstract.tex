@@ -1,0 +1,29 @@
+\begin{abstract}
+Functional connectomes have an obvious graph structure, yet neighborhood
+aggregation can harm prediction when every node already contains a global
+connectivity profile. We examined whether learned orthogonal bundle transport
+changes this density-dependent behavior. The analysis included
+\StudyParticipants{} technically eligible ABIDE-I participants from
+\StudySites{} sites. A single neural backbone was paired with identity
+propagation, a learned-local capacity control, GCN aggregation, trivial-bundle
+diffusion, or learned BuNN transport at positive edge densities of 0, 1, 5, 10,
+and 20 percent. We used nested held-out-site validation, five final seeds,
+regularized non-graph baselines, and representation diagnostics computed in a
+common frame. The primary BuNN-minus-GCN performance-curve contrast was
+\BunnGcnEstimate{} (95\% site-bootstrap CI [\BunnGcnCILow{},
+\BunnGcnCIHigh{}]; exact sign-flip $p=\BunnGcnP$). Relative to the connectome
+elastic net, the BuNN contrast was \BunnElasticEstimate{} (95\% CI
+[\BunnElasticCILow{}, \BunnElasticCIHigh{}]). The matched-anchor
+effective-rank contrast was \RankEstimate{} (95\% CI [\RankCILow{},
+\RankCIHigh{}]), which ran counter to the proposed preservation advantage.
+Site weighting and training seed affected the small BuNN-GCN difference. For
+this ABIDE-I pipeline, learned bundle transport provided no detected
+predictive or representation-preservation advantage. This finding concerns a
+computational operator under a specified analysis; it does not establish a
+biological bundle geometry or a general result for BuNNs.
+\end{abstract}
+
+\begin{IEEEkeywords}
+functional connectome, bundle neural network, graph neural network,
+held-out-site validation, representation collapse, autism
+\end{IEEEkeywords}

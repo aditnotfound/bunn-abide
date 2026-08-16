@@ -1,0 +1,110 @@
+{
+  "protocol_version": 1,
+  "status": "frozen_before_any_E2_test_prediction_or_metric",
+  "study_id": "E2_synthetic_known_geometry_v1",
+  "classification": "post_hoc_controlled_computational_mechanism_study",
+  "claim_boundary": [
+    "E2 tests a computational boundary condition and does not establish brain geometry or biology.",
+    "Synthetic success cannot overwrite the frozen ABIDE-I result.",
+    "No smoke, partial run, or unaudited artifact is a scientific result."
+  ],
+  "data": {
+    "nodes": 116,
+    "bundles": 8,
+    "channels": 2,
+    "bundle_dimension": 2,
+    "feature_dimension": 32,
+    "samples_per_replicate": 600,
+    "class_counts": {"class_0": 300, "class_1": 300},
+    "split_counts": {"train": 360, "validation": 120, "test": 120},
+    "replicate_seeds": [
+      2026081401,
+      2026081402,
+      2026081403,
+      2026081404,
+      2026081405,
+      2026081406,
+      2026081407,
+      2026081408,
+      2026081409,
+      2026081410
+    ],
+    "graph": "degree-6 undirected ring lattice",
+    "signal": "class-paired node marginals; class 1 is smooth on the true graph and class 0 is a per-subject node permutation",
+    "noise_standard_deviation": 0.15,
+    "frame_marker_strength": 1.0
+  },
+  "families": {
+    "S0_no_geometry": "identity frames; alignment is unnecessary",
+    "S1_recoverable_geometry": "fixed node-specific O(2) frames disclosed only through a label-independent frame marker",
+    "S2_incorrect_topology": "S1 features evaluated on a fixed degree-matched permuted topology",
+    "S3_shuffled_geometry": "S1 signal frames with frame markers assigned to the wrong nodes",
+    "S4_transport_noise": "S1 signal frames with marker-frame angular corruption at 0, 15, 30, 60, and 120 degrees",
+    "S5_unlearnable_subject_frames": "subject-specific signal frames with no informative frame marker; oracle maps remain available only to the oracle control",
+    "S6_global_feature_analogue": "S1 plus a replicated true-graph total-variation summary in half of the signal bundles"
+  },
+  "operators": [
+    "identity",
+    "gcn",
+    "trivial_bundle",
+    "fixed_random_transport",
+    "learned_local",
+    "learned_bunn",
+    "oracle_true_map"
+  ],
+  "shared_architecture": {
+    "encoder": "fixed identity so ground-truth frames remain identifiable",
+    "hidden_dimension": 32,
+    "propagation_layers": 1,
+    "activation": "GELU",
+    "dropout": 0.0,
+    "pooling": "node mean",
+    "classifier": "single graph-level logit",
+    "diffusion_time": 1.0,
+    "fixed_graph_kernels": true
+  },
+  "training": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 32,
+    "maximum_epochs": 120,
+    "minimum_epochs": 15,
+    "early_stopping_patience": 15,
+    "early_stopping_metric": "validation binary cross entropy",
+    "gradient_clip_global_norm": 5.0,
+    "selection": "restore the minimum validation-loss checkpoint",
+    "test_use": "exactly once after model selection"
+  },
+  "primary_estimand": "[(learned_bunn - gcn) in S1] - [(learned_bunn - gcn) in S0] on test balanced accuracy, paired by replicate seed",
+  "primary_inference": {
+    "interval": "paired percentile bootstrap across replicate seeds",
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 2026081491,
+    "test": "exact paired sign-flip test",
+    "alpha": 0.05,
+    "minimum_practical_difference_percentage_points": 3.0
+  },
+  "required_validity_gates": [
+    "oracle_true_map outperforms gcn in S1",
+    "learned_bunn is compared with both gcn and learned_local in S1",
+    "S0 detects a generic capacity or optimization advantage",
+    "S2, S3, S4, and S5 test degradation under broken topology, marker geometry, and learnability",
+    "all generator and operator equivalence tests pass before the AWS smoke"
+  ],
+  "secondary_endpoints": [
+    "AUROC",
+    "Brier score",
+    "gauge-invariant relative-transport error",
+    "parameter count",
+    "runtime",
+    "best validation epoch"
+  ],
+  "run_control": {
+    "score_blind_smoke": true,
+    "atomic_cell_checkpoints": true,
+    "atomic_replicate_sealing": true,
+    "required_SNS_start_and_terminal_alerts_for_full_run": true,
+    "results_embargo": "No test prediction or derived test metric is read until the complete artifact audit passes."
+  }
+}

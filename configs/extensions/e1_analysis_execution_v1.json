@@ -1,0 +1,27 @@
+{
+  "execution_contract_version": 1,
+  "status": "frozen_after_synthetic_tests_and_before_real_E1_analysis",
+  "analysis_protocol_sha256": "58175898881a8dc67593efea5edb50126f447a9a75c4a4e6bad532d8f62e7bf0",
+  "implementation_hashes": {
+    "src/extensions/e1_analysis.py": "69d7c70e34ab0c53c43157fdcbe50db3e9b577443d9dad7827968e56fbfe8781",
+    "scripts/analyze_e1_interventions.py": "442950221c943c20468701fd03663191668d528af360312d4ef0ebbdbd11b5d9",
+    "scripts/audit_e1_analysis.py": "06e9c9cb3cfebd43d188b1ff41c50a582a2058f6b1fad6f02518a3ae55d03597",
+    "tests/extensions/test_e1_analysis.py": "e7065f6b99aced4dd7373058fd5d91d899d7b234b040ed0445f7d1b56e65933a"
+  },
+  "synthetic_test_result": {
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "coverage": [
+      "hand-calculated balanced accuracy and AUROC",
+      "seed and permutation aggregation",
+      "equal-site weighting",
+      "contrast direction",
+      "gauge-aware diagnostic change",
+      "exact sign-flip inference",
+      "Holm correction",
+      "missing-cell rejection"
+    ]
+  },
+  "real_scientific_values_opened": false
+}

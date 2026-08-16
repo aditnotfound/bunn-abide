@@ -1,0 +1,43 @@
+\section{Introduction}
+
+Resting-state functional connectomes summarize statistical associations among
+regional blood-oxygen-level-dependent time series. Representing brain regions
+as nodes and their functional associations as edges makes graph learning seem
+like a natural choice. The usual node feature, however, is an entire row of the
+connectivity matrix. Each node begins with information about the whole
+connectome. Aggregating neighboring rows may blur useful differences rather
+than supply missing context.
+
+A recent benchmark across several datasets found that classical models and
+non-graph neural networks can match or outperform graph deep-learning models
+on functional-connectome tasks. Its ablations identified message aggregation
+as one possible source of degradation \cite{han2026rethinking}. A graph
+representation alone is not enough to justify propagation. The operator must
+earn its place against identity propagation and strong regularized baselines
+evaluated on the same splits.
+
+BuNNs first transport features between node-specific frames using learned
+orthogonal maps and then diffuse the aligned features
+\cite{bamberger2025bundle}. Theory and synthetic experiments suggest that
+this construction can resist representation collapse more effectively than
+ordinary graph diffusion. Neural-sheaf models provide related evidence that
+non-trivial transport changes diffusion behavior \cite{bodnar2022sheaf}.
+Dense functional connectomes with globally informed node features present a
+different test.
+
+The project initially treated negative functional correlations as a possible
+form of heterophilic message passing. That interpretation did not survive
+formalization. Correlation sign does not identify node-label heterophily,
+neural excitation or inhibition, anatomy, or causal flow, and it can change
+with preprocessing choices such as global-signal regression
+\cite{murphy2017global}. We kept the dataset, connectome representation, BuNN
+architecture, and original aggregation problem, but shifted the hypothesis to
+the behavior of the propagation operator itself.
+
+We ask whether learned bundle transport yields a better held-out-site
+performance-density curve than GCN aggregation. Any advantage must also exceed
+identity propagation, the learned-local capacity control, and a regularized
+connectome baseline. We separately test whether the predictive pattern
+co-occurs with representation preservation measured in a common frame. The
+scope is one pre-specified ABIDE-I pipeline and one architectural hypothesis;
+biological geometry and clinical diagnosis lie outside it.

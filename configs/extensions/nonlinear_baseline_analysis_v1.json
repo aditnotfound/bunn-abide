@@ -1,0 +1,50 @@
+{
+  "analysis_version": "nonlinear_baseline_analysis_v1",
+  "status": "Frozen after the score-blind run audit and before any RBF-SVM metric was opened.",
+  "input_run_id": "rbf_svm_full_v1",
+  "post_hoc": true,
+  "confirmatory_override_allowed": false,
+  "expected_sites": 18,
+  "expected_participants": 754,
+  "source_sha256": {
+    "run_archive": "a9bc9a5f2758591aaa7e5f0bb53ffcf7d9b0f970c26d56b92055267cb5fea477",
+    "classical_per_site_metrics": "cad0c185b62f141627cf58454541c4cc01a53c7ba66daec96aac17043d52cf96",
+    "neural_site_predictive_curves": "b46e4dc74d57859bfa41d0e21b13a878cf4786b0671dc0222931a18b9ca0c038"
+  },
+  "contrasts": [
+    {
+      "name": "rbf_svm_minus_connectome_elastic_net",
+      "reference": "connectome_elastic_net_logistic",
+      "priority": 1
+    },
+    {
+      "name": "rbf_svm_minus_gcn_curve",
+      "reference": "gcn",
+      "priority": 2
+    },
+    {
+      "name": "rbf_svm_minus_learned_bunn_curve",
+      "reference": "learned_bunn",
+      "priority": 3
+    }
+  ],
+  "inference": {
+    "unit": "held-out site",
+    "primary_summary": "unweighted mean paired site difference in balanced accuracy",
+    "bootstrap_resamples": 10000,
+    "bootstrap_seed": 20260815,
+    "bootstrap_interval": "percentile 95%",
+    "exact_test": "two-sided paired sign-flip",
+    "alternative_summaries": [
+      "participant-weighted mean",
+      "median site difference"
+    ]
+  },
+  "secondary_rbf_metrics": [
+    "pooled balanced accuracy",
+    "pooled AUROC",
+    "sensitivity",
+    "specificity"
+  ],
+  "interpretation": "A nonlinear baseline result may refine the practical model comparison but cannot change the frozen Study 1 claim or establish mechanism."
+}

@@ -1,0 +1,86 @@
+\documentclass[conference,onecolumn]{IEEEtran}
+\input{preamble}
+\usepackage{float}
+\hypersetup{pdftitle={Supplementary Material: Bundle Neural Networks for Functional Connectomes}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\title{Supplementary Material: Bundle Neural Networks for Functional Connectomes}
+\author{\IEEEauthorblockN{Adit Patil}
+\IEEEauthorblockA{School of Scholars\\
+Akola, India}}
+
+\begin{document}
+\maketitle
+
+\section{Analysis contract}
+
+The manuscript is built from the locked Step 13 evidence package. SHA-256
+digests bind the claim ledger, result snapshot, artifact manifest, and paper
+asset manifest to the build. If any bound input changes, the builder stops
+before generating tables or numeric macros. This supplement contains the
+pre-specified secondary summaries. It adds no model fitting, participant
+exclusions, hyperparameter selection, or confirmatory inference.
+
+The results apply to the analyzed ABIDE-I C-PAC filtered AAL-116 pipeline,
+which omits global-signal regression and uses positive-edge graphs with
+connectivity-profile node features. Clinical utility, anatomical or causal
+connectivity, biological bundle geometry, and BuNN performance outside this
+setting were not tested.
+
+\section{Representation endpoints}
+
+Learned-BuNN embeddings may occupy different node-specific frames. Before any
+cross-node diagnostic, we mapped them into a common learned frame. The primary
+endpoint was normalized effective rank at layer 2, measured against each
+operator's matched density-zero anchor. Secondary diagnostics included
+dispersion, cosine similarity, invariant edge-transport distance, and the rank
+change from encoder to layer 2.
+
+\input{generated/tex/supplement_representation_tabular.tex}
+
+\section{Robustness summaries}
+
+Each held-out site formed one generalization unit, so the confirmatory summary
+gave every site equal weight. Participant-weighted and site-median summaries
+were pre-listed sensitivity analyses and did not replace the primary
+aggregation.
+
+\input{generated/tex/supplement_robustness_tabular.tex}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.62\textwidth]{site_influence.png}
+  \caption{Leave-one-site-out influence on the primary BuNN-minus-GCN curve
+  contrast. The figure includes every pre-listed site exclusion.}
+  \label{fig:supp-site-influence}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.55\textwidth]{seed_stability.png}
+  \caption{Curve contrasts for each final seed. Intervals resample held-out
+  sites within a fixed seed; these results assess robustness and do not replace
+  the primary analysis.}
+  \label{fig:supp-seed-stability}
+\end{figure}
+
+\FloatBarrier
+
+For the influence analysis, we recomputed each named contrast after removing
+one outer site at a time. We also recomputed the primary curve contrast
+separately for every fixed final seed. These analyses measure sensitivity to
+sites and optimization while leaving the primary estimand unchanged.
+
+\section{Reproducibility and integrity}
+
+The repository records the participant manifest, technical exclusion rules,
+connectome construction, held-out-site splits, operator contracts, tuning
+budgets, final seeds, source hashes, run audits, and aggregate result
+artifacts. The build reads the locked result snapshot and writes the LaTeX
+macros and tables, so manuscript values are not copied by hand. Tests check the
+input hashes, deterministic generation, claim coverage, bibliography
+resolution, and the absence of manually duplicated primary results in the
+narrative source.
+
+\end{document}

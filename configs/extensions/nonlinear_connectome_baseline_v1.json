@@ -1,0 +1,75 @@
+{
+  "protocol_version": 1,
+  "status": "Frozen post-hoc practical comparator before any RBF-SVM fit or held-out prediction.",
+  "declared_utc_date": "2026-08-14",
+  "analysis_manifest_sha256": "bef94eb5d144a445f253f5828bedf452b1c8343c745417766d695fb206f05945",
+  "inputs_contract": "configs/baseline_inputs_and_splits.json",
+  "role": "Post-hoc nonlinear non-graph comparator; it cannot revise the confirmatory Study 1 decision.",
+  "cohort": {
+    "participants": 754,
+    "sites": 18,
+    "connectome_features": 6670
+  },
+  "evaluation": {
+    "outer_split": "18 frozen leave-one-site-out folds",
+    "inner_split": "4 frozen grouped folds within each outer training set",
+    "selection_metric": "unweighted mean inner-validation-site balanced accuracy",
+    "primary_reporting_metric": "unweighted mean held-out-site balanced accuracy",
+    "secondary_reporting_metrics": [
+      "participant-weighted balanced accuracy",
+      "pooled AUROC",
+      "per-site balanced accuracy"
+    ],
+    "decision_threshold": 0.0
+  },
+  "model": {
+    "name": "connectome_rbf_svm",
+    "estimator": "sklearn.svm.SVC",
+    "kernel": "rbf",
+    "class_weight": "balanced",
+    "probability": false,
+    "C_grid": [0.1, 1.0, 10.0],
+    "gamma_multipliers_over_feature_count": [0.25, 1.0, 4.0],
+    "feature_count": 6670,
+    "standardization": "StandardScaler fitted only on the active fitting partition"
+  },
+  "selection": {
+    "tie_break": [
+      "lower C",
+      "lower gamma multiplier"
+    ]
+  },
+  "comparison_order": [
+    "RBF-SVM versus connectome elastic net",
+    "RBF-SVM versus GCN density curve",
+    "RBF-SVM versus learned BuNN density curve"
+  ],
+  "interpretation": {
+    "include_regardless_of_direction": true,
+    "confirmatory_override_allowed": false,
+    "external_validation_claim_allowed": false,
+    "biological_or_causal_claim_allowed": false
+  },
+  "run_control": {
+    "atomic_outer_site_sealing": true,
+    "immutable_resume_contract": true,
+    "score_blind_until_complete_audit": true,
+    "required_sns_start_and_terminal_alerts": true,
+    "runtime_promotion_gate_hours": 16,
+    "recommended_cpu_workers": 3
+  },
+  "expected_counts": {
+    "candidates_per_outer_site": 9,
+    "inner_fits": 648,
+    "final_fits": 18,
+    "total_fits": 666,
+    "held_out_prediction_rows": 754,
+    "held_out_metric_rows": 18
+  },
+  "leakage_prohibitions": [
+    "No held-out-site row may affect scaling, tuning, fitting, thresholding, calibration, or stopping.",
+    "No probability calibration or test-site threshold selection is permitted.",
+    "No PCA, harmonization, feature selection, or site identifier is used.",
+    "The frozen cohort and split assignments may not be changed."
+  ]
+}

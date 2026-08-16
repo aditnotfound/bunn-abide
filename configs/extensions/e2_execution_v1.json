@@ -1,0 +1,38 @@
+{
+  "execution_version": 1,
+  "status": "bound_before_AWS_E2_smoke_or_full_scientific_execution",
+  "protocol_sha256": "b5111eaca25629e39af8ca035208791afefacaf786cb6edd84ea6f9d4fcc0e79",
+  "analysis_protocol_sha256": "ef172dbfc70add8c679c89049b8a05ebebefc4d77f96eded2933701ce0cc6991",
+  "implementation_sha256": {
+    "src/extensions/e2_synthetic.py": "e6a8fc57227d1510bcfae637e76ee1e08ddb9bd1603d8b916cd12b67d1b757bd",
+    "src/extensions/e2_training.py": "84c0cbead6ee00134a00d6f68738b2e60079a6b8a0e558dc8c16fd0c95aaf7a8",
+    "src/extensions/e2_analysis.py": "4d77f8cfa33f7b68c2cf9e56e02826f92180551cf9905a952f925b1951131a76",
+    "scripts/run_e2_synthetic.py": "79779803715cdff6269be23a5cf649ce86dab2b892a940a46bfef0d761f970af",
+    "scripts/launch_e2_full.sh": "f7505b4ad866ff73228562550628ebe63f6175dee3cf84a331ab16e6cd44134d",
+    "scripts/analyze_e2_synthetic.py": "1aa338816d6e259d9060b1548b5c672bbd2254c614750d7d5dedd3dc9e0ac9b5",
+    "scripts/audit_e2_analysis.py": "4816f31e6e3246c236594c37d8e1df04c785b58a8c16e4edcc3b45a50c8574f3",
+    "scripts/audit_e2_full_run.py": "8f84e41244f9bbcc4914041f2d5cb0749d7cb6d15abc2fa1c947a4b0e6809328"
+  },
+  "test_sha256": {
+    "tests/extensions/test_e2_synthetic.py": "c841022e3e1a184b4df87e4d0259ad1d959d2b8c20fce0edcdd89bf8e879bced",
+    "tests/extensions/test_e2_training.py": "2a7c7ee3d2481fd9820f550f3fc0bc593832cbfde3cf62fe7c134e8861da4a5c",
+    "tests/extensions/test_e2_analysis.py": "92463a0c1d61954202e9c0111e28837adf40f2c1c0f8d29ee9b3df247fe10cd8"
+  },
+  "pre_AWS_verification": {
+    "E2_tests_passed": 12,
+    "cached_operator_equivalence_passed": true,
+    "local_116_node_score_blind_smoke_cells": 8,
+    "local_smoke_test_predictions_materialized": false,
+    "local_smoke_aggregate_cell_runtime_seconds": 6.256
+  },
+  "AWS_score_blind_smoke": {
+    "run_id": "e2_aws_engineering_smoke_v1",
+    "device": "NVIDIA A10G",
+    "cells": 8,
+    "epochs": 64,
+    "aggregate_cell_runtime_seconds": 1.013,
+    "test_predictions_materialized": false,
+    "all_cell_audits_passed": true
+  },
+  "scientific_values_opened": false
+}

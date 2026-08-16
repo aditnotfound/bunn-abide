@@ -1,0 +1,15 @@
+\begin{table*}[!t]
+\centering
+\caption{Observed execution cost and predictive curve summary for the three diffusion operators. Runtime is implementation- and hardware-specific.}
+\label{tab:efficiency}
+\footnotesize
+\begin{tabular}{lrrrrr}
+\toprule
+Operator & Params. & Fit h & s/fit & Peak GiB & Curve BA \\
+\midrule
+GCN & 5,889 & 15.09 & 20.39 & 0.373 & 0.5945 \\
+Trivial-bundle diffusion & 5,889 & 25.99 & 35.12 & 0.377 & 0.5911 \\
+Learned BuNN & 8,529 & 31.14 & 42.08 & 0.378 & 0.5849 \\
+\bottomrule
+\end{tabular}
+\end{table*}

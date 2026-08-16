@@ -1,0 +1,88 @@
+\section{Results}
+
+% Claims C01 and C02
+\subsection{Cohort and classical baselines}
+
+After technical quality control, \StudyParticipants{} participants remained
+across \StudySites{} held-out sites (\cref{tab:cohort}). The connectome elastic
+net had the highest equal-site balanced accuracy among the classical models
+(\ConnectomeBA{}). The corresponding values were \CombinedBA{} for connectomes
+plus covariates and \CovariatesBA{} for covariates alone
+(\cref{tab:baselines}). These cross-site results describe computational
+prediction, not clinical diagnostic performance.
+
+\input{generated/tex/table_baselines.tex}
+
+% Claims C03, C04, C05 and C10
+\subsection{Predictive density curves}
+
+\begin{figure*}[!t]
+  \centering
+  \includegraphics[width=0.94\textwidth]{predictive_density_curves.png}
+  \caption{Equal-site mean held-out balanced accuracy across the pre-specified
+  positive-edge density grid. Error bars show 1.96 standard errors across sites
+  for visualization; confirmatory inference used paired site bootstrap and
+  exact sign-flip tests on the locked curve estimand.}
+  \label{fig:predictive-curves}
+\end{figure*}
+
+All three diffusion curves declined as density increased
+(\cref{fig:predictive-curves}). The normalized curve-area difference for
+learned BuNN minus GCN was \BunnGcnEstimate{} (95\% site-bootstrap CI
+[\BunnGcnCILow{}, \BunnGcnCIHigh{}]; exact $p=\BunnGcnP$). Because the interval
+crossed zero, we detected no predictive advantage. The upper bound also fell
+below the pre-specified +\PracticalMargin{} margin. This rules out a gain of
+that size for the chosen estimand and pipeline, but it neither establishes
+universal equivalence nor excludes smaller gains.
+
+Against the site-matched connectome elastic net, the learned-BuNN curve
+difference was \BunnElasticEstimate{} (95\% CI [\BunnElasticCILow{},
+\BunnElasticCIHigh{}]; exact $p=\BunnElasticP$). Comparisons with identity
+propagation and the learned-local control also failed the positive-result rule
+(\cref{tab:confirmatory}).
+
+\input{generated/tex/table_confirmatory.tex}
+
+% Claim C06
+\subsection{Common-frame representation diagnostics}
+
+\begin{figure*}[!t]
+  \centering
+  \includegraphics[width=0.94\textwidth]{representation_density_curves.png}
+  \caption{Equal-site means for common-frame layer-2 representation
+  diagnostics. Zero-density points use the matched identity or learned-local
+  anchor. Raw unaligned BuNN node embeddings were not compared.}
+  \label{fig:representation}
+\end{figure*}
+
+The matched-anchor normalized effective-rank contrast was \RankEstimate{}
+(95\% CI [\RankCILow{}, \RankCIHigh{}]), the opposite of the proposed BuNN
+preservation advantage. Although the raw BuNN rank curve was higher, its
+learned-local anchor already included the extra map-generator capacity. The
+matched contrast did not support attributing the raw difference to inter-node
+bundle transport. Dispersion and cosine similarity pointed in the same
+direction (\cref{fig:representation}). None of these diagnostics identifies a
+biological mechanism.
+
+% Claims C07 and C08
+\subsection{Site, seed, and weighting sensitivity}
+
+Only \LeaveOneSitePositive{} of the \StudySites{} leave-one-site estimates was
+positive, and no favorable exclusion interval lay above zero (Supplementary
+Figure S1). Of the five final seeds, \SeedPositive{} point estimates favored
+BuNN, but \FavorableIntervals{} favorable intervals excluded zero.
+\UnfavorableSeedIntervals{} unfavorable seed interval lay below zero
+(Supplementary Figure S2). Participant weighting reversed the sign of the
+small BuNN-GCN point estimate; the equal-site mean and median remained
+negative. The pre-specified confirmatory estimand used equal-site weighting.
+
+% Claim C09
+\subsection{Observed execution cost}
+
+Learned BuNN used \BunnParameters{} parameters, compared with \GcnParameters{}
+for GCN. Its recorded fits required \BunnFitHours{} total fit-hours, while GCN
+required \GcnFitHours{}. Equal-site curve balanced accuracy was lower for BuNN
+(\BunnCurveBA{} versus \GcnCurveBA{}). The timings apply to this implementation
+on an A10G GPU and should not be read as universal complexity estimates.
+
+\input{generated/tex/table_efficiency.tex}

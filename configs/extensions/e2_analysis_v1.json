@@ -1,0 +1,76 @@
+{
+  "analysis_version": 1,
+  "status": "frozen_before_any_E2_scientific_test_value_is_opened",
+  "study_id": "E2_synthetic_known_geometry_v1",
+  "source_protocol": "configs/extensions/e2_synthetic_geometry_v1.json",
+  "source_run_id": "e2_synthetic_full_v1",
+  "unit_of_inference": "paired synthetic replicate seed",
+  "replicate_count": 10,
+  "primary_endpoint": "test balanced accuracy",
+  "primary_estimand": "[(learned_bunn - gcn) in S1_recoverable_geometry] - [(learned_bunn - gcn) in S0_no_geometry]",
+  "scale": "percentage points",
+  "inference": {
+    "paired_percentile_bootstrap_draws": 10000,
+    "bootstrap_seed": 2026081491,
+    "confidence_level": 0.95,
+    "exact_two_sided_sign_flip_test": true,
+    "alpha": 0.05,
+    "minimum_practical_difference_percentage_points": 3.0
+  },
+  "validity_gates_in_order": [
+    {
+      "id": "oracle_positive_control",
+      "estimand": "oracle_true_map minus gcn in S1_recoverable_geometry",
+      "pass": "95 percent paired bootstrap lower bound is greater than zero"
+    },
+    {
+      "id": "primary_conditional_advantage",
+      "estimand": "primary_estimand",
+      "pass": "mean is at least 3 percentage points, 95 percent lower bound is greater than zero, and exact sign-flip p is below 0.05"
+    },
+    {
+      "id": "matched_capacity_anchor",
+      "estimand": "learned_bunn minus learned_local in S1_recoverable_geometry",
+      "pass": "95 percent paired bootstrap lower bound is greater than zero"
+    }
+  ],
+  "capacity_warning": "Flag if learned_bunn minus gcn in S0_no_geometry exceeds 3 percentage points; do not treat a non-significant difference as equivalence.",
+  "corruption_analyses": [
+    "S1 minus S2 for learned_bunn",
+    "S1 minus S3 for learned_bunn",
+    "S1 minus S5 for learned_bunn",
+    "learned_bunn performance across marker-noise levels 0, 15, 30, 60, and 120 degrees",
+    "S6 operator contrasts as evidence about globally informed feature shortcuts"
+  ],
+  "secondary_endpoints": [
+    "AUROC",
+    "Brier score",
+    "gauge-invariant relative-transport error",
+    "best validation epoch",
+    "runtime",
+    "parameter count"
+  ],
+  "fixed_outputs": [
+    "replicate_metrics.csv",
+    "primary_contrasts.csv",
+    "condition_summary.csv",
+    "transport_recovery.csv",
+    "runtime_summary.csv",
+    "e2_primary_forest.png",
+    "e2_condition_operator_plot.png",
+    "e2_transport_noise_plot.png",
+    "analysis_metadata.json"
+  ],
+  "interpretation_classes": {
+    "supported": "all three ordered validity gates pass and no capacity warning is triggered",
+    "oracle_only": "the oracle gate passes but the learned conditional advantage does not",
+    "capacity_or_optimization_confound": "the primary pattern is accompanied by a greater-than-3-point S0 advantage or fails the learned-local anchor",
+    "invalid_positive_control": "the oracle positive-control gate fails",
+    "no_mechanistic_support_detected": "the oracle gate passes but neither the conditional learned advantage nor corruption pattern supports the mechanism"
+  },
+  "claim_boundary": [
+    "E2 can identify computational boundary conditions only.",
+    "E2 cannot establish biological, anatomical, clinical, or ABIDE-specific geometry.",
+    "E2 remains a post-hoc extension and cannot overwrite Study 1."
+  ]
+}

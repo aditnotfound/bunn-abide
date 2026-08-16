@@ -1,0 +1,85 @@
+{
+  "contract_version": "step13_manuscript_v1",
+  "evidence_commit": "a4def2a1f14f1bbff71356d0689eeeee4f405f4a",
+  "frozen_inputs": [
+    {
+      "bytes": 6096,
+      "path": "docs/step13_claim_ledger.md",
+      "sha256": "68faeaa04bc4343cc8cfb757bbb76e549e231f307804d0b91480bd0b6eb173fd"
+    },
+    {
+      "bytes": 2126,
+      "path": "paper/generated/paper_asset_manifest.json",
+      "sha256": "b449f93b7a747fb29386a5fbf7efa915c954a17956d20682e4ba68e6a8f6a6b2"
+    },
+    {
+      "bytes": 7849,
+      "path": "reproducibility/artifact_manifest.json",
+      "sha256": "558a88d17c6b678114ea8912dec72f0452f09e5edc5cb787c76626efc46f792d"
+    },
+    {
+      "bytes": 8563,
+      "path": "reproducibility/result_snapshot.json",
+      "sha256": "dabfa42ed885b9121881d9221b2c2ba8c476f89b8fa47f249a56e2d9228fcad0"
+    }
+  ],
+  "generated_inputs": [
+    {
+      "bytes": 122983,
+      "path": "paper/generated/figures/operator_schematic.png",
+      "sha256": "8c84f98aca63a13db7b9237482d8785617d2b3c96b08701001cfd48e2b224c2e"
+    },
+    {
+      "bytes": 180151,
+      "path": "paper/generated/figures/study_design.png",
+      "sha256": "5f1511cc63c521b5e2115b4e53fb41514ed037ba1b5b8733d8f3af3fc7afcaac"
+    },
+    {
+      "bytes": 1373,
+      "path": "paper/generated/numbers.tex",
+      "sha256": "533eb2177669b0131ef1810d4d48e56b74ed29f421d0f4160f08be2aaf67f35c"
+    },
+    {
+      "bytes": 611,
+      "path": "paper/generated/tex/supplement_representation_tabular.tex",
+      "sha256": "c4efec6471c90d66fc546e2551e1ea7d479bb67b7bb1de08f6c989feb6ab2f25"
+    },
+    {
+      "bytes": 831,
+      "path": "paper/generated/tex/supplement_robustness_tabular.tex",
+      "sha256": "da397c75474219a3acbf6b5c1f0bf5a69d2b461239a2bdc40abd93cc4becd813"
+    },
+    {
+      "bytes": 481,
+      "path": "paper/generated/tex/table_baselines.tex",
+      "sha256": "793afa76281041b85208132b7c05ce5ce50275fd25e8436c2c53ce5fa9432a1a"
+    },
+    {
+      "bytes": 451,
+      "path": "paper/generated/tex/table_cohort.tex",
+      "sha256": "b9047960c5e770a5da9fc617e314dec211572e1d74ac5450dcbda5ecb386d7ad"
+    },
+    {
+      "bytes": 684,
+      "path": "paper/generated/tex/table_confirmatory.tex",
+      "sha256": "5a78684263bed4043ce9a89872db404147a8591c2849b60aa60ae6b320d0603c"
+    },
+    {
+      "bytes": 530,
+      "path": "paper/generated/tex/table_efficiency.tex",
+      "sha256": "174c80d5d251615a90b7ab456dd4b5e160d16e306bb12961cd65c1158c43a728"
+    },
+    {
+      "bytes": 609,
+      "path": "paper/generated/tex/table_representation.tex",
+      "sha256": "50da3fb0b5a007bdf73d673468cb7ce9084d644023a49b308abe26f4391e318b"
+    },
+    {
+      "bytes": 829,
+      "path": "paper/generated/tex/table_robustness.tex",
+      "sha256": "afebb48bbe89bc963e07aaf59e0739965c640869bed8da2edfc71a06d698f9f5"
+    }
+  ],
+  "paper_assets_commit": "08ccc89369517c82bf6c8142c4d94964cc983252",
+  "schema_version": "step13_manuscript_input_manifest_v1"
+}

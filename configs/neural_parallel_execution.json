@@ -1,0 +1,36 @@
+{
+  "contract_version": 1,
+  "status": "Execution-only contract; scientific neural protocol remains unchanged.",
+  "worker_count": 3,
+  "assignment_strategy": "deterministic_round_robin_sites",
+  "cpu_threads_per_worker": 1,
+  "shared_gpu": true,
+  "worker_isolation": {
+    "separate_run_directory": true,
+    "separate_status_file": true,
+    "separate_log": true,
+    "exclusive_site_ownership": true,
+    "atomic_site_sealing": true
+  },
+  "coordination": {
+    "only_coordinator_sends_run_level_notifications": true,
+    "only_coordinator_writes_canonical_aggregate": true,
+    "other_workers_continue_if_one_worker_fails": true,
+    "failed_or_interrupted_run_requires_explicit_resume": true
+  },
+  "merge": {
+    "requires_all_workers_complete": true,
+    "requires_each_site_exactly_once": true,
+    "requires_source_and_canonical_artifact_hash_equality": true,
+    "canonical_site_order": "frozen outer-fold order",
+    "results_remain_embargoed": true
+  },
+  "acceptance_gates": {
+    "unit_suite_passes": true,
+    "three_worker_real_data_smoke_passes": true,
+    "intentional_single_worker_interruption_and_resume_passes": true,
+    "score_blind_parallel_audit_passes": true,
+    "single_worker_equivalence_within_prespecified_tolerance": true,
+    "minimum_wall_clock_speedup": 1.5
+  }
+}

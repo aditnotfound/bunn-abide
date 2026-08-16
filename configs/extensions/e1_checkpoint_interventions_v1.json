@@ -1,0 +1,107 @@
+{
+  "contract_version": 1,
+  "status": "frozen_before_extension_inference",
+  "study": "E1.2 accepted-checkpoint intervention audit",
+  "input_run_id": "step10_neural_full_parallel_v1",
+  "input_hashes": {
+    "sealed_archive": "91ffbd55da98064149d90ff3273e80bcd6c4d5d6195d0ac64344747ecdd5082f",
+    "integrity_certificate": "19b61c643348498669426b93d5f7b4fc8d0b449a7c635177a9075b991df70960",
+    "connectomes": "34b6092c94bcadbb8fca8edae331bc527d7f13e2356f5ebc227d5697b727d431",
+    "baseline_table": "b9eac532ff7fb3a912d00f64d209931ca40d75fe0dcab981e9852ce4bc635235",
+    "outer_splits": "cb3ecae86cd12d48802fcadece87a51e4e128144d35c180cd66a2abf468f6cef",
+    "operator_contract": "b3c50073f7b5f830f2a8e485c5135c59e9f044636268331f6a9ba0454f255439",
+    "full_protocol": "e8ccea510c13a6d19b0bf874b016bc203bf1d1fdd719c0197dd9439f47260630"
+  },
+  "cohort": {
+    "participants": 754,
+    "sites": 18,
+    "rois": 116,
+    "densities": [0.01, 0.05, 0.1, 0.2],
+    "final_seeds": [20260803, 20260804, 20260805, 20260806, 20260807],
+    "accepted_final_learned_bunn_checkpoints": 360
+  },
+  "interventions": [
+    {
+      "id": "unaltered",
+      "random": false,
+      "role": "prediction reproduction and reference"
+    },
+    {
+      "id": "identity_maps",
+      "random": false,
+      "role": "replace both learned-layer map fields with identity maps while retaining learned update and classifier weights"
+    },
+    {
+      "id": "node_map_shuffle",
+      "random": true,
+      "role": "apply one fixed non-identity node permutation to each layer's learned maps, shared across participants for that permutation"
+    },
+    {
+      "id": "random_orthogonal_maps",
+      "random": true,
+      "role": "replace each learned layer with fixed random O(2) node-by-bundle maps, shared across participants for that permutation"
+    },
+    {
+      "id": "degree_preserving_topology",
+      "random": true,
+      "role": "rewire each participant graph by deterministic double-edge swaps while preserving the exact binary degree sequence"
+    },
+    {
+      "id": "encoded_node_permutation_equivariance",
+      "random": false,
+      "role": "permute encoded node rows and adjacency consistently; must preserve logits and permutation-invariant diagnostics"
+    }
+  ],
+  "randomization": {
+    "permutations_per_random_family": 100,
+    "base_seed": 2026081301,
+    "store_every_seed": true,
+    "node_shuffle_derangement_required": true,
+    "topology_swap_attempts_per_edge": 10,
+    "random_map_parameterization": "uniform angles with the Study 1 rotation/reflection bundle split",
+    "same_random_object_reused_across_the_five_model_seeds": true
+  },
+  "endpoints": {
+    "primary": "equal-site mean change in held-out balanced accuracy relative to the same accepted checkpoint without intervention",
+    "secondary": [
+      "mean absolute participant probability change",
+      "classification flip fraction at threshold 0.5",
+      "held-out AUROC change",
+      "held-out sensitivity and specificity change",
+      "common-frame normalized effective-rank change at layer 2",
+      "common-frame normalized-dispersion change at layer 2",
+      "common-frame mean-pairwise-cosine change at layer 2",
+      "invariant edge-transport-distance change at layer 2"
+    ],
+    "aggregation": "average participants within checkpoint, then five model seeds within site-density; paired equal-site inference is primary",
+    "random_family_summary": "average the 100 stored permutation estimates within site-density before site-level inference",
+    "uncertainty": "10000 paired site bootstrap resamples with exact paired sign-flip tests for named primary contrasts",
+    "multiplicity": "Holm correction across the four intervention-family primary contrasts"
+  },
+  "numerical_gates": {
+    "maximum_absolute_probability_reproduction_error": 0.000001,
+    "maximum_absolute_logit_equivariance_error": 0.00002,
+    "maximum_diagnostic_equivariance_error": 0.00002,
+    "maximum_orthogonality_error": 0.00001,
+    "topology_degree_sequence_must_match_exactly": true,
+    "all_outputs_must_be_finite": true
+  },
+  "promotion_gate": {
+    "required_smoke_site": "CALTECH",
+    "smoke_scope": "all four densities, all five accepted final seeds, all interventions, and all 100 permutations",
+    "results_embargo": "No predictive or representation values may be displayed before the smoke artifact passes its score-blind audit.",
+    "full_run_requires": [
+      "all archived predictions reproduced within tolerance",
+      "equivariance and structural gates pass",
+      "score-blind smoke audit passes with zero warnings",
+      "projected full runtime with 30 percent contingency leaves at least 12 hours for audit, analysis, and paper QA",
+      "SNS start and terminal notifications are configured"
+    ]
+  },
+  "interpretation_rules": [
+    "Sensitivity to maps shows computational use of those maps, not biological geometry.",
+    "Insensitivity to maps does not prove that geometric structure is absent from brains.",
+    "Topology sensitivity shows dependence on the constructed graph, not anatomy or causal flow.",
+    "Prediction and representation changes may be described as co-occurring, not causal mediation."
+  ]
+}

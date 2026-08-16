@@ -2,6 +2,9 @@
 data/raw/
 data/processed/
 outputs/runs/
+outputs/analysis/
+outputs/archives/
+outputs/extensions/
 outputs/figures/
 outputs/tables/
 checkpoints/
@@ -18,6 +21,7 @@ venv/
 # Secrets and local configuration
 .env
 .env.*
+.run-control/
 *.pem
 *.key
 aws-credentials*
@@ -27,3 +31,19 @@ aws-credentials*
 Thumbs.db
 .vscode/
 .idea/
+
+# LaTeX intermediates and visual-QA renders
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+tmp/
+output/release/
+output/pdf/*/rendered/
+output/pdf/*/report.txt
+output/pdf/yhsa-current/
