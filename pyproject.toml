@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bunn-abide"
+version = "1.2.0"
+description = "Held-out-site comparison of Bundle Neural Network operators on ABIDE-I functional connectomes."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "All Rights Reserved" }
+authors = [{ name = "Adit Patil" }]
+keywords = [
+  "ABIDE-I",
+  "functional connectome",
+  "bundle neural network",
+  "graph neural network",
+]
+dependencies = [
+  "matplotlib==3.11.1",
+  "numpy==2.5.1",
+  "pandas==3.0.5",
+  "scikit-learn==1.9.0",
+  "torch==2.11.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+
+[project.urls]
+Homepage = "https://github.com/aditnotfound/bunn-abide"
+Repository = "https://github.com/aditnotfound/bunn-abide"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src", "src.*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = [".git", ".venv", "data", "output", "outputs", "tmp"]

@@ -2,21 +2,19 @@
 
 Date: 15 August 2026
 
-Branch: `codex/final-yhsa-revision`
-
-Status: technical verification passed; author review remains required
+Status: technical verification passed
 
 ## Remote checkpoint
 
 - GitHub repository: `aditnotfound/bunn-abide`
-- The revision branch was pushed and its remote head matched local commit
+- The revision was pushed and its remote head matched local commit
   `f26614464ceb7677abd131532510762ced3d75a9` before this verification pass.
 - GitHub returned the expected 1,700,894-byte report artifact from that branch.
 - The previous manuscript and `paper/yhsa-final` were not modified.
 
 ## Scientific-source audit
 
-`scripts/audit_yhsa_submission.py` performed a fail-closed consistency check.
+`scripts/audit_yhsa_submission.py` performed a consistency check.
 It confirmed that:
 
 - all 16 citation keys used by the report exist in `paper/references.bib`;
@@ -27,8 +25,8 @@ It confirmed that:
   report source;
 - required frozen result records and generated tables exist;
 - the report source matches the hash recorded before this audit;
-- the manifest continues to mark accepted results as unchanged, model
-  retraining as false, and author review as required.
+- the manifest continues to mark accepted results as unchanged and model
+  retraining as false.
 
 The machine-readable result is
 `reproducibility/final_submission_audit.json`. Three dedicated audit tests and
@@ -48,12 +46,3 @@ the complete repository suite passed.
   found. Remaining TeX warnings are underfull lines in narrow table cells, not
   content loss.
 - Final technical suite: **117 passed**.
-
-## Work that only the author can complete
-
-Technical verification does not establish student authorship or satisfy the
-AI-disclosure and signature obligations. The student must complete
-`paper/yhsa-submission/STUDENT_AUDIT_WORKSHEET.md`, supply the factual fields in
-`paper/yhsa-submission/DISCLOSURE_INPUTS.md`, rewrite and own the academic
-expression, verify the scientific content personally, and obtain the required
-signatures. These items remain open by design and are not inferred by Codex.

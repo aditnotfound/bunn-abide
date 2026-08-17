@@ -404,7 +404,7 @@ def exhaustive_curve_contrasts(
         "learned_bunn_curve_minus_connectome_elastic_net": np.asarray([curves[(site, "learned_bunn")] - baseline[site] for site in sites]),
     }
     if list(arrays) != contract["exhaustive_curve_contrasts"]:
-        raise NeuralAnalysisError("Implemented exhaustive contrast order differs from the frozen contract")
+        raise NeuralAnalysisError("Implemented exhaustive contrast order differs from the analysis config")
     resamples = int(contract["bootstrap"]["resamples"])
     seed = int(contract["bootstrap"]["seed"])
     rng = np.random.default_rng(seed)

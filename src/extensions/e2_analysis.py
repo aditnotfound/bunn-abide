@@ -1,7 +1,5 @@
 """Frozen E2 aggregation, inference, and evidence classification."""
 
-from __future__ import annotations
-
 import hashlib
 import itertools
 import json

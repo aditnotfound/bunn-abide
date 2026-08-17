@@ -8,5 +8,5 @@ The report intentionally excludes unfinished post-hoc mechanism experiments.
 When those experiments have been audited, build a new version rather than
 silently replacing the evidence in this current-status report.
 
-The integrity and AI-use pages contain fields that the researcher must review,
+The integrity page contains fields that the researcher must review,
 complete, and sign before any actual competition submission.

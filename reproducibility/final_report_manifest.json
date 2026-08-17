@@ -14,10 +14,10 @@
   },
   "report": {
     "source": "paper/yhsa-final/report.tex",
-    "source_sha256": "6efa341b8d9875d0b582b8671e5cb8ce4cc88687ed120797c0450d303b7410b8",
+    "source_sha256": "dcacc35fdf3a6c0a8a622cfc5da8b4438b36349c961e8621d7ec1b906198e91d",
     "pdf": "output/pdf/yhsa-final/report.pdf",
-    "pdf_sha256": "511ef8ccc98def319b785b6c1ed412fd61b678f669a9db4496ddc8b002f7811b",
-    "pages": 36,
+    "pdf_sha256": "05e6c75cf3a3126577e9d5f550406936f09cabc6c28ce1375baeea55352c5fc9",
+    "pages": 35,
     "extracted_text_sha256": "2771c8fbf8313c85ea6357c4ea4be730e9899bee274d82600adaef4678e00e61",
     "unresolved_reference_markers": 0,
     "visual_qa": "all 36 rendered pages inspected; nonlinear result pages and generated table inspected at full-page resolution"
@@ -62,7 +62,6 @@
   },
   "remaining_owner_actions": [
     "verify personal and supervisor details",
-    "complete Claude and Cursor usage history",
     "complete and sign integrity statements before any submission"
   ]
 }

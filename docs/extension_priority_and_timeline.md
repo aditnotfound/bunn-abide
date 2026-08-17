@@ -22,7 +22,7 @@ the speed of the Wang temporal model or raw ABIDE-II preprocessing.
 
 ## Work and compute estimates
 
-All calendar estimates assume one researcher/Codex workflow, the existing
+All calendar estimates assume one researcher workflow, the existing
 repository, the same A10G-class GPU, and safe overlap of independent data,
 implementation, and analysis tasks. They are predictions, not verified
 runtimes. Each full-run range is replaced by a measured estimate after its

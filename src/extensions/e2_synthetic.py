@@ -1,7 +1,5 @@
 """Synthetic known-geometry data and matched fixed-graph operator models for E2."""
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Literal
 

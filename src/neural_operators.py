@@ -6,8 +6,6 @@ their local frames, and activated by the shared classifier.  All operators use
 the same dense participant-by-participant batching convention.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 import torch

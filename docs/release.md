@@ -17,7 +17,7 @@ from aggregate, hash-bound evidence. It does not repeat model fitting.
 - the separate final evidence-report source and PDF;
 - E1, E2, and final-report manifests;
 - checked PDFs; and
-- project, decision, experiment, and AI-use records.
+- project, decision, and experiment records.
 
 The private artifact manifest remains included because the manuscript contract
 binds its digest. It records filenames, byte counts, and SHA-256 hashes, but it

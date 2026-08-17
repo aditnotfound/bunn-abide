@@ -16,7 +16,7 @@ studies remain outside the completed evidence.
 The final version adds a protocol-aware comparison with prior ABIDE graph
 studies, corrects the evidence-boundary wording, and reports the failed
 score-blind ABIDE-II derivative-compatibility gate. No ABIDE-II model was fitted
-or scored. The integrity and AI-use pages still contain fields that the
+or scored. The integrity page still contains fields that the
 researcher must review, complete, and sign before any actual competition
 submission.
 

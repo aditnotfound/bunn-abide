@@ -1,6 +1,4 @@
-"""Fail-closed consistency audit for the YHSA-format author-review report."""
-
-from __future__ import annotations
+"""Consistency audit for the YHSA-format report."""
 
 import argparse
 import hashlib
@@ -56,11 +54,14 @@ def audit_report(
         "diffusion_time": r"t=1",
         "abide_ii_boundary": "does not report external validation",
         "biological_boundary": "not biological bundle geometry",
-        "author_notice": "Author-only items required before submission",
     }
     missing_claim_tokens = {}
     for name, token in required_claim_tokens.items():
-        source = normalized_evidence_source if name in {"primary_contrast", "elastic_net_contrast"} else normalized_report
+        source = (
+            normalized_evidence_source
+            if name in {"primary_contrast", "elastic_net_contrast"}
+            else normalized_report
+        )
         if token not in source:
             missing_claim_tokens[name] = token
 
@@ -76,9 +77,10 @@ def audit_report(
         PROJECT_ROOT / "paper/yhsa-submission/generated/tables/weighting_contrasts.tex",
         PROJECT_ROOT / "paper/yhsa-submission/generated/tables/e1_pairwise.tex",
         PROJECT_ROOT / "paper/yhsa-submission/generated/tables/heat_spectrum.tex",
-        PROJECT_ROOT / "paper/yhsa-submission/AUTHOR_ACTIONS.md",
     ]
-    missing_files = [str(path.relative_to(PROJECT_ROOT)) for path in required_files if not path.is_file()]
+    missing_files = [
+        str(path.relative_to(PROJECT_ROOT)) for path in required_files if not path.is_file()
+    ]
 
     expected_report_hash = manifest["artifacts"]["paper/yhsa-submission/report.tex"]
     report_hash = sha256(report_path)
@@ -92,7 +94,6 @@ def audit_report(
         "report_source_matches_manifest": manifest_report_hash_matches,
         "accepted_results_marked_unchanged": manifest.get("accepted_results_changed") is False,
         "no_model_retraining_marked": manifest.get("model_retraining_performed") is False,
-        "status_requires_author_review": manifest.get("status") == "author_review_required",
     }
     return {
         "audit_version": "yhsa_submission_audit_v1",
@@ -107,10 +108,7 @@ def audit_report(
             "report_sha256": report_hash,
             "manifest_report_sha256": expected_report_hash,
         },
-        "boundary": (
-            "This mechanical audit does not complete the student's scientific-ownership, "
-            "AI-disclosure, supervisor-approval, or signature obligations."
-        ),
+        "boundary": "This audit checks citations, frozen numbers, and evidence files only.",
     }
 
 

@@ -1,7 +1,5 @@
 """Deterministic analysis primitives for the frozen E1 intervention audit."""
 
-from __future__ import annotations
-
 import hashlib
 import itertools
 import json
@@ -99,7 +97,7 @@ def site_density_rows(
     if intervention_names[0] != "unaltered":
         raise E1AnalysisError("The first intervention must be unaltered")
     if diagnostic_names != list(DIAGNOSTICS):
-        raise E1AnalysisError("Diagnostic order differs from the frozen contract")
+        raise E1AnalysisError("Diagnostic order differs from the analysis config")
     if probabilities.ndim != 4 or diagnostics.ndim != 5:
         raise E1AnalysisError("Unexpected E1 array rank")
     if probabilities.shape[:3] != diagnostics.shape[:3] or probabilities.shape[-1] != diagnostics.shape[-2]:

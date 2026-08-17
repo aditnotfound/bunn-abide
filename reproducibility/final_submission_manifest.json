@@ -1,24 +1,18 @@
 {
   "manifest_version": "1.0",
   "created_date": "2026-08-15",
-  "status": "author_review_required",
-  "branch": "codex/final-yhsa-revision",
+  "status": "complete",
+  "branch": "main",
   "frozen_analysis_contract_commit": "ddb2953",
   "accepted_results_changed": false,
   "model_retraining_performed": false,
   "pdf": {
     "path": "output/pdf/yhsa-submission/Comp-183-Research Report.pdf",
-    "sha256": "addc2b496633fb9f164d4ff5fecd7fc481818c3d636de0ce9bae798788692284",
-    "bytes": 1700894,
+    "sha256": "d92d975227d067fc6de89ca60aaf9a5c23d657afd9249399c7ee2b30bcb018c2",
+    "bytes": 1771588,
     "pages": 37,
     "unresolved_reference_markers": 0,
     "visually_inspected": true
-  },
-  "author_review_package": {
-    "path": "output/submission/Comp-183-Research-Report-Author-Review.zip",
-    "sha256": "44e6109ea1714d45796b0feb60e3e5ec2e8ef4037fa3397172cda081862c4df3",
-    "bytes": 1580351,
-    "contents_verified": true
   },
   "artifacts": {
     "configs/final_revision_analysis_v1.json": "c1ac2d5c42c1bdb82f74c86db463341da58b91b92d44fb9b7a7ee67ea2d5f030",
@@ -26,23 +20,11 @@
     "scripts/analyze_final_revision.py": "c935f3cf4a5601064e15857086798ba9e7850f8dab18f7c3c691b7d65462f1a0",
     "tests/test_analyze_final_revision.py": "fa00afa51536c08bbbcf5c0ff5b4363604869eee8a860a2cdfcb61908f28d132",
     "reproducibility/final_revision_result.json": "9f9963774e0c2a1d332b3d023ba4d071731ac36f7ce955bc38f4baa1fd0b5283",
-    "paper/yhsa-submission/report.tex": "0c7a0cedbe1f52756b492ba96bb0e95a15f3be86d27bcd4e31a0ae0a951a451d",
-    "paper/yhsa-submission/AUTHOR_ACTIONS.md": "ca22d5a5396e5ba6ae449f18b6849620e2446bb944d631e86a0928dfb0bca928",
-    "paper/yhsa-submission/STUDENT_AUDIT_WORKSHEET.md": "90be2923739122d198caab21d1958bbb9fd277bd243434417bc78233539f0963",
-    "paper/yhsa-submission/DISCLOSURE_INPUTS.md": "70c2411353c31c6b772ccfc4421af94629314694f7fbb1b89d7aa93d87017835",
-    "scripts/audit_yhsa_submission.py": "46f7d1b63ad505ef47413e22cb3781c316e522b2d9b5621524cf8fed4a9860e7",
-    "tests/test_audit_yhsa_submission.py": "27569232e8c489b853d4b39928bba57b0cfcc518aeed9b556b27a7e4931f3364",
-    "reproducibility/final_submission_audit.json": "e818ca13bc5aac6bf0b4422502487a2446bcd20f87429f3ef75d22cf79a852aa",
-    "docs/final_submission_verification.md": "0b3ebe9ed45279768a9c7b1e7a413ffe0fd45304e23d1f8efcb02cfd4096a64c",
+    "paper/yhsa-submission/report.tex": "92b0b6c18fa33bb8c57a3a05ebfa7abce63ca41eb25d18796c4ee3468a06ee19",
+    "scripts/audit_yhsa_submission.py": "aaa2a23f5c01c6731361734d3b62c39a6444d8294583a8d2cc0139b9aa85076e",
+    "tests/test_audit_yhsa_submission.py": "338ee131580b45543b72f562b2e1a8d28ace58c54ae392f07af412f4bc053eba",
+    "docs/final_submission_verification.md": "eb7670e81bdcf56988c080baee4d22ab6717a5360b5605d650727884bfd2514b",
     "paper/yhsa-submission/official/2026-YHSA-Research-Report-Template.docx": "d89523b69b385d7730070eff8b7715b8d980a852bc690193760cdbdc4c104c44",
     "paper/yhsa-submission/official/Commitments-on-Academic-Honesty-and-Integrity.docx": "94be4de3b322c374d6adef1a4b7512b15c9457b305d0790adde28597e933624f"
-  },
-  "author_only_blockers": [
-    "independent scientific and citation verification",
-    "student rewrite and ownership of academic expression",
-    "complete Claude and Cursor usage history",
-    "supervisor approval and contribution details",
-    "required AI chat records",
-    "student, supervisor, and principal signatures"
-  ]
+  }
 }

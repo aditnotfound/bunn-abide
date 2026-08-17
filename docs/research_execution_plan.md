@@ -276,7 +276,7 @@ extensions, not permission to search for a favorable diagnosis.
 
 ### Current progress
 
-Steps 13.0--13.4 are complete on branch `codex/step13-paper`:
+Steps 13.0--13.4 are complete:
 
 - `configs/paper_assets_v1.json` binds the accepted evidence files and archives
   to 28 SHA-256 digests;
@@ -321,8 +321,7 @@ Retain code, environment lock, manifests, frozen hashes, split assignments,
 run configurations, seeds, prediction tables, warnings, analysis scripts,
 figure-generation code, and a machine-readable artifact inventory. Do not
 publish restricted/private credentials or unnecessary participant-level
-phenotypic information. The AI-use log remains a provenance record even though
-this project is no longer being prepared for S.T. Yau.
+phenotypic information.
 
 ### Step 13.4 - public/private split and final audit
 

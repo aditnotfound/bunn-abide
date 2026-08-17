@@ -1,7 +1,5 @@
 """One shared graph-classification backbone for all propagation controls."""
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Literal
 

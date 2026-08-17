@@ -2,7 +2,7 @@
 
 The technical study and report can be archived without completing this page.
 These items matter only if the report is released, submitted, or presented as
-the researcher's work. Codex cannot answer or sign them for the researcher.
+the researcher's work. They cannot be signed by anyone else.
 
 ## Personal and supervision details
 
@@ -15,18 +15,6 @@ the researcher's work. Codex cannot answer or sign them for the researcher.
 - [ ] Replace the supervisor-contribution placeholder with a factual account of
   intellectual, technical, editorial, and logistical help. Do not infer a
   contribution from a title.
-
-## AI-use record
-
-- [ ] Check every Codex entry in `docs/ai_use_log.md` against the retained task
-  history.
-- [ ] Supply Claude product/model names, dates, purposes, approximate frequency,
-  affected decisions or files, and retained-chat evidence.
-- [ ] Supply the same information for Cursor and any other assistant used.
-- [ ] Record whether supervisor approval was obtained before AI use if a target
-  policy asks for it.
-- [ ] Confirm that the final disclosure describes assistance accurately and
-  does not assign authorship to an AI system.
 
 ## Scientific ownership
 

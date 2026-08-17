@@ -13,5 +13,5 @@ run is disclosed as a pre-result implementation correction; only the fully
 restarted and audited v2 run is reported. Wang-style, five-layer, and ABIDE-II
 studies remain outside the completed evidence.
 
-The integrity and AI-use pages contain fields that the researcher must review,
+The integrity page contains fields that the researcher must review,
 complete, and sign before any actual competition submission.

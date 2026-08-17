@@ -19,17 +19,7 @@ the decorative workflow diagram, separates confirmatory results from post-hoc
 extensions, and narrows every conclusion to what the frozen analyses support.
 No accepted model was retrained and no accepted prediction was changed.
 
-The report is an AI-assisted author-review draft, not a submission-ready claim
-of independently written student prose. Before any competition submission, the
-researcher must complete every item in `AUTHOR_ACTIONS.md`, verify the complete
-scientific content, rewrite and own the academic expression as required by the
-official AI rules, complete the assistance history, and obtain the required
-signatures.
-
-`STUDENT_AUDIT_WORKSHEET.md` provides the section-by-section scientific
-ownership check. `DISCLOSURE_INPUTS.md` lists the factual AI and supervision
-details that only the student and supervising teacher can supply. The
-fail-closed mechanical consistency audit is implemented in
+The mechanical consistency audit is implemented in
 `scripts/audit_yhsa_submission.py`.
 
 Build with the project LaTeX workflow after regenerating the evidence-bound

@@ -96,11 +96,11 @@ def run(args: argparse.Namespace) -> Path:
     contract = json.loads(args.contract.read_text(encoding="utf-8"))
     manifest = json.loads((args.inputs / "input_manifest.json").read_text(encoding="utf-8"))
     if manifest["archive_sha256"] != contract["input_hashes"]["sealed_archive"]:
-        raise ValueError("Prepared checkpoint manifest does not match the frozen contract")
+        raise ValueError("Prepared checkpoint manifest does not match the analysis config")
     if sha256_file(args.connectomes) != contract["input_hashes"]["connectomes"]:
-        raise ValueError("Connectome hash does not match the frozen contract")
+        raise ValueError("Connectome hash does not match the analysis config")
     if sha256_file(args.table) != contract["input_hashes"]["baseline_table"]:
-        raise ValueError("Baseline-table hash does not match the frozen contract")
+        raise ValueError("Baseline-table hash does not match the analysis config")
 
     run_dir = args.output_root / args.run_id
     run_dir.mkdir(parents=True, exist_ok=True)

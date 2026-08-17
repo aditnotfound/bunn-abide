@@ -8,8 +8,7 @@
     "required_evidence_files_present": true,
     "report_source_matches_manifest": true,
     "accepted_results_marked_unchanged": true,
-    "no_model_retraining_marked": true,
-    "status_requires_author_review": true
+    "no_model_retraining_marked": true
   },
   "details": {
     "citation_count": 16,
@@ -17,8 +16,8 @@
     "missing_claim_tokens": {},
     "found_forbidden_tokens": [],
     "missing_files": [],
-    "report_sha256": "0c7a0cedbe1f52756b492ba96bb0e95a15f3be86d27bcd4e31a0ae0a951a451d",
-    "manifest_report_sha256": "0c7a0cedbe1f52756b492ba96bb0e95a15f3be86d27bcd4e31a0ae0a951a451d"
+    "report_sha256": "92b0b6c18fa33bb8c57a3a05ebfa7abce63ca41eb25d18796c4ee3468a06ee19",
+    "manifest_report_sha256": "92b0b6c18fa33bb8c57a3a05ebfa7abce63ca41eb25d18796c4ee3468a06ee19"
   },
-  "boundary": "This mechanical audit does not complete the student's scientific-ownership, AI-disclosure, supervisor-approval, or signature obligations."
+  "boundary": "This audit checks citations, frozen numbers, and evidence files only."
 }

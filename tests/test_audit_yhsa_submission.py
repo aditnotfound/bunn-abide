@@ -13,7 +13,7 @@ def test_citation_extractors_handle_multiple_keys() -> None:
     assert extract_bib_keys("@article{alpha,\n}@misc{beta,\n}") == {"alpha", "beta"}
 
 
-def test_current_submission_source_passes_fail_closed_audit() -> None:
+def test_current_submission_source_passes_audit() -> None:
     result = audit_report(
         PROJECT_ROOT / "paper/yhsa-submission/report.tex",
         PROJECT_ROOT / "paper/references.bib",

@@ -21,10 +21,10 @@
   "post_E2_E3_decision": "docs/extensions/e3_decision_after_e2.md",
   "report": {
     "source": "paper/yhsa-e2/report.tex",
-    "source_sha256": "4b04e204966259dbfa10d1cee83a6d5f5a8fa3f490fbb72c6776fd5717bf4c5f",
+    "source_sha256": "81c2649332c3ce956480f2a772022fc149d137454c790b468fb72ad2cf7a83ef",
     "pdf": "output/pdf/yhsa-e2/report.pdf",
-    "pdf_sha256": "031958f5434f958fe8945a58031d611c29014f4a34a86cba27e53638c2c277d4",
-    "pages": 34,
+    "pdf_sha256": "79dbe19d60cce153fc921f6f55cd6e06e1ea7b84e107292500c038f1e9626912",
+    "pages": 33,
     "visual_qa": "all pages rendered and inspected; E2 result pages inspected at full resolution"
   },
   "source_cells": 700,

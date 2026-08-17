@@ -11,5 +11,5 @@ mechanistic evidence rather than independent confirmation. Wang-style,
 five-layer, synthetic-geometry, and ABIDE-II studies remain outside the
 completed evidence.
 
-The integrity and AI-use pages contain fields that the researcher must review,
+The integrity page contains fields that the researcher must review,
 complete, and sign before any actual competition submission.

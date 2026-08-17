@@ -5,8 +5,6 @@ pilot reproducible, measure runtime/memory, and validate recovery before a
 scientific neural run is designed or launched.
 """
 
-from __future__ import annotations
-
 import csv
 import hashlib
 import json

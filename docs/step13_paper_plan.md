@@ -72,7 +72,7 @@ Step 13.0--13.1 is complete only when:
 - a second clean generation is byte-identical;
 - the automated tests verify the primary values and claim boundaries;
 - all four figures pass visual inspection; and
-- the execution, decision, and AI-use logs record the work accurately.
+- the execution and decision logs record the work accurately.
 
 All six gates passed on 2026-08-09.
 
@@ -112,7 +112,7 @@ require the researcher's review.
 ## Step 13.3 - visual and prose revision
 
 The main-paper prose, supplement, captions, title, and diagram labels were
-revised with the project-local Humanizer guidance. The revision removed
+revised for a more natural academic voice. The revision removed
 template-like phrasing and repetitive disclaimers while preserving every
 numeric macro, citation, claim ID, limitation, and result interpretation.
 

@@ -4,8 +4,6 @@ The functions in this module do not refit a model. They alter maps, topology,
 or encoded-node order during inference while retaining every accepted weight.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import Literal
 

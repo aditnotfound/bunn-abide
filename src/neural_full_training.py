@@ -1,7 +1,5 @@
 """Leakage-safe training primitives for the full nested neural evaluation."""
 
-from __future__ import annotations
-
 import copy
 import math
 import os

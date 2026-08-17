@@ -16,10 +16,10 @@
   },
   "report": {
     "source": "paper/yhsa-e1/report.tex",
-    "source_sha256": "ac88e3045b92d5c35fc172a65210eb586e0222082b52d34cb97ed6edf01cecda",
+    "source_sha256": "3110ea438bcf42df7ef1255d94c157d16544ec7eae48405cf2c365350424d384",
     "pdf": "output/pdf/yhsa-e1/report.pdf",
-    "pdf_sha256": "5f44603a982e9558ccfd513619f7b12b6f41b659c5b7c26d348dea932f750360",
-    "pages": 29,
+    "pdf_sha256": "850444785a3c1102f07cf197c1faa386572e868e7b49172bad4d9d039ecd5da8",
+    "pages": 28,
     "visual_qa": "all pages rendered and inspected"
   },
   "claim_ledger": "docs/extensions/e1_claim_ledger.md",

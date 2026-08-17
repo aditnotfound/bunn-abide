@@ -5,8 +5,6 @@ site assignments as the completed baseline phase.  This module intentionally
 contains no split generation, model fitting, or label-dependent transform.
 """
 
-from __future__ import annotations
-
 import csv
 import math
 from dataclasses import dataclass
